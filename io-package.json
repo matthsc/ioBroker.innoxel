@@ -1,0 +1,94 @@
+{
+    "common": {
+        "name": "innoxel",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Innoxel",
+        "titleLang": {
+            "en": "Innoxel",
+            "de": "Innoxel",
+            "ru": "Инноксель",
+            "pt": "Innoxel",
+            "nl": "Innoxel",
+            "fr": "Innoxel",
+            "it": "Innoxel",
+            "es": "Innoxel",
+            "pl": "Innoxel",
+            "zh-cn": "英诺赛尔"
+        },
+        "desc": {
+            "en": "Adapter for Innoxel Master 3",
+            "de": "Adapter für Innoxel Master 3",
+            "ru": "Адаптер для Innoxel Master 3",
+            "pt": "Adaptador para Innoxel Master 3",
+            "nl": "Adapter voor Innoxel Master 3",
+            "fr": "Adaptateur pour Innoxel Master 3",
+            "it": "Adattatore per Innoxel Master 3",
+            "es": "Adaptador para Innoxel Master 3",
+            "pl": "Adapter do Innoxel Master 3",
+            "zh-cn": "Inoxel Master 3 适配器"
+        },
+        "authors": ["matthsc <matthsc@gmx.net>"],
+        "keywords": ["innoxel"],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "innoxel.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
+        "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "iot-systems",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "option1": true,
+        "option2": "42"
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}
