@@ -1,5 +1,21 @@
 {
     "innoxel adapter settings": "innoxel的适配器设置",
-    "option1": "选项1",
-    "option2": "选项2"
+    "connection": "连接设置",
+    "ip": "IP地址",
+    "ip_description": "innoxel master的IP地址，即192.168.0.10",
+    "port": "港口",
+    "port_description": "innoxel master web接口端口，默认5001",
+    "username": "用户名",
+    "username_description": "访问 innoxel master 的用户名",
+    "password": "密码",
+    "password_description": "用户密码",
+    "intervals": "轮询间隔",
+    "intervals_details": "Inoxel Master 需要定期轮询以更新适配器中的状态。",
+    "intervals_description": "",
+    "intervalChange": "模块变化",
+    "intervalChange_description": "即开关打开",
+    "intervalWeather": "天气",
+    "intervalRoomTemperature": "房间恒温器",
+    "intervalDeviceStatus": "Inoxel Master 设备详细信息",
+    "intervalDeviceStatus_description": "需要具有管理员权限的用户帐户"
 }

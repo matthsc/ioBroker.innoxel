@@ -57,16 +57,25 @@
         "connectionType": "local",
         "dataSource": "poll",
         "materialize": true,
+        "messagebox": true,
         "dependencies": [
             {
-                "js-controller": ">=2.0.0"
+                "js-controller": ">=3.1.0",
+                "admin": ">=5.0.0"
             }
         ]
     },
     "native": {
-        "option1": true,
-        "option2": "42"
+        "ipaddress": "",
+        "port": 5001,
+        "username": "",
+        "password": "",
+        "weatherInterval": 900,
+        "roomTemperatureInterval": 300,
+        "changeInterval": 30,
+        "deviceStatusInterval": 0
     },
+    "protectedNative": ["password"],
     "objects": [],
     "instanceObjects": [
         {
@@ -87,6 +96,30 @@
                 "read": true,
                 "write": false,
                 "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.bootId",
+            "type": "state",
+            "common": {
+                "name": "Innoxel Master boot id",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": ""
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.stateId",
+            "type": "state",
+            "common": {
+                "name": "Innoxel Master state id",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": ""
             },
             "native": {}
         }

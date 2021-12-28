@@ -1,14 +1,18 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { CreateCSSProperties } from "@material-ui/core/styles/withStyles";
-import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import {
+    Box,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Grid,
+    Input,
+    MenuItem,
+    Select,
+    TextField,
+} from "@material-ui/core";
 import I18n from "@iobroker/adapter-react/i18n";
 
 const styles = (): Record<string, CreateCSSProperties> => ({
@@ -62,16 +66,19 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.state = {};
     }
 
-    renderInput(title: AdminWord, attr: string, type: string) {
+    renderInput(title: AdminWord, attr: string, helperText?: AdminWord, type?: string) {
         return (
-            <TextField
-                label={I18n.t(title)}
-                className={`${this.props.classes.input} ${this.props.classes.controlElement}`}
-                value={this.props.native[attr]}
-                type={type || "text"}
-                onChange={(e) => this.props.onChange(attr, e.target.value)}
-                margin="normal"
-            />
+            <Grid item xs>
+                <TextField
+                    label={I18n.t(title)}
+                    className={`${this.props.classes.input} ${this.props.classes.controlElement}`}
+                    value={this.props.native[attr]}
+                    type={type || "text"}
+                    onChange={(e) => this.props.onChange(attr, e.target.value)}
+                    margin="normal"
+                    helperText={helperText ? I18n.t(helperText) : undefined}
+                />
+            </Grid>
         );
     }
 
@@ -82,56 +89,84 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         style?: React.CSSProperties,
     ) {
         return (
-            <FormControl
-                className={`${this.props.classes.input} ${this.props.classes.controlElement}`}
-                style={{
-                    paddingTop: 5,
-                    ...style,
-                }}
-            >
-                <Select
-                    value={this.props.native[attr] || "_"}
-                    onChange={(e) => this.props.onChange(attr, e.target.value === "_" ? "" : e.target.value)}
-                    input={<Input name={attr} id={attr + "-helper"} />}
+            <Grid item xs>
+                <FormControl
+                    className={`${this.props.classes.input} ${this.props.classes.controlElement}`}
+                    style={{
+                        paddingTop: 5,
+                        ...style,
+                    }}
                 >
-                    {options.map((item) => (
-                        <MenuItem key={"key-" + item.value} value={item.value || "_"}>
-                            {I18n.t(item.title)}
-                        </MenuItem>
-                    ))}
-                </Select>
-                <FormHelperText>{I18n.t(title)}</FormHelperText>
-            </FormControl>
+                    <Select
+                        value={this.props.native[attr] || "_"}
+                        onChange={(e) => this.props.onChange(attr, e.target.value === "_" ? "" : e.target.value)}
+                        input={<Input name={attr} id={attr + "-helper"} />}
+                    >
+                        {options.map((item) => (
+                            <MenuItem key={"key-" + item.value} value={item.value || "_"}>
+                                {I18n.t(item.title)}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <FormHelperText>{I18n.t(title)}</FormHelperText>
+                </FormControl>
+            </Grid>
         );
     }
 
     renderCheckbox(title: AdminWord, attr: string, style?: React.CSSProperties) {
         return (
-            <FormControlLabel
-                key={attr}
-                style={{
-                    paddingTop: 5,
-                    ...style,
-                }}
-                className={this.props.classes.controlElement}
-                control={
-                    <Checkbox
-                        checked={this.props.native[attr]}
-                        onChange={() => this.props.onChange(attr, !this.props.native[attr])}
-                        color="primary"
-                    />
-                }
-                label={I18n.t(title)}
-            />
+            <Grid item>
+                <FormControlLabel
+                    key={attr}
+                    style={{
+                        paddingTop: 5,
+                        ...style,
+                    }}
+                    className={this.props.classes.controlElement}
+                    control={
+                        <Checkbox
+                            checked={this.props.native[attr]}
+                            onChange={() => this.props.onChange(attr, !this.props.native[attr])}
+                            color="primary"
+                        />
+                    }
+                    label={I18n.t(title)}
+                />
+            </Grid>
+        );
+    }
+
+    renderHeader(title: AdminWord, description?: AdminWord) {
+        return (
+            <Grid item xs={12}>
+                <h1>{I18n.t(title)}</h1>
+                {description && I18n.t(description)}
+            </Grid>
         );
     }
 
     render() {
         return (
             <form className={this.props.classes.tab}>
-                {this.renderCheckbox("option1", "option1")}
-                <br />
-                {this.renderInput("option2", "option2", "text")}
+                <Box p={2}>
+                    <Grid container spacing={2}>
+                        {this.renderHeader("connection")}
+                        {this.renderInput("ip", "ipaddress", "ip_description")}
+                        {this.renderInput("port", "port", "port_description")}
+                        {this.renderInput("username", "username", "username_description")}
+                        {this.renderInput("password", "password", "password_description", "password")}
+                        {this.renderHeader("intervals", "intervals_details")}
+                        {this.renderInput("intervalChange", "changeInterval", "intervalChange_description")}
+                        {this.renderInput("intervalRoomTemperature", "roomTemperatureInterval")}
+                        {this.renderInput("intervalWeather", "weatherInterval")}
+                        {this.renderInput(
+                            "intervalDeviceStatus",
+                            "deviceStatusInterval",
+                            "intervalDeviceStatus_description",
+                        )}
+                    </Grid>
+                </Box>
             </form>
         );
     }

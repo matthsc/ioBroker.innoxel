@@ -1,5 +1,21 @@
 {
     "innoxel adapter settings": "Adapterinstellingen voor innoxel",
-    "option1": "Optie 1",
-    "option2": "Optie 2"
+    "connection": "Verbindingsinstellingen",
+    "ip": "IP adres",
+    "ip_description": "IP-adres van innoxel master, d.w.z. 192.168.0.10",
+    "port": "Haven",
+    "port_description": "Poort van innoxel master webinterface, standaard 5001",
+    "username": "gebruikersnaam",
+    "username_description": "Gebruikersnaam om toegang te krijgen tot innoxel master",
+    "password": "Wachtwoord",
+    "password_description": "Wachtwoord voor de gebruiker",
+    "intervals": "Poll-intervallen",
+    "intervals_details": "Innoxel Master moet periodiek worden gepold om de statussen in de adapter te laten bijwerken. ",
+    "intervals_description": "",
+    "intervalChange": "Modulewijzigingen",
+    "intervalChange_description": "d.w.z. schakelaar ingeschakeld",
+    "intervalWeather": "Weer",
+    "intervalRoomTemperature": "Kamerthermostaten",
+    "intervalDeviceStatus": "Innoxel Master-apparaatdetails",
+    "intervalDeviceStatus_description": "Vereist een gebruikersaccount met beheerdersrechten"
 }

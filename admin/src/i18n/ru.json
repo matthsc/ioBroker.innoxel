@@ -1,5 +1,21 @@
 {
     "innoxel adapter settings": "Настройки адаптера для innoxel",
-    "option1": "Опция 1",
-    "option2": "option2"
+    "connection": "Настройки соединения",
+    "ip": "айпи адрес",
+    "ip_description": "IP-адрес мастера innoxel, т.е. 192.168.0.10",
+    "port": "Порт",
+    "port_description": "Порт главного веб-интерфейса innoxel, по умолчанию 5001",
+    "username": "Имя пользователя",
+    "username_description": "Имя пользователя для доступа к innoxel master",
+    "password": "Пароль",
+    "password_description": "Пароль для пользователя",
+    "intervals": "Интервалы опроса",
+    "intervals_details": "Innoxel Master необходимо периодически опрашивать для обновления состояний в адаптере. ",
+    "intervals_description": "",
+    "intervalChange": "Изменения модуля",
+    "intervalChange_description": "т.е. переключатель включен",
+    "intervalWeather": "Погода",
+    "intervalRoomTemperature": "Комнатные термостаты",
+    "intervalDeviceStatus": "Сведения об устройстве Innoxel Master",
+    "intervalDeviceStatus_description": "Требуется учетная запись пользователя с правами администратора"
 }

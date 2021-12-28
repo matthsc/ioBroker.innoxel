@@ -14,7 +14,7 @@ class App extends GenericApp {
     constructor(props: GenericAppProps) {
         const extendedProps: GenericAppSettings = {
             ...props,
-            encryptedFields: [],
+            encryptedFields: ["password"],
             translations: {
                 en: require("./i18n/en.json"),
                 de: require("./i18n/de.json"),

@@ -1,5 +1,21 @@
 {
     "innoxel adapter settings": "Ustawienia adaptera dla innoxel",
-    "option1": "opcja 1",
-    "option2": "Opcja 2"
+    "connection": "Ustawienia połączenia",
+    "ip": "adres IP",
+    "ip_description": "Adres IP innoxel master, czyli 192.168.0.10",
+    "port": "Port",
+    "port_description": "Port głównego interfejsu sieciowego innoxel, domyślnie 5001",
+    "username": "Nazwa użytkownika",
+    "username_description": "Nazwa użytkownika, aby uzyskać dostęp do innoxel master",
+    "password": "Hasło",
+    "password_description": "Hasło dla użytkownika",
+    "intervals": "Interwały ankiet",
+    "intervals_details": "Innoxel Master wymaga okresowego odpytywania w celu aktualizacji stanów w adapterze. ",
+    "intervals_description": "",
+    "intervalChange": "Zmiany modułów",
+    "intervalChange_description": "tj. przełącznik włączony",
+    "intervalWeather": "Pogoda",
+    "intervalRoomTemperature": "Termostaty pokojowe",
+    "intervalDeviceStatus": "Szczegóły urządzenia Innoxel Master",
+    "intervalDeviceStatus_description": "Wymaga konta użytkownika z uprawnieniami administratora"
 }

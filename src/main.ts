@@ -5,20 +5,52 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
+// Load your modules here
+import { InnoxelApi } from "innoxel-soap";
+import { createDeviceStatusStates, updateDeviceStatusStates } from "./adapter/deviceStatus";
+import { createOrUpdateIdentities } from "./adapter/identities";
+import { handleMessage } from "./adapter/messageHandler";
+import { createModuleStates, updateModuleStates } from "./adapter/modules";
+import { updateRoomClimate } from "./adapter/roomClimate";
+import { createWeatherStates, updateWeatherStates } from "./adapter/weather";
 
-// Load your modules here, e.g.:
-// import * as fs from "fs";
+function decrypt(key: string, value: string): string {
+    let result = "";
+    for (let i = 0; i < value.length; ++i) {
+        result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+    }
+    return result;
+}
 
-class Innoxel extends utils.Adapter {
+interface ITimoutsKeys {
+    change: NodeJS.Timeout;
+    weather: NodeJS.Timeout;
+    roomTemperature: NodeJS.Timeout;
+    deviceStatus: NodeJS.Timeout;
+}
+type ITimouts = {
+    [key in keyof ITimoutsKeys]: NodeJS.Timeout;
+} & ITimoutsKeys;
+
+export class Innoxel extends utils.Adapter {
+    private api!: InnoxelApi;
+    private lastIdXml = "";
+    private lastBootId = "";
+
+    private timeouts: ITimouts = Object.create(null) as any;
+    private stopScheduling = true;
+
+    private terminating = false;
+
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: "innoxel",
         });
         this.on("ready", this.onReady.bind(this));
-        this.on("stateChange", this.onStateChange.bind(this));
         // this.on("objectChange", this.onObjectChange.bind(this));
-        // this.on("message", this.onMessage.bind(this));
+        // this.on("stateChange", this.onStateChange.bind(this));
+        this.on("message", this.onMessage.bind(this));
         this.on("unload", this.onUnload.bind(this));
     }
 
@@ -26,60 +58,141 @@ class Innoxel extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     private async onReady(): Promise<void> {
-        // Initialize your adapter here
+        this.log.debug(
+            `configuration: ${JSON.stringify({
+                ...this.config,
+                password: this.config.password && this.config.password !== "" ? "***" : "<empty>",
+            })}`,
+        );
 
         // Reset the connection indicator during startup
-        this.setState("info.connection", false, true);
+        await this.setStateAsync("info.connection", false, true);
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
-        this.log.info("config option1: " + this.config.option1);
-        this.log.info("config option2: " + this.config.option2);
+        if (!this.config.ipaddress || !this.config.port || !this.config.username || !this.config.password) {
+            this.log.error("Innoxel master information missing. Please configure settings in adapter settings.");
+            this.terminate("innoxel master information missing");
+            return;
+        }
 
-        /*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-        await this.setObjectNotExistsAsync("testVariable", {
-            type: "state",
-            common: {
-                name: "testVariable",
-                type: "boolean",
-                role: "indicator",
-                read: true,
-                write: true,
-            },
-            native: {},
+        // retrieve password
+        const systemConfig = await this.getForeignObjectAsync("system.config");
+        const password = systemConfig?.native?.secret
+            ? decrypt(systemConfig.native.secret, this.config.password)
+            : decrypt("Zgfr56gFe87jJOM", this.config.password);
+
+        this.api = new InnoxelApi({
+            ip: this.config.ipaddress,
+            port: this.config.port,
+            user: this.config.username,
+            password,
         });
 
-        // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-        this.subscribeStates("testVariable");
-        // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-        // this.subscribeStates("lights.*");
-        // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-        // this.subscribeStates("*");
+        await this.setupConnection(true);
 
-        /*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-        // the variable testVariable is set to true as command (ack=false)
-        await this.setStateAsync("testVariable", true);
+        // in this template all states changes inside the adapters namespace are subscribed
+        // await this.subscribeStatesAsync("*");
+    }
 
-        // same thing, but the value is flagged "ack"
-        // ack should be always set to true if the value is received from or acknowledged from the target system
-        await this.setStateAsync("testVariable", { val: true, ack: true });
+    private async setupConnection(first = false): Promise<void> {
+        try {
+            this.reconnect(first);
+        } catch (err: any) {
+            if (first) {
+                this.log.error(err.message);
+                this.terminate(err.message);
+            } else {
+                // TODO: try connecting again
+            }
+        }
+    }
 
-        // same thing, but the state is deleted after 30s (getState will return null afterwards)
-        await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+    private async reconnect(first: boolean): Promise<void> {
+        this.cleanup();
+        await this.updateLastIds();
+        await this.setStateAsync("info.connection", true, true);
+        if (first) await this.updateIdentities();
 
-        // examples for the checkPassword/checkGroup functions
-        let result = await this.checkPasswordAsync("admin", "iobroker");
-        this.log.info("check user admin pw iobroker: " + result);
+        this.stopScheduling = false;
+        this.runAndSchedule("change", this.config.changeInterval, this.checkChanges, true);
+        this.runAndSchedule("roomTemperature", this.config.roomTemperatureInterval, this.updateRoomTemperatures, true);
+        this.runAndSchedule("weather", this.config.weatherInterval, this.updateWeather, true);
+        this.runAndSchedule("deviceStatus", this.config.deviceStatusInterval, this.updateDeviceStatus, true);
+    }
 
-        result = await this.checkGroupAsync("admin", "admin");
-        this.log.info("check group user admin group admin: " + result);
+    private async updateLastIds(): Promise<boolean> {
+        const xml = await this.api.getBootAndStateIdXml();
+        if (this.lastIdXml !== xml) {
+            this.lastIdXml = xml;
+            const [bootId, stateId] = await this.api.getBootAndStateIds(xml);
+            await Promise.all([
+                this.setStateChangedAsync("info.bootId", bootId, true),
+                this.setStateChangedAsync("info.stateId", stateId, true),
+            ]);
+            return true;
+        }
+
+        return false;
+    }
+    private checkChanges = async (first: boolean): Promise<void> => {
+        if ((await this.updateLastIds()) || first) {
+            const data = await this.api.getModuleStates();
+            await (first ? createModuleStates(this, data) : updateModuleStates(this, data));
+        }
+    };
+    private updateRoomTemperatures = async (): Promise<void> => {
+        const data = await this.api.getRoomClimate([-1]);
+        await updateRoomClimate(this, data);
+    };
+
+    private updateWeather = async (first: boolean): Promise<void> => {
+        const weather = await this.api.getWeather();
+        await (first ? createWeatherStates(this, weather) : updateWeatherStates(this, weather));
+    };
+
+    private updateDeviceStatus = async (first: boolean): Promise<void> => {
+        const data = await this.api.getDeviceState();
+        await (first ? createDeviceStatusStates(this, data) : updateDeviceStatusStates(this, data));
+    };
+    private async updateIdentities(): Promise<void> {
+        try {
+            const data = await this.api.getIdentities();
+            await createOrUpdateIdentities(this, data);
+        } catch (err: any) {
+            this.log.error(err.message);
+            this.log.debug(err.toString());
+            this.terminate("Error updating identities");
+        }
+    }
+
+    private runAndSchedule = async (
+        key: keyof ITimouts,
+        timeout: number,
+        handler: (first: boolean) => Promise<any>,
+        first: boolean,
+    ): Promise<void> => {
+        if (timeout <= 0) return;
+
+        try {
+            await handler(first);
+        } catch (err: any) {
+            this.log.error(err.message);
+            this.log.debug(err.toString());
+        }
+
+        if (!this.stopScheduling) {
+            const timer = setTimeout(this.runAndSchedule, timeout * 1000, key, timeout, handler, false);
+            this.timeouts[key] = timer as unknown as NodeJS.Timeout;
+        }
+    };
+
+    private cleanup(): void {
+        this.stopScheduling = true;
+        const keys = Object.keys(this.timeouts) as (keyof ITimoutsKeys)[];
+        keys.forEach((key) => {
+            clearTimeout(this.timeouts[key]);
+        });
     }
 
     /**
@@ -87,62 +200,40 @@ class Innoxel extends utils.Adapter {
      */
     private onUnload(callback: () => void): void {
         try {
-            // Here you must clear all timeouts or intervals that may still be active
-            // clearTimeout(timeout1);
-            // clearTimeout(timeout2);
-            // ...
-            // clearInterval(interval1);
-
+            this.log.info("cleaned everything up...");
             callback();
         } catch (e) {
             callback();
         }
     }
 
-    // If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-    // You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-    // /**
-    //  * Is called if a subscribed object changes
-    //  */
-    // private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {
-    //     if (obj) {
-    //         // The object was changed
-    //         this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
+    /**
+     * Is called if a subscribed state changes
+     */
+    // private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+    //     if (state) {
+    //         // The state was changed
+    //         this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
     //     } else {
-    //         // The object was deleted
-    //         this.log.info(`object ${id} deleted`);
+    //         // The state was deleted
+    //         this.log.info(`state ${id} deleted`);
     //     }
     // }
 
     /**
-     * Is called if a subscribed state changes
+     * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+     * Using this method requires "common.messagebox" property to be set to true in io-package.json
      */
-    private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-        if (state) {
-            // The state was changed
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-        } else {
-            // The state was deleted
-            this.log.info(`state ${id} deleted`);
+    private async onMessage(obj: ioBroker.Message): Promise<void> {
+        this.log.debug("message recieved: " + JSON.stringify(obj));
+        if (typeof obj === "object" && obj.message) {
+            try {
+                await handleMessage(this.api, obj);
+            } catch (e: any) {
+                this.log.error(`Error processing recieved message ${JSON.stringify(obj)}: ${e.message}`);
+            }
         }
     }
-
-    // If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-    // /**
-    //  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-    //  * Using this method requires "common.messagebox" property to be set to true in io-package.json
-    //  */
-    // private onMessage(obj: ioBroker.Message): void {
-    //     if (typeof obj === "object" && obj.message) {
-    //         if (obj.command === "send") {
-    //             // e.g. send email or pushover or whatever
-    //             this.log.info("send command");
-
-    //             // Send response in callback if required
-    //             if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-    //         }
-    //     }
-    // }
 }
 
 if (require.main !== module) {
