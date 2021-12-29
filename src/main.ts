@@ -14,14 +14,6 @@ import { createModuleStates, updateModuleStates } from "./adapter/modules";
 import { updateRoomClimate } from "./adapter/roomClimate";
 import { createWeatherStates, updateWeatherStates } from "./adapter/weather";
 
-function decrypt(key: string, value: string): string {
-    let result = "";
-    for (let i = 0; i < value.length; ++i) {
-        result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
-    }
-    return result;
-}
-
 interface ITimoutsKeys {
     change: NodeJS.Timeout;
     weather: NodeJS.Timeout;
@@ -76,17 +68,11 @@ export class Innoxel extends utils.Adapter {
             return;
         }
 
-        // retrieve password
-        const systemConfig = await this.getForeignObjectAsync("system.config");
-        const password = systemConfig?.native?.secret
-            ? decrypt(systemConfig.native.secret, this.config.password)
-            : decrypt("Zgfr56gFe87jJOM", this.config.password);
-
         this.api = new InnoxelApi({
             ip: this.config.ipaddress,
             port: this.config.port,
             user: this.config.username,
-            password,
+            password: this.decrypt(this.config.password),
         });
 
         await this.setupConnection(true);
