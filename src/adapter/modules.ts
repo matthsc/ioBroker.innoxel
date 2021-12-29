@@ -21,8 +21,19 @@ export async function createModuleStates(adapter: Innoxel, modules: IModuleBase[
     await Promise.all(
         mapModuleChannels(modules, async (module, channel) => {
             const moduleIndex = getModuleIndex(module);
+
             switch (module.class) {
                 case "masterInModule":
+                    await adapter.extendObjectAsync(`moduleIn.${moduleIndex}.${channel.index}.button`, {
+                        type: "state",
+                        common: {
+                            name: "Button",
+                            type: "boolean",
+                            role: "button",
+                            read: false,
+                            write: true,
+                        },
+                    });
                     return adapter.extendObjectAsync(`moduleIn.${moduleIndex}.${channel.index}.ledState`, {
                         type: "state",
                         common: {
@@ -31,10 +42,20 @@ export async function createModuleStates(adapter: Innoxel, modules: IModuleBase[
                             role: "switch",
                             def: false,
                             read: true,
-                            write: true,
+                            write: false,
                         },
                     });
                 case "masterOutModule":
+                    await adapter.extendObjectAsync(`moduleOut.${moduleIndex}.${channel.index}.button`, {
+                        type: "state",
+                        common: {
+                            name: "Button",
+                            type: "boolean",
+                            role: "button",
+                            read: false,
+                            write: true,
+                        },
+                    });
                     return adapter.extendObjectAsync(`moduleOut.${moduleIndex}.${channel.index}.outState`, {
                         type: "state",
                         common: {
@@ -47,6 +68,16 @@ export async function createModuleStates(adapter: Innoxel, modules: IModuleBase[
                         },
                     });
                 case "masterDimModule":
+                    await adapter.extendObjectAsync(`moduleDim.${moduleIndex}.${channel.index}.button`, {
+                        type: "state",
+                        common: {
+                            name: "Button",
+                            type: "boolean",
+                            role: "button",
+                            read: false,
+                            write: true,
+                        },
+                    });
                     return adapter.extendObjectAsync(`moduleDim.${moduleIndex}.${channel.index}.outState`, {
                         type: "state",
                         common: {
