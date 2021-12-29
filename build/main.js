@@ -34,13 +34,6 @@ const messageHandler_1 = require("./adapter/messageHandler");
 const modules_1 = require("./adapter/modules");
 const roomClimate_1 = require("./adapter/roomClimate");
 const weather_1 = require("./adapter/weather");
-function decrypt(key, value) {
-    let result = "";
-    for (let i = 0; i < value.length; ++i) {
-        result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
-    }
-    return result;
-}
 class Innoxel extends utils.Adapter {
     constructor(options = {}) {
         super({
@@ -87,7 +80,7 @@ class Innoxel extends utils.Adapter {
         };
         this.on("ready", this.onReady.bind(this));
         // this.on("objectChange", this.onObjectChange.bind(this));
-        // this.on("stateChange", this.onStateChange.bind(this));
+        this.on("stateChange", this.onStateChange.bind(this));
         this.on("message", this.onMessage.bind(this));
         this.on("unload", this.onUnload.bind(this));
     }
@@ -95,7 +88,6 @@ class Innoxel extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-        var _a;
         this.log.debug(`configuration: ${JSON.stringify({
             ...this.config,
             password: this.config.password && this.config.password !== "" ? "***" : "<empty>",
@@ -109,24 +101,18 @@ class Innoxel extends utils.Adapter {
             this.terminate("innoxel master information missing");
             return;
         }
-        // retrieve password
-        const systemConfig = await this.getForeignObjectAsync("system.config");
-        const password = ((_a = systemConfig === null || systemConfig === void 0 ? void 0 : systemConfig.native) === null || _a === void 0 ? void 0 : _a.secret)
-            ? decrypt(systemConfig.native.secret, this.config.password)
-            : decrypt("Zgfr56gFe87jJOM", this.config.password);
         this.api = new innoxel_soap_1.InnoxelApi({
             ip: this.config.ipaddress,
             port: this.config.port,
             user: this.config.username,
-            password,
+            password: this.decrypt(this.config.password),
         });
         await this.setupConnection(true);
-        // in this template all states changes inside the adapters namespace are subscribed
-        // await this.subscribeStatesAsync("*");
+        await this.subscribeStatesAsync("*.button,moduleDim.*.outState");
     }
     async setupConnection(first = false) {
         try {
-            this.reconnect(first);
+            this.reconnect();
         }
         catch (err) {
             if (first) {
@@ -138,12 +124,10 @@ class Innoxel extends utils.Adapter {
             }
         }
     }
-    async reconnect(first) {
+    async reconnect() {
         this.cleanup();
         await this.updateLastIds();
         await this.setStateAsync("info.connection", true, true);
-        if (first)
-            await this.updateIdentities();
         this.stopScheduling = false;
         this.runAndSchedule("change", this.config.changeInterval, this.checkChanges, true);
         this.runAndSchedule("roomTemperature", this.config.roomTemperatureInterval, this.updateRoomTemperatures, true);
@@ -159,6 +143,10 @@ class Innoxel extends utils.Adapter {
                 this.setStateChangedAsync("info.bootId", bootId, true),
                 this.setStateChangedAsync("info.stateId", stateId, true),
             ]);
+            if (this.lastBootId !== bootId) {
+                this.lastBootId = bootId;
+                await this.updateIdentities();
+            }
             return true;
         }
         return false;
@@ -186,6 +174,7 @@ class Innoxel extends utils.Adapter {
      */
     onUnload(callback) {
         try {
+            this.cleanup();
             this.log.info("cleaned everything up...");
             callback();
         }
@@ -196,15 +185,59 @@ class Innoxel extends utils.Adapter {
     /**
      * Is called if a subscribed state changes
      */
-    // private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-    //     if (state) {
-    //         // The state was changed
-    //         this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-    //     } else {
-    //         // The state was deleted
-    //         this.log.info(`state ${id} deleted`);
-    //     }
-    // }
+    async onStateChange(id, state) {
+        if (!state) {
+            // The state was deleted
+            return;
+        }
+        if (state.ack) {
+            // ignore acknowledged states
+            return;
+        }
+        const idParts = id.split(".");
+        const moduleIndex = Number.parseInt(idParts[3], 10);
+        const channel = Number.parseInt(idParts[4], 10);
+        const stateName = idParts[5];
+        switch (idParts[2]) {
+            case "moduleDim": {
+                if (stateName === "outState") {
+                    await this.api.setDimValue(moduleIndex, channel, state.val);
+                }
+                else if (stateName === "button") {
+                    const dimmerStateParts = [...idParts];
+                    dimmerStateParts[5] = "outState";
+                    const dimmerStateId = dimmerStateParts.join(".");
+                    const dimmerState = await this.getStateAsync(dimmerStateId);
+                    await this.api.setDimValue(moduleIndex, channel, (dimmerState === null || dimmerState === void 0 ? void 0 : dimmerState.val) > 0 ? 0 : 100);
+                }
+                else {
+                    return;
+                }
+                break;
+            }
+            case "moduleOut": {
+                if (stateName === "button") {
+                    await this.api.triggerOutModule(moduleIndex, channel);
+                }
+                else {
+                    return;
+                }
+                break;
+            }
+            case "moduleIn": {
+                if (stateName === "button") {
+                    await this.api.triggerPushButton(moduleIndex, channel);
+                }
+                else {
+                    return;
+                }
+                break;
+            }
+            default:
+                return;
+        }
+        await this.checkChanges();
+    }
     /**
      * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
      * Using this method requires "common.messagebox" property to be set to true in io-package.json
@@ -213,7 +246,9 @@ class Innoxel extends utils.Adapter {
         this.log.debug("message recieved: " + JSON.stringify(obj));
         if (typeof obj === "object" && obj.message) {
             try {
-                await (0, messageHandler_1.handleMessage)(this.api, obj);
+                const shouldReload = await (0, messageHandler_1.handleMessage)(this.api, obj);
+                if (shouldReload)
+                    await this.checkChanges();
             }
             catch (e) {
                 this.log.error(`Error processing recieved message ${JSON.stringify(obj)}: ${e.message}`);

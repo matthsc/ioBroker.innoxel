@@ -8,8 +8,11 @@ async function handleMessage(api, obj) {
             break;
         case "setDimValue":
             await setDimValue(api, obj);
+            break;
         default:
+            return false;
     }
+    return true;
 }
 exports.handleMessage = handleMessage;
 async function triggerInModule(api, obj) {

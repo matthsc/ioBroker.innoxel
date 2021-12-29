@@ -17,17 +17,18 @@ async function createRoomClimateState(adapter, identity) {
         },
     });
     await Promise.all([
-        ...["operatingState", "valveState"].map((name) => createState(name, "string")),
-        createState("valveOpen", "boolean"),
+        createState("operatingState", "string", { role: "string", states: ["heating", "cooling"] }),
+        createState("valveState", "string", { role: "string", states: ["open", "closed"] }),
+        createState("valveOpen", "boolean", { role: "indicator" }),
+        createState("actualTemperatureMean", "number", { role: "value.temperature", unit: "°C" }),
         ...[
-            "actualTemperatureMean",
             "setTemperatureHeating",
             "setTemperatureCooling",
             "nightSetbackTemperatureHeating",
             "nightSetbackTemperatureCooling",
             "absenceSetbackTemperatureHeating",
             "absenceSetbackTemperatureCooling",
-        ].map((name) => createState(name, "number", { unit: "°C" })),
+        ].map((name) => createState(name, "number", { role: "level.temperature", unit: "°C" })),
     ]);
 }
 exports.createRoomClimateState = createRoomClimateState;

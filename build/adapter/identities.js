@@ -47,7 +47,9 @@ async function createOrUpdateIdentity(adapter, identity) {
     }
     device += "." + identity.index.toString().padStart(3, "0");
     await adapter.extendObjectAsync(device, { type: "device", common: { name: identity.name } });
-    const channelPromises = (0, util_1.asArray)(identity.channel).map((channel) => adapter.extendObjectAsync(`${device}.${channel.index}`, {
+    const channelPromises = (0, util_1.asArray)(identity.channel)
+        .filter((c) => !("noxnetError" in c))
+        .map((channel) => adapter.extendObjectAsync(`${device}.${channel.index}`, {
         type: "channel",
         common: {
             name: channel.name,

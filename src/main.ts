@@ -76,13 +76,12 @@ export class Innoxel extends utils.Adapter {
         });
 
         await this.setupConnection(true);
-
         await this.subscribeStatesAsync("*.button,moduleDim.*.outState");
     }
 
     private async setupConnection(first = false): Promise<void> {
         try {
-            this.reconnect(first);
+            this.reconnect();
         } catch (err: any) {
             if (first) {
                 this.log.error(err.message);
@@ -93,11 +92,10 @@ export class Innoxel extends utils.Adapter {
         }
     }
 
-    private async reconnect(first: boolean): Promise<void> {
+    private async reconnect(): Promise<void> {
         this.cleanup();
         await this.updateLastIds();
         await this.setStateAsync("info.connection", true, true);
-        if (first) await this.updateIdentities();
 
         this.stopScheduling = false;
         this.runAndSchedule("change", this.config.changeInterval, this.checkChanges, true);
@@ -115,6 +113,10 @@ export class Innoxel extends utils.Adapter {
                 this.setStateChangedAsync("info.bootId", bootId, true),
                 this.setStateChangedAsync("info.stateId", stateId, true),
             ]);
+            if (this.lastBootId !== bootId) {
+                this.lastBootId = bootId;
+                await this.updateIdentities();
+            }
             return true;
         }
 

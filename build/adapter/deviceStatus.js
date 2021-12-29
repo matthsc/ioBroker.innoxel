@@ -7,32 +7,53 @@ async function createDeviceStatusStates(adapter, data) {
         common: { name: "deviceStatus" },
     });
     const statePromises = Object.keys(data).map((key) => {
-        const [type, unit] = getTypeAndUnit(data[key]);
         return adapter.extendObjectAsync(`deviceStatus.${key}`, {
             type: "state",
-            common: {
-                name: key,
-                read: true,
-                write: false,
-                type,
-                unit,
-            },
+            common: getCommon(data, key),
         });
     });
     await Promise.all(statePromises);
     await updateDeviceStatusStates(adapter, data);
 }
 exports.createDeviceStatusStates = createDeviceStatusStates;
-function getTypeAndUnit(obj) {
-    if (typeof obj === "string")
-        return ["string", ""];
-    const type = typeof obj["#text"];
-    switch (obj.unit) {
-        case "-":
-            return [type, ""];
-        default:
-            return [type, obj.unit];
+function getCommon(dataObj, key) {
+    const data = dataObj[key];
+    let type;
+    let role;
+    let unit;
+    if (typeof data === "string") {
+        type = "string";
+        role = "state";
+        unit = "";
     }
+    else {
+        type = "number";
+        unit = data.unit;
+        switch (data.unit) {
+            case "°C":
+                role = "value.temperature";
+                break;
+            case "V":
+                role = "value.voltage";
+                break;
+            case "Byte":
+                role = "value";
+                break;
+            default:
+                type = "string";
+                role = "state";
+        }
+        if (key === "statisticsSerialTx")
+            type = "number";
+    }
+    return {
+        name: key,
+        read: true,
+        write: false,
+        type,
+        role,
+        unit,
+    };
 }
 async function updateDeviceStatusStates(adapter, data) {
     const promises = Object.keys(data).map((key) => {
