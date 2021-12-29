@@ -186,6 +186,7 @@ export class Innoxel extends utils.Adapter {
      */
     private onUnload(callback: () => void): void {
         try {
+            this.cleanup();
             this.log.info("cleaned everything up...");
             callback();
         } catch (e) {
