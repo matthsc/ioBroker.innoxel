@@ -1,14 +1,17 @@
 import InnoxelApi from "innoxel-soap";
 
-export async function handleMessage(api: InnoxelApi, obj: ioBroker.Message): Promise<void> {
+export async function handleMessage(api: InnoxelApi, obj: ioBroker.Message): Promise<boolean> {
     switch (obj.command) {
         case "triggerInModule":
             await triggerInModule(api, obj);
             break;
         case "setDimValue":
             await setDimValue(api, obj);
+            break;
         default:
+            return false;
     }
+    return true;
 }
 
 async function triggerInModule(api: InnoxelApi, obj: ioBroker.Message): Promise<void> {

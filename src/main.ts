@@ -121,7 +121,8 @@ export class Innoxel extends utils.Adapter {
 
         return false;
     }
-    private checkChanges = async (first: boolean): Promise<void> => {
+
+    private checkChanges = async (first?: boolean): Promise<void> => {
         if ((await this.updateLastIds()) || first) {
             const data = await this.api.getModuleStates();
             await (first ? createModuleStates(this, data) : updateModuleStates(this, data));
@@ -132,12 +133,12 @@ export class Innoxel extends utils.Adapter {
         await updateRoomClimate(this, data);
     };
 
-    private updateWeather = async (first: boolean): Promise<void> => {
+    private updateWeather = async (first?: boolean): Promise<void> => {
         const weather = await this.api.getWeather();
         await (first ? createWeatherStates(this, weather) : updateWeatherStates(this, weather));
     };
 
-    private updateDeviceStatus = async (first: boolean): Promise<void> => {
+    private updateDeviceStatus = async (first?: boolean): Promise<void> => {
         const data = await this.api.getDeviceState();
         await (first ? createDeviceStatusStates(this, data) : updateDeviceStatusStates(this, data));
     };
@@ -155,8 +156,8 @@ export class Innoxel extends utils.Adapter {
     private runAndSchedule = async (
         key: keyof ITimouts,
         timeout: number,
-        handler: (first: boolean) => Promise<any>,
-        first: boolean,
+        handler: (first?: boolean) => Promise<any>,
+        first?: boolean,
     ): Promise<void> => {
         if (timeout <= 0) return;
 
@@ -214,7 +215,8 @@ export class Innoxel extends utils.Adapter {
         this.log.debug("message recieved: " + JSON.stringify(obj));
         if (typeof obj === "object" && obj.message) {
             try {
-                await handleMessage(this.api, obj);
+                const shouldReload = await handleMessage(this.api, obj);
+                if (shouldReload) await this.checkChanges();
             } catch (e: any) {
                 this.log.error(`Error processing recieved message ${JSON.stringify(obj)}: ${e.message}`);
             }
