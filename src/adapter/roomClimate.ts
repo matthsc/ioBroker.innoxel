@@ -24,17 +24,18 @@ export async function createRoomClimateState(adapter: Innoxel, identity: IModule
         });
 
     await Promise.all([
-        ...["operatingState", "valveState"].map((name) => createState(name, "string")),
-        createState("valveOpen", "boolean"),
+        createState("operatingState", "string", { role: "string", states: ["heating", "cooling"] as any }),
+        createState("valveState", "string", { role: "string", states: ["open", "closed"] as any }),
+        createState("valveOpen", "boolean", { role: "indicator" }),
+        createState("actualTemperatureMean", "number", { role: "value.temperature", unit: "°C" }),
         ...[
-            "actualTemperatureMean",
             "setTemperatureHeating",
             "setTemperatureCooling",
             "nightSetbackTemperatureHeating",
             "nightSetbackTemperatureCooling",
             "absenceSetbackTemperatureHeating",
             "absenceSetbackTemperatureCooling",
-        ].map((name) => createState(name, "number", { unit: "°C" })),
+        ].map((name) => createState(name, "number", { role: "level.temperature", unit: "°C" })),
     ]);
 }
 
