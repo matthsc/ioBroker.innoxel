@@ -51,14 +51,16 @@ async function createOrUpdateIdentity(adapter: Innoxel, identity: ModuleIdentity
 
     await adapter.extendObjectAsync(device, { type: "device", common: { name: identity.name } });
 
-    const channelPromises = asArray(identity.channel).map((channel) =>
-        adapter.extendObjectAsync(`${device}.${channel.index}`, {
-            type: "channel",
-            common: {
-                name: channel.name,
-                desc: channel.description,
-            },
-        }),
-    );
+    const channelPromises = asArray(identity.channel)
+        .filter((c) => !("noxnetError" in c))
+        .map((channel) =>
+            adapter.extendObjectAsync(`${device}.${channel.index}`, {
+                type: "channel",
+                common: {
+                    name: channel.name,
+                    desc: channel.description,
+                },
+            }),
+        );
     await Promise.all(channelPromises);
 }
