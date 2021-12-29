@@ -76,7 +76,7 @@ export class Innoxel extends utils.Adapter {
         });
 
         await this.setupConnection(true);
-        await this.subscribeStatesAsync("*.button,moduleDim.*.outState");
+        for (const state of ["*.button", "moduleDim.*.outState"]) await this.subscribeStatesAsync(state);
     }
 
     private async setupConnection(first = false): Promise<void> {
