@@ -1,0 +1,14 @@
+# folders
+.cache/
+.dev-server/
+.dev-container/
+.github/
+.vscode/
+.nyc_output
+admin/src/
+coverage/
+src/
+test/
+
+# files
+.env
