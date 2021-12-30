@@ -50,10 +50,11 @@ export class Innoxel extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     private async onReady(): Promise<void> {
+        const config = this.config;
         this.log.debug(
             `configuration: ${JSON.stringify({
-                ...this.config,
-                password: this.config.password && this.config.password !== "" ? "***" : "<empty>",
+                ...config,
+                password: config.password && config.password !== "" ? "***" : "<empty>",
             })}`,
         );
 
@@ -62,19 +63,20 @@ export class Innoxel extends utils.Adapter {
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
-        if (!this.config.ipaddress || !this.config.port || !this.config.username || !this.config.password) {
+        if (!config.ipaddress || !config.port || !config.username || !config.password) {
             this.log.error("Innoxel master information missing. Please configure settings in adapter settings.");
-            this.terminate("innoxel master information missing");
             return;
         }
 
+        // create api object
         this.api = new InnoxelApi({
-            ip: this.config.ipaddress,
-            port: this.config.port,
-            user: this.config.username,
-            password: this.decrypt(this.config.password),
+            ip: config.ipaddress,
+            port: config.port,
+            user: config.username,
+            password: this.decrypt(config.password),
         });
 
+        // connecto to innoxel master and listen on state changes
         await this.setupConnection(true);
         for (const state of ["*.button", "moduleDim.*.outState"]) await this.subscribeStatesAsync(state);
     }
@@ -83,11 +85,14 @@ export class Innoxel extends utils.Adapter {
         try {
             this.reconnect();
         } catch (err: any) {
+            await this.setStateAsync("info.connection", false, true);
+            this.log.error(err.message);
+
             if (first) {
-                this.log.error(err.message);
                 this.terminate(err.message);
             } else {
                 // TODO: try connecting again
+                // TODO: until now, we don't handle "disconnects", since we don't have "connections"
             }
         }
     }
@@ -96,6 +101,7 @@ export class Innoxel extends utils.Adapter {
         this.cleanup();
         await this.updateLastIds();
         await this.setStateAsync("info.connection", true, true);
+        this.log.info("Connection to innoxel master succeeded");
 
         this.stopScheduling = false;
         this.runAndSchedule("change", this.config.changeInterval, this.checkChanges, true);
