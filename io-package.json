@@ -1,134 +1,154 @@
 {
-    "common": {
-        "name": "innoxel",
-        "version": "0.1.0",
-        "news": {
-            "0.1.0": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            }
-        },
-        "title": "Innoxel",
-        "titleLang": {
-            "en": "Innoxel",
-            "de": "Innoxel",
-            "ru": "Инноксель",
-            "pt": "Innoxel",
-            "nl": "Innoxel",
-            "fr": "Innoxel",
-            "it": "Innoxel",
-            "es": "Innoxel",
-            "pl": "Innoxel",
-            "zh-cn": "英诺赛尔"
-        },
-        "desc": {
-            "en": "Adapter for Innoxel Master 3",
-            "de": "Adapter für Innoxel Master 3",
-            "ru": "Адаптер для Innoxel Master 3",
-            "pt": "Adaptador para Innoxel Master 3",
-            "nl": "Adapter voor Innoxel Master 3",
-            "fr": "Adaptateur pour Innoxel Master 3",
-            "it": "Adattatore per Innoxel Master 3",
-            "es": "Adaptador para Innoxel Master 3",
-            "pl": "Adapter do Innoxel Master 3",
-            "zh-cn": "Inoxel Master 3 适配器"
-        },
-        "authors": ["matthsc <matthsc@gmx.net>"],
-        "keywords": ["innoxel"],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "build/main.js",
-        "icon": "innoxel.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
-        "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "iot-systems",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "materialize": true,
-        "messagebox": true,
-        "globalDependencies": [
-            {
-                "admin": ">=5.0.0"
-            }
-        ],
-        "dependencies": [
-            {
-                "js-controller": ">=3.1.0"
-            }
-        ]
+  "common": {
+    "name": "innoxel",
+    "version": "0.1.1",
+    "news": {
+      "0.1.1": {
+        "en": "implement adapter review feedback",
+        "de": "Feedback zur Adapterbewertung implementieren",
+        "ru": "реализовать отзыв об обзоре адаптера",
+        "pt": "implementar feedback de revisão do adaptador",
+        "nl": "feedback over adapterbeoordeling implementeren",
+        "fr": "implémenter les commentaires d'examen de l'adaptateur",
+        "it": "implementare il feedback sulla revisione dell'adattatore",
+        "es": "Implementar retroalimentación de revisión del adaptador",
+        "pl": "zaimplementuj opinię z przeglądu adaptera",
+        "zh-cn": "实施适配器审查反馈"
+      },
+      "0.1.0": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版"
+      }
     },
-    "native": {
-        "ipaddress": "",
-        "port": 5001,
-        "username": "",
-        "password": "",
-        "weatherInterval": 900,
-        "roomTemperatureInterval": 300,
-        "changeInterval": 30,
-        "deviceStatusInterval": 0
+    "title": "Innoxel",
+    "titleLang": {
+      "en": "Innoxel",
+      "de": "Innoxel",
+      "ru": "Инноксель",
+      "pt": "Innoxel",
+      "nl": "Innoxel",
+      "fr": "Innoxel",
+      "it": "Innoxel",
+      "es": "Innoxel",
+      "pl": "Innoxel",
+      "zh-cn": "英诺赛尔"
     },
-    "protectedNative": ["password"],
-    "encryptedNative": ["password"],
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.bootId",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Innoxel Master boot id",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": ""
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.stateId",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Innoxel Master state id",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": ""
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Adapter for Innoxel Master 3",
+      "de": "Adapter für Innoxel Master 3",
+      "ru": "Адаптер для Innoxel Master 3",
+      "pt": "Adaptador para Innoxel Master 3",
+      "nl": "Adapter voor Innoxel Master 3",
+      "fr": "Adaptateur pour Innoxel Master 3",
+      "it": "Adattatore per Innoxel Master 3",
+      "es": "Adaptador para Innoxel Master 3",
+      "pl": "Adapter do Innoxel Master 3",
+      "zh-cn": "Inoxel Master 3 适配器"
+    },
+    "authors": [
+      "matthsc <matthsc@gmx.net>"
+    ],
+    "keywords": [
+      "innoxel"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "build/main.js",
+    "icon": "innoxel.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
+    "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "iot-systems",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "materialize": true,
+    "messagebox": true,
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0"
+      }
+    ],
+    "dependencies": [
+      {
+        "js-controller": ">=3.1.0"
+      }
     ]
+  },
+  "native": {
+    "ipaddress": "",
+    "port": 5001,
+    "username": "",
+    "password": "",
+    "weatherInterval": 900,
+    "roomTemperatureInterval": 300,
+    "changeInterval": 30,
+    "deviceStatusInterval": 0
+  },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.bootId",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Innoxel Master boot id",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.stateId",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Innoxel Master state id",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    }
+  ]
 }
