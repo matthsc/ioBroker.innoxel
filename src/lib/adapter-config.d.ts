@@ -10,8 +10,8 @@ declare global {
             password: string;
             weatherInterval: number;
             roomTemperatureInterval: number;
-            deviceStatusInterval: number;
             changeInterval: number;
+            deviceStatusInterval: number;
         }
     }
 }

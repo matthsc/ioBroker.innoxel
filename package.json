@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/matthsc/ioBroker.innoxel"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
     "innoxel-soap": "0.1.3"

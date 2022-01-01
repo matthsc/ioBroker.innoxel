@@ -74,6 +74,7 @@ class Innoxel extends utils.Adapter {
                 this.log.debug(err.toString());
             }
             if (!this.stopScheduling) {
+                clearTimeout(this.timeouts[key]);
                 const timer = setTimeout(this.runAndSchedule, timeout * 1000, key, timeout, handler, false);
                 this.timeouts[key] = timer;
             }
