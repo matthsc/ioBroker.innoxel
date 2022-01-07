@@ -111,6 +111,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 
 -   (matthsc) catch authentication errors
 -   (matthsc) fix authentication
+-   (matthsc) remove build folders from git
 
 ### 0.1.1 (2022-01-01)
 
