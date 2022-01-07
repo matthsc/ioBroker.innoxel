@@ -10,7 +10,7 @@
     "password": "Password",
     "password_description": "Password for the user",
     "intervals": "Poll intervals",
-    "intervals_details": "Innoxel Master needs to be polled periodically to have states updated in the adapter. Here you can specify the intervals in seconds in which certain data is updated. Setting an interval to 0 disabled polling of this data.",
+    "intervals_details": "Innoxel Master needs to be polled periodically to have states updated in the adapter. Here you can specify the intervals in seconds in which certain data is updated. Setting an interval to 0 disables polling of this data.",
     "intervals_description": "",
     "intervalChange": "Module changes",
     "intervalChange_description": "i.e. switch turned on",
