@@ -137,6 +137,8 @@ gulp.task("translate", async function (done) {
                         existing[t] = await translate(enTranslations[t], l, yandex);
                     }
                 }
+                for (let t in existing)
+                    if (!Object.prototype.hasOwnProperty.call(enTranslations, t)) delete existing[t];
                 fs.writeFileSync("./admin/src/i18n/" + l + ".json", JSON.stringify(existing, null, 4));
             }
         }
