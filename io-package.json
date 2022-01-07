@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "news": {
+      "0.1.2": {
+        "en": "catch authentication errors\nfix authentication\nremove build folders from git",
+        "de": "Authentifizierungsfehler abfangen\nAuthentifizierung beheben\nBuild-Ordner aus Git entfernen",
+        "ru": "поймать ошибки аутентификации\nисправить аутентификацию\nудалить папки сборки из git",
+        "pt": "detectar erros de autenticação\ncorrigir autenticação\nremover pastas de construção do git",
+        "nl": "verificatiefouten opvangen\nauthenticatie repareren\nverwijder build-mappen uit git",
+        "fr": "intercepter les erreurs d'authentification\ncorriger l'authentification\nsupprimer les dossiers de construction de git",
+        "it": "rilevare errori di autenticazione\ncorreggere l'autenticazione\nrimuovi le cartelle di build da git",
+        "es": "detectar errores de autenticación\narreglar autenticación\neliminar carpetas de compilación de git",
+        "pl": "wyłap błędy uwierzytelniania\nnapraw uwierzytelnianie\nusuń foldery kompilacji z git",
+        "zh-cn": "捕获身份验证错误\n修复身份验证\n从 git 中删除构建文件夹"
+      },
       "0.1.1": {
         "en": "implement adapter review feedback",
         "de": "Feedback zur Adapterbewertung implementieren",
