@@ -73,7 +73,7 @@ export class Innoxel extends utils.Adapter {
             ip: config.ipaddress,
             port: config.port,
             user: config.username,
-            password: this.decrypt(config.password),
+            password: config.password,
         });
 
         // connecto to innoxel master and listen on state changes
@@ -83,7 +83,7 @@ export class Innoxel extends utils.Adapter {
 
     private async setupConnection(first = false): Promise<void> {
         try {
-            this.reconnect();
+            await this.reconnect();
         } catch (err: any) {
             await this.setStateAsync("info.connection", false, true);
             this.log.error(err.message);
