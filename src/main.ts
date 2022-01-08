@@ -14,22 +14,22 @@ import { createModuleStates, updateModuleStates } from "./adapter/modules";
 import { updateRoomClimate } from "./adapter/roomClimate";
 import { createWeatherStates, updateWeatherStates } from "./adapter/weather";
 
-interface ITimoutsKeys {
+interface ITimeoutsKeys {
     change: NodeJS.Timeout;
     weather: NodeJS.Timeout;
     roomTemperature: NodeJS.Timeout;
     deviceStatus: NodeJS.Timeout;
 }
-type ITimouts = {
-    [key in keyof ITimoutsKeys]: NodeJS.Timeout;
-} & ITimoutsKeys;
+type ITimeouts = {
+    [key in keyof ITimeoutsKeys]: NodeJS.Timeout;
+} & ITimeoutsKeys;
 
 export class Innoxel extends utils.Adapter {
     private api!: InnoxelApi;
     private lastIdXml = "";
     private lastBootId = "";
 
-    private timeouts: ITimouts = Object.create(null) as any;
+    private timeouts: ITimeouts = Object.create(null) as any;
     private stopScheduling = true;
 
     private terminating = false;
@@ -161,7 +161,7 @@ export class Innoxel extends utils.Adapter {
     }
 
     private runAndSchedule = async (
-        key: keyof ITimouts,
+        key: keyof ITimeouts,
         timeout: number,
         handler: (first?: boolean) => Promise<any>,
         first?: boolean,
@@ -184,7 +184,7 @@ export class Innoxel extends utils.Adapter {
 
     private cleanup(): void {
         this.stopScheduling = true;
-        const keys = Object.keys(this.timeouts) as (keyof ITimoutsKeys)[];
+        const keys = Object.keys(this.timeouts) as (keyof ITimeoutsKeys)[];
         keys.forEach((key) => {
             clearTimeout(this.timeouts[key]);
         });
