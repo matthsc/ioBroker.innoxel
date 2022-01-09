@@ -7,7 +7,7 @@ Adapter for Innoxel Master 3 (https://innoxel.ch)
 ![node](https://img.shields.io/node/v-lts/iobroker.innoxel)
 [![NPM version](https://img.shields.io/npm/v/iobroker.innoxel.svg)](https://www.npmjs.com/package/iobroker.innoxel)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.innoxel.svg)](https://www.npmjs.com/package/iobroker.innoxel)
-[![license](https://img.shields.io/npm/l/innoxel-soap)](LICENSE)
+[![license](https://img.shields.io/npm/l/iobroker.innoxel)](LICENSE)
 
 ![Number of Installations](https://iobroker.live/badges/innoxel-installed.svg)
 ![Current version in stable repository](https://iobroker.live/badges/innoxel-stable.svg)
@@ -106,6 +106,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+
 ### 0.1.2 (2022-01-07)
 
 -   (matthsc) catch authentication errors

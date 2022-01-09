@@ -29,10 +29,8 @@ export class Innoxel extends utils.Adapter {
     private lastIdXml = "";
     private lastBootId = "";
 
-    private timeouts: ITimeouts = Object.create(null) as any;
+    private timeouts = Object.create(null) as ITimeouts;
     private stopScheduling = true;
-
-    private terminating = false;
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
