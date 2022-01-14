@@ -6,7 +6,7 @@
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
 // Load your modules here
-import { InnoxelApi } from "innoxel-soap";
+import { EndpointError, InnoxelApi, NetworkError } from "innoxel-soap";
 import { createDeviceStatusStates, updateDeviceStatusStates } from "./adapter/deviceStatus";
 import { createOrUpdateIdentities } from "./adapter/identities";
 import { handleMessage } from "./adapter/messageHandler";
@@ -84,7 +84,22 @@ export class Innoxel extends utils.Adapter {
             await this.reconnect();
         } catch (err: any) {
             await this.setStateAsync("info.connection", false, true);
-            this.log.error(err.message);
+
+            if (err instanceof NetworkError) {
+                this.log.error("Error connecting to Innoxel Master: " + err.message);
+            } else if (err instanceof EndpointError) {
+                if (err.statusCode === 401) {
+                    this.log.error(
+                        `Cannot authenticate to Innoxel Master, please check username/password: retrieved ${
+                            err.statusCode
+                        } - ${err.message || "<no message>"}`,
+                    );
+                } else {
+                    this.log.error(`Error from Innoxel Master: ${err.statusCode} - ${err.message}`);
+                }
+            } else {
+                this.log.error(err.message);
+            }
 
             if (first) {
                 this.terminate(err.message);
@@ -99,7 +114,7 @@ export class Innoxel extends utils.Adapter {
         this.cleanup();
         await this.updateLastIds();
         await this.setStateAsync("info.connection", true, true);
-        this.log.info("Connection to innoxel master succeeded");
+        this.log.info("Successfully connected to Innoxel Master");
 
         this.stopScheduling = false;
         this.runAndSchedule("change", this.config.changeInterval, this.checkChanges, true);

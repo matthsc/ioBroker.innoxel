@@ -107,6 +107,10 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
     ### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   (matthsc) improve error messages
+
 ### 0.1.2 (2022-01-07)
 
 -   (matthsc) catch authentication errors
