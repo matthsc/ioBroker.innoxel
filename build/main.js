@@ -2,30 +2,12 @@
 /*
  * Created with @iobroker/create-adapter v2.0.1
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Innoxel = void 0;
+const tslib_1 = require("tslib");
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
-const utils = __importStar(require("@iobroker/adapter-core"));
+const utils = (0, tslib_1.__importStar)(require("@iobroker/adapter-core"));
 // Load your modules here
 const innoxel_soap_1 = require("innoxel-soap");
 const deviceStatus_1 = require("./adapter/deviceStatus");
@@ -119,7 +101,20 @@ class Innoxel extends utils.Adapter {
         }
         catch (err) {
             await this.setStateAsync("info.connection", false, true);
-            this.log.error(err.message);
+            if (err instanceof innoxel_soap_1.NetworkError) {
+                this.log.error("Error connecting to Innoxel Master: " + err.message);
+            }
+            else if (err instanceof innoxel_soap_1.EndpointError) {
+                if (err.statusCode === 401) {
+                    this.log.error(`Cannot authenticate to Innoxel Master, please check username/password: retrieved ${err.statusCode} - ${err.message || "<no message>"}`);
+                }
+                else {
+                    this.log.error(`Error from Innoxel Master: ${err.statusCode} - ${err.message}`);
+                }
+            }
+            else {
+                this.log.error(err.message);
+            }
             if (first) {
                 this.terminate(err.message);
             }
@@ -133,7 +128,7 @@ class Innoxel extends utils.Adapter {
         this.cleanup();
         await this.updateLastIds();
         await this.setStateAsync("info.connection", true, true);
-        this.log.info("Connection to innoxel master succeeded");
+        this.log.info("Successfully connected to Innoxel Master");
         this.stopScheduling = false;
         this.runAndSchedule("change", this.config.changeInterval, this.checkChanges, true);
         this.runAndSchedule("roomTemperature", this.config.roomTemperatureInterval, this.updateRoomTemperatures, true);
