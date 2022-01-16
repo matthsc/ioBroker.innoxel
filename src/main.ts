@@ -6,7 +6,7 @@
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
 // Load your modules here
-import { EndpointError, InnoxelApi, NetworkError } from "innoxel-soap";
+import { EndpointError, FaultResponseError, InnoxelApi, NetworkError, ResponseTagError } from "innoxel-soap";
 import { createDeviceStatusStates, updateDeviceStatusStates } from "./adapter/deviceStatus";
 import { createOrUpdateIdentities } from "./adapter/identities";
 import { handleMessage } from "./adapter/messageHandler";
@@ -82,27 +82,12 @@ export class Innoxel extends utils.Adapter {
     private async setupConnection(first = false): Promise<void> {
         try {
             await this.reconnect();
-        } catch (err: any) {
+        } catch (error: unknown) {
             await this.setStateAsync("info.connection", false, true);
-
-            if (err instanceof NetworkError) {
-                this.log.error("Error connecting to Innoxel Master: " + err.message);
-            } else if (err instanceof EndpointError) {
-                if (err.statusCode === 401) {
-                    this.log.error(
-                        `Cannot authenticate to Innoxel Master, please check username/password: retrieved ${
-                            err.statusCode
-                        } - ${err.message || "<no message>"}`,
-                    );
-                } else {
-                    this.log.error(`Error from Innoxel Master: ${err.statusCode} - ${err.message}`);
-                }
-            } else {
-                this.log.error(err.message);
-            }
+            this.logError(error);
 
             if (first) {
-                this.terminate(err.message);
+                this.terminate("terminating adapter because of previous error");
             } else {
                 // TODO: try connecting again
                 // TODO: until now, we don't handle "disconnects", since we don't have "connections"
@@ -183,9 +168,8 @@ export class Innoxel extends utils.Adapter {
 
         try {
             await handler(first);
-        } catch (err: any) {
-            this.log.error(err.message);
-            this.log.debug(err.toString());
+        } catch (err: unknown) {
+            this.logError(err);
         }
 
         if (!this.stopScheduling) {
@@ -201,6 +185,32 @@ export class Innoxel extends utils.Adapter {
         keys.forEach((key) => {
             clearTimeout(this.timeouts[key]);
         });
+    }
+
+    private logError(error: unknown): void {
+        let message: string;
+
+        if (error instanceof NetworkError) {
+            message = "Error connecting to Innoxel Master: " + error.message;
+        } else if (error instanceof EndpointError) {
+            if (error.statusCode === 401) {
+                message = `Cannot authenticate to Innoxel Master, please check username/password: retrieved ${
+                    error.statusCode
+                } - ${error.message || "<no message>"}`;
+            } else {
+                message = `Error from Innoxel Master: ${error.statusCode} - ${error.message}`;
+            }
+        } else if (error instanceof ResponseTagError) {
+            message = `Wrong response tag for action '${error.action}': ${error.response}`;
+        } else if (error instanceof FaultResponseError) {
+            message = `Fault response recieved from Innoxel Master: ${error.fault}`;
+        } else if (error instanceof Error) {
+            message = error.message;
+        } else {
+            message = JSON.stringify(error);
+        }
+
+        this.log.error(message);
     }
 
     /**
