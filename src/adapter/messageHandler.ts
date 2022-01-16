@@ -1,4 +1,4 @@
-import InnoxelApi from "innoxel-soap";
+import type InnoxelApi from "innoxel-soap";
 
 export async function handleMessage(api: InnoxelApi, obj: ioBroker.Message): Promise<boolean> {
     switch (obj.command) {

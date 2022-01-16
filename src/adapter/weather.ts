@@ -59,7 +59,7 @@ function ignoreProperty(data: any, key: string): boolean {
 
 export async function updateWeatherStates(adapter: Innoxel, data: IModuleWeather): Promise<void> {
     const promises = Object.keys(data).map((key) => {
-        if (ignoreProperty(data, key)) return Promise.resolve("");
+        if (ignoreProperty(data, key)) return Promise.resolve();
 
         const obj = (data as IndexableWeatherData)[key];
         let value = obj.value;
