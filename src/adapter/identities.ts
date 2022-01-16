@@ -4,7 +4,7 @@ import { Innoxel } from "../main";
 import { createRoomClimateState } from "./roomClimate";
 
 export async function createOrUpdateIdentities(adapter: Innoxel, identities: ModuleIdentityType[]): Promise<void> {
-    adapter.log.info("Creating Identities...");
+    adapter.log.debug("Creating/Updating Identities...");
     const devices = ["In", "Out", "Dim"].map(async (type) => {
         await adapter.createDeviceAsync(`module${type}`);
         await adapter.extendObjectAsync(`module${type}`, {
@@ -26,7 +26,7 @@ export async function createOrUpdateIdentities(adapter: Innoxel, identities: Mod
     );
     await Promise.all(devices);
     await Promise.all(identities.map((idendity) => createOrUpdateIdentity(adapter, idendity)));
-    adapter.log.info("Identities created");
+    adapter.log.debug("Finished creating/updating identities.");
 }
 
 async function createOrUpdateIdentity(adapter: Innoxel, identity: ModuleIdentityType): Promise<void> {
