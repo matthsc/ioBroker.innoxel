@@ -110,6 +110,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 ### **WORK IN PROGRESS**
 
 -   (matthsc) fix double decryption issues with password in adapter admin
+-   (matthsc) change input field types in adapter admin
 
 ### 0.1.3 (2022-01-16)
 

@@ -153,17 +153,18 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     <Grid container spacing={2}>
                         {this.renderHeader("connection")}
                         {this.renderInput("ip", "ipaddress", "ip_description")}
-                        {this.renderInput("port", "port", "port_description")}
+                        {this.renderInput("port", "port", "port_description", "number")}
                         {this.renderInput("username", "username", "username_description")}
                         {this.renderInput("password", "password", "password_description", "password")}
                         {this.renderHeader("intervals", "intervals_details")}
-                        {this.renderInput("intervalChange", "changeInterval", "intervalChange_description")}
-                        {this.renderInput("intervalRoomTemperature", "roomTemperatureInterval")}
-                        {this.renderInput("intervalWeather", "weatherInterval")}
+                        {this.renderInput("intervalChange", "changeInterval", "intervalChange_description", "number")}
+                        {this.renderInput("intervalRoomTemperature", "roomTemperatureInterval", undefined, "number")}
+                        {this.renderInput("intervalWeather", "weatherInterval", undefined, "number")}
                         {this.renderInput(
                             "intervalDeviceStatus",
                             "deviceStatusInterval",
                             "intervalDeviceStatus_description",
+                            "number",
                         )}
                     </Grid>
                 </Box>
