@@ -1,18 +1,16 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { CreateCSSProperties } from "@material-ui/core/styles/withStyles";
-import {
-    Box,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    Input,
-    MenuItem,
-    Select,
-    TextField,
-} from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import type { CreateCSSProperties } from "@material-ui/core/styles/withStyles";
+import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
 import I18n from "@iobroker/adapter-react/i18n";
 
 const styles = (): Record<string, CreateCSSProperties> => ({
