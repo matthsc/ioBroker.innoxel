@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "news": {
+      "0.1.4": {
+        "en": "fix double decryption issues with password in adapter admin\nchange input field types in adapter admin",
+        "de": "doppelte Entschlüsselungsprobleme mit dem Passwort in der Adapterverwaltung behoben\nÄndern Sie die Eingabefeldtypen in der Adapterverwaltung",
+        "ru": "исправить проблемы двойного дешифрования с паролем в администраторе адаптера\nизменить типы полей ввода в администраторе адаптера",
+        "pt": "corrigir problemas de descriptografia dupla com senha no administrador do adaptador\nalterar os tipos de campo de entrada no administrador do adaptador",
+        "nl": "problemen met dubbele decodering oplossen met wachtwoord in adapterbeheer\nwijzig invoerveldtypen in adapterbeheer",
+        "fr": "correction des problèmes de double déchiffrement avec mot de passe dans l'administrateur de l'adaptateur\nmodifier les types de champs d'entrée dans l'administrateur de l'adaptateur",
+        "it": "risolve i problemi di doppia decrittazione con la password nell'amministratore dell'adattatore\ncambia i tipi di campo di input in adapter admin",
+        "es": "solucionar problemas de doble descifrado con contraseña en el administrador del adaptador\ncambiar los tipos de campo de entrada en el administrador del adaptador",
+        "pl": "napraw problemy z podwójnym odszyfrowywaniem hasłem w administratorze adaptera\nzmień typy pól wejściowych w admin adaptera",
+        "zh-cn": "修复适配器管理员中密码的双重解密问题\n在适配器管理中更改输入字段类型"
+      },
       "0.1.3": {
         "en": "improve error messages",
         "de": "Fehlermeldungen verbessern",
