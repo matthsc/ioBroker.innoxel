@@ -51,8 +51,7 @@ class Innoxel extends utils.Adapter {
                 await handler(first);
             }
             catch (err) {
-                this.log.error(err.message);
-                this.log.debug(err.toString());
+                this.logError(err);
             }
             if (!this.stopScheduling) {
                 clearTimeout(this.timeouts[key]);
@@ -99,24 +98,11 @@ class Innoxel extends utils.Adapter {
         try {
             await this.reconnect();
         }
-        catch (err) {
+        catch (error) {
             await this.setStateAsync("info.connection", false, true);
-            if (err instanceof innoxel_soap_1.NetworkError) {
-                this.log.error("Error connecting to Innoxel Master: " + err.message);
-            }
-            else if (err instanceof innoxel_soap_1.EndpointError) {
-                if (err.statusCode === 401) {
-                    this.log.error(`Cannot authenticate to Innoxel Master, please check username/password: retrieved ${err.statusCode} - ${err.message || "<no message>"}`);
-                }
-                else {
-                    this.log.error(`Error from Innoxel Master: ${err.statusCode} - ${err.message}`);
-                }
-            }
-            else {
-                this.log.error(err.message);
-            }
+            this.logError(error);
             if (first) {
-                this.terminate(err.message);
+                this.terminate("terminating adapter because of previous error");
             }
             else {
                 // TODO: try connecting again
@@ -169,6 +155,33 @@ class Innoxel extends utils.Adapter {
         keys.forEach((key) => {
             clearTimeout(this.timeouts[key]);
         });
+    }
+    logError(error) {
+        let message;
+        if (error instanceof innoxel_soap_1.NetworkError) {
+            message = "Error connecting to Innoxel Master: " + error.message;
+        }
+        else if (error instanceof innoxel_soap_1.EndpointError) {
+            if (error.statusCode === 401) {
+                message = `Cannot authenticate to Innoxel Master, please check username/password: retrieved ${error.statusCode} - ${error.message || "<no message>"}`;
+            }
+            else {
+                message = `Error from Innoxel Master: ${error.statusCode} - ${error.message}`;
+            }
+        }
+        else if (error instanceof innoxel_soap_1.ResponseTagError) {
+            message = `Wrong response tag for action '${error.action}': ${error.response}`;
+        }
+        else if (error instanceof innoxel_soap_1.FaultResponseError) {
+            message = `Fault response recieved from Innoxel Master: ${error.fault}`;
+        }
+        else if (error instanceof Error) {
+            message = error.message;
+        }
+        else {
+            message = JSON.stringify(error);
+        }
+        this.log.error(message);
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!

@@ -55,7 +55,7 @@ function ignoreProperty(data, key) {
 async function updateWeatherStates(adapter, data) {
     const promises = Object.keys(data).map((key) => {
         if (ignoreProperty(data, key))
-            return Promise.resolve("");
+            return Promise.resolve();
         const obj = data[key];
         let value = obj.value;
         if (key === "precipitation") {

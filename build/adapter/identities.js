@@ -4,7 +4,7 @@ exports.createOrUpdateIdentities = void 0;
 const util_1 = require("../lib/util");
 const roomClimate_1 = require("./roomClimate");
 async function createOrUpdateIdentities(adapter, identities) {
-    adapter.log.info("Creating Identities...");
+    adapter.log.debug("Creating/Updating Identities...");
     const devices = ["In", "Out", "Dim"].map(async (type) => {
         await adapter.createDeviceAsync(`module${type}`);
         await adapter.extendObjectAsync(`module${type}`, {
@@ -24,7 +24,7 @@ async function createOrUpdateIdentities(adapter, identities) {
     }));
     await Promise.all(devices);
     await Promise.all(identities.map((idendity) => createOrUpdateIdentity(adapter, idendity)));
-    adapter.log.info("Identities created");
+    adapter.log.debug("Finished creating/updating identities.");
 }
 exports.createOrUpdateIdentities = createOrUpdateIdentities;
 async function createOrUpdateIdentity(adapter, identity) {
