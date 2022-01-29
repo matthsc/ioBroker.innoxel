@@ -81,7 +81,7 @@ export class Innoxel extends utils.Adapter {
 
     private async setupConnection(first = false): Promise<void> {
         try {
-            await this.reconnect();
+            await this.reconnect(first);
         } catch (error: unknown) {
             await this.setStateAsync("info.connection", false, true);
             this.logError(error);
@@ -95,9 +95,9 @@ export class Innoxel extends utils.Adapter {
         }
     }
 
-    private async reconnect(): Promise<void> {
+    private async reconnect(first?: boolean): Promise<void> {
         this.cleanup();
-        await this.updateLastIds();
+        await this.updateLastIds(first);
         await this.setStateAsync("info.connection", true, true);
         this.log.info("Successfully connected to Innoxel Master");
 
@@ -108,7 +108,7 @@ export class Innoxel extends utils.Adapter {
         this.runAndSchedule("deviceStatus", this.config.deviceStatusInterval, this.updateDeviceStatus, true);
     }
 
-    private async updateLastIds(): Promise<boolean> {
+    private async updateLastIds(first?: boolean): Promise<boolean> {
         const xml = await this.api.getBootAndStateIdXml();
         if (this.lastIdXml !== xml) {
             this.lastIdXml = xml;
@@ -119,7 +119,7 @@ export class Innoxel extends utils.Adapter {
             ]);
             if (this.lastBootId !== bootId) {
                 this.lastBootId = bootId;
-                await this.updateIdentities();
+                await this.updateIdentities(first);
             }
             return true;
         }
@@ -147,14 +147,14 @@ export class Innoxel extends utils.Adapter {
         const data = await this.api.getDeviceState();
         await (first ? createDeviceStatusStates(this, data) : updateDeviceStatusStates(this, data));
     };
-    private async updateIdentities(): Promise<void> {
+    private async updateIdentities(terminateOnError?: boolean): Promise<void> {
         try {
             const data = await this.api.getIdentities();
             await createOrUpdateIdentities(this, data);
         } catch (err: any) {
             this.log.error(err.message);
             this.log.debug(err.toString());
-            this.terminate("Error updating identities");
+            if (terminateOnError) this.terminate("Error updating identities");
         }
     }
 
