@@ -84,7 +84,7 @@ export class Innoxel extends utils.Adapter {
             await this.reconnect(first);
         } catch (error: unknown) {
             await this.setStateAsync("info.connection", false, true);
-            this.logError(error);
+            this.logError(error, "setupConnection");
 
             if (first) {
                 this.terminate("terminating adapter because of previous error");
@@ -152,7 +152,7 @@ export class Innoxel extends utils.Adapter {
             const data = await this.api.getIdentities();
             await createOrUpdateIdentities(this, data);
         } catch (err: any) {
-            this.log.error(err.message);
+            this.log.error("Error updating identities: " + err.message);
             this.log.debug(err.toString());
             if (terminateOnError) this.terminate("Error updating identities");
         }
@@ -169,7 +169,7 @@ export class Innoxel extends utils.Adapter {
         try {
             await handler(first);
         } catch (err: unknown) {
-            this.logError(err);
+            this.logError(err, `runAndSchedule ${key}`);
         }
 
         if (!this.stopScheduling) {
@@ -187,7 +187,7 @@ export class Innoxel extends utils.Adapter {
         });
     }
 
-    private logError(error: unknown): void {
+    private logError(error: unknown, prefix: string): void {
         let message: string;
 
         if (error instanceof NetworkError) {
@@ -210,7 +210,7 @@ export class Innoxel extends utils.Adapter {
             message = JSON.stringify(error);
         }
 
-        this.log.error(message);
+        this.log.error(`${prefix}: ${message}`);
     }
 
     /**

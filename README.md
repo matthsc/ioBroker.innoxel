@@ -110,6 +110,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 ### **WORK IN PROGRESS**
 
 -   (matthsc) don't always terminate adapter on errors while updating identities
+-   (matthsc) improve error messages
 
 ### 0.1.4 (2022-01-25)
 
