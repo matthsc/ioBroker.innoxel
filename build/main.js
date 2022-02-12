@@ -51,7 +51,7 @@ class Innoxel extends utils.Adapter {
                 await handler(first);
             }
             catch (err) {
-                this.logError(err);
+                this.logError(err, `runAndSchedule ${key}`);
             }
             if (!this.stopScheduling) {
                 clearTimeout(this.timeouts[key]);
@@ -96,11 +96,11 @@ class Innoxel extends utils.Adapter {
     }
     async setupConnection(first = false) {
         try {
-            await this.reconnect();
+            await this.reconnect(first);
         }
         catch (error) {
             await this.setStateAsync("info.connection", false, true);
-            this.logError(error);
+            this.logError(error, "setupConnection");
             if (first) {
                 this.terminate("terminating adapter because of previous error");
             }
@@ -110,9 +110,9 @@ class Innoxel extends utils.Adapter {
             }
         }
     }
-    async reconnect() {
+    async reconnect(first) {
         this.cleanup();
-        await this.updateLastIds();
+        await this.updateLastIds(first);
         await this.setStateAsync("info.connection", true, true);
         this.log.info("Successfully connected to Innoxel Master");
         this.stopScheduling = false;
@@ -121,7 +121,7 @@ class Innoxel extends utils.Adapter {
         this.runAndSchedule("weather", this.config.weatherInterval, this.updateWeather, true);
         this.runAndSchedule("deviceStatus", this.config.deviceStatusInterval, this.updateDeviceStatus, true);
     }
-    async updateLastIds() {
+    async updateLastIds(first) {
         const xml = await this.api.getBootAndStateIdXml();
         if (this.lastIdXml !== xml) {
             this.lastIdXml = xml;
@@ -132,21 +132,22 @@ class Innoxel extends utils.Adapter {
             ]);
             if (this.lastBootId !== bootId) {
                 this.lastBootId = bootId;
-                await this.updateIdentities();
+                await this.updateIdentities(first);
             }
             return true;
         }
         return false;
     }
-    async updateIdentities() {
+    async updateIdentities(terminateOnError) {
         try {
             const data = await this.api.getIdentities();
             await (0, identities_1.createOrUpdateIdentities)(this, data);
         }
         catch (err) {
-            this.log.error(err.message);
+            this.log.error("Error updating identities: " + err.message);
             this.log.debug(err.toString());
-            this.terminate("Error updating identities");
+            if (terminateOnError)
+                this.terminate("Error updating identities");
         }
     }
     cleanup() {
@@ -156,7 +157,7 @@ class Innoxel extends utils.Adapter {
             clearTimeout(this.timeouts[key]);
         });
     }
-    logError(error) {
+    logError(error, prefix) {
         let message;
         if (error instanceof innoxel_soap_1.NetworkError) {
             message = "Error connecting to Innoxel Master: " + error.message;
@@ -181,7 +182,7 @@ class Innoxel extends utils.Adapter {
         else {
             message = JSON.stringify(error);
         }
-        this.log.error(message);
+        this.log.error(`${prefix}: ${message}`);
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
