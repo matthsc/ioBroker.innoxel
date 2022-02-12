@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "news": {
+      "0.1.5": {
+        "en": "don't always terminate adapter on errors while updating identities\nimprove error messages",
+        "de": "Beenden Sie den Adapter nicht immer bei Fehlern beim Aktualisieren von Identitäten\nFehlermeldungen verbessern",
+        "ru": "не всегда отключайте адаптер при ошибках при обновлении удостоверений\nулучшить сообщения об ошибках",
+        "pt": "nem sempre encerre o adaptador em caso de erros ao atualizar identidades\nmelhorar as mensagens de erro",
+        "nl": "beëindig de adapter niet altijd bij fouten tijdens het bijwerken van identiteiten\nverbeter foutmeldingen",
+        "fr": "ne terminez pas toujours l'adaptateur en cas d'erreur lors de la mise à jour des identités\naméliorer les messages d'erreur",
+        "it": "non terminare sempre l'adattatore in caso di errori durante l'aggiornamento delle identità\nmigliorare i messaggi di errore",
+        "es": "no siempre finalice el adaptador en caso de errores al actualizar las identidades\nmejorar los mensajes de error",
+        "pl": "nie zawsze przerywaj pracę adaptera w przypadku błędów podczas aktualizacji tożsamości\npoprawić komunikaty o błędach",
+        "zh-cn": "更新身份时，不要总是因错误而终止适配器\n改进错误信息"
+      },
       "0.1.4": {
         "en": "fix double decryption issues with password in adapter admin\nchange input field types in adapter admin",
         "de": "doppelte Entschlüsselungsprobleme mit dem Passwort in der Adapterverwaltung behoben\nÄndern Sie die Eingabefeldtypen in der Adapterverwaltung",
