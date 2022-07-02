@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "@iobroker/adapter-react/Theme";
 import Utils from "@iobroker/adapter-react/Components/Utils";
@@ -8,7 +8,8 @@ import App from "./app";
 let themeName = Utils.getThemeName();
 
 function build(): void {
-    ReactDOM.render(
+    const root = createRoot(document.getElementById("root") as HTMLElement);
+    root.render(
         <MuiThemeProvider theme={theme(themeName)}>
             <App
                 adapterName="innoxel"
@@ -18,7 +19,6 @@ function build(): void {
                 }}
             />
         </MuiThemeProvider>,
-        document.getElementById("root"),
     );
 }
 
