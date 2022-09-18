@@ -54,7 +54,7 @@ async function translateYandex(text: string, targetLang: string, apiKey: string)
         const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${apiKey}&text=${encodeURIComponent(
             text,
         )}&lang=en-${targetLang}`;
-        const response = await axios({ url, timeout: 15000 });
+        const response = await axios.request<any>({ url, timeout: 15000 });
         if (isArray(response.data?.text)) {
             return response.data.text[0];
         }
@@ -74,7 +74,7 @@ async function translateGoogle(text: string, targetLang: string): Promise<string
         const url = `http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(
             text,
         )}&ie=UTF-8&oe=UTF-8`;
-        const response = await axios({ url, timeout: 15000 });
+        const response = await axios.request<any>({ url, timeout: 15000 });
         if (isArray(response.data)) {
             // we got a valid response
             return response.data[0][0][0];
