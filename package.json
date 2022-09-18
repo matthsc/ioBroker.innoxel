@@ -19,7 +19,7 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.0",
+    "@iobroker/adapter-core": "^2.6.6",
     "innoxel-soap": "^0.2.0",
     "tslib": "^2.4.0"
   },
