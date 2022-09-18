@@ -1,202 +1,195 @@
 {
-  "common": {
-    "name": "innoxel",
-    "version": "0.1.5",
-    "news": {
-      "0.1.5": {
-        "en": "don't always terminate adapter on errors while updating identities\nimprove error messages",
-        "de": "Beenden Sie den Adapter nicht immer bei Fehlern beim Aktualisieren von Identitäten\nFehlermeldungen verbessern",
-        "ru": "не всегда отключайте адаптер при ошибках при обновлении удостоверений\nулучшить сообщения об ошибках",
-        "pt": "nem sempre encerre o adaptador em caso de erros ao atualizar identidades\nmelhorar as mensagens de erro",
-        "nl": "beëindig de adapter niet altijd bij fouten tijdens het bijwerken van identiteiten\nverbeter foutmeldingen",
-        "fr": "ne terminez pas toujours l'adaptateur en cas d'erreur lors de la mise à jour des identités\naméliorer les messages d'erreur",
-        "it": "non terminare sempre l'adattatore in caso di errori durante l'aggiornamento delle identità\nmigliorare i messaggi di errore",
-        "es": "no siempre finalice el adaptador en caso de errores al actualizar las identidades\nmejorar los mensajes de error",
-        "pl": "nie zawsze przerywaj pracę adaptera w przypadku błędów podczas aktualizacji tożsamości\npoprawić komunikaty o błędach",
-        "zh-cn": "更新身份时，不要总是因错误而终止适配器\n改进错误信息"
-      },
-      "0.1.4": {
-        "en": "fix double decryption issues with password in adapter admin\nchange input field types in adapter admin",
-        "de": "doppelte Entschlüsselungsprobleme mit dem Passwort in der Adapterverwaltung behoben\nÄndern Sie die Eingabefeldtypen in der Adapterverwaltung",
-        "ru": "исправить проблемы двойного дешифрования с паролем в администраторе адаптера\nизменить типы полей ввода в администраторе адаптера",
-        "pt": "corrigir problemas de descriptografia dupla com senha no administrador do adaptador\nalterar os tipos de campo de entrada no administrador do adaptador",
-        "nl": "problemen met dubbele decodering oplossen met wachtwoord in adapterbeheer\nwijzig invoerveldtypen in adapterbeheer",
-        "fr": "correction des problèmes de double déchiffrement avec mot de passe dans l'administrateur de l'adaptateur\nmodifier les types de champs d'entrée dans l'administrateur de l'adaptateur",
-        "it": "risolve i problemi di doppia decrittazione con la password nell'amministratore dell'adattatore\ncambia i tipi di campo di input in adapter admin",
-        "es": "solucionar problemas de doble descifrado con contraseña en el administrador del adaptador\ncambiar los tipos de campo de entrada en el administrador del adaptador",
-        "pl": "napraw problemy z podwójnym odszyfrowywaniem hasłem w administratorze adaptera\nzmień typy pól wejściowych w admin adaptera",
-        "zh-cn": "修复适配器管理员中密码的双重解密问题\n在适配器管理中更改输入字段类型"
-      },
-      "0.1.3": {
-        "en": "improve error messages",
-        "de": "Fehlermeldungen verbessern",
-        "ru": "улучшить сообщения об ошибках",
-        "pt": "melhorar as mensagens de erro",
-        "nl": "verbeter foutmeldingen",
-        "fr": "améliorer les messages d'erreur",
-        "it": "migliorare i messaggi di errore",
-        "es": "mejorar los mensajes de error",
-        "pl": "poprawić komunikaty o błędach",
-        "zh-cn": "改进错误信息"
-      },
-      "0.1.2": {
-        "en": "catch authentication errors\nfix authentication\nremove build folders from git",
-        "de": "Authentifizierungsfehler abfangen\nAuthentifizierung beheben\nBuild-Ordner aus Git entfernen",
-        "ru": "поймать ошибки аутентификации\nисправить аутентификацию\nудалить папки сборки из git",
-        "pt": "detectar erros de autenticação\ncorrigir autenticação\nremover pastas de construção do git",
-        "nl": "verificatiefouten opvangen\nauthenticatie repareren\nverwijder build-mappen uit git",
-        "fr": "intercepter les erreurs d'authentification\ncorriger l'authentification\nsupprimer les dossiers de construction de git",
-        "it": "rilevare errori di autenticazione\ncorreggere l'autenticazione\nrimuovi le cartelle di build da git",
-        "es": "detectar errores de autenticación\narreglar autenticación\neliminar carpetas de compilación de git",
-        "pl": "wyłap błędy uwierzytelniania\nnapraw uwierzytelnianie\nusuń foldery kompilacji z git",
-        "zh-cn": "捕获身份验证错误\n修复身份验证\n从 git 中删除构建文件夹"
-      },
-      "0.1.1": {
-        "en": "implement adapter review feedback",
-        "de": "Feedback zur Adapterbewertung implementieren",
-        "ru": "реализовать отзыв об обзоре адаптера",
-        "pt": "implementar feedback de revisão do adaptador",
-        "nl": "feedback over adapterbeoordeling implementeren",
-        "fr": "implémenter les commentaires d'examen de l'adaptateur",
-        "it": "implementare il feedback sulla revisione dell'adattatore",
-        "es": "Implementar retroalimentación de revisión del adaptador",
-        "pl": "zaimplementuj opinię z przeglądu adaptera",
-        "zh-cn": "实施适配器审查反馈"
-      },
-      "0.1.0": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "zh-cn": "首次出版"
-      }
+    "common": {
+        "name": "innoxel",
+        "version": "0.1.5",
+        "news": {
+            "0.1.5": {
+                "en": "don't always terminate adapter on errors while updating identities\nimprove error messages",
+                "de": "Beenden Sie den Adapter nicht immer bei Fehlern beim Aktualisieren von Identitäten\nFehlermeldungen verbessern",
+                "ru": "не всегда отключайте адаптер при ошибках при обновлении удостоверений\nулучшить сообщения об ошибках",
+                "pt": "nem sempre encerre o adaptador em caso de erros ao atualizar identidades\nmelhorar as mensagens de erro",
+                "nl": "beëindig de adapter niet altijd bij fouten tijdens het bijwerken van identiteiten\nverbeter foutmeldingen",
+                "fr": "ne terminez pas toujours l'adaptateur en cas d'erreur lors de la mise à jour des identités\naméliorer les messages d'erreur",
+                "it": "non terminare sempre l'adattatore in caso di errori durante l'aggiornamento delle identità\nmigliorare i messaggi di errore",
+                "es": "no siempre finalice el adaptador en caso de errores al actualizar las identidades\nmejorar los mensajes de error",
+                "pl": "nie zawsze przerywaj pracę adaptera w przypadku błędów podczas aktualizacji tożsamości\npoprawić komunikaty o błędach",
+                "zh-cn": "更新身份时，不要总是因错误而终止适配器\n改进错误信息"
+            },
+            "0.1.4": {
+                "en": "fix double decryption issues with password in adapter admin\nchange input field types in adapter admin",
+                "de": "doppelte Entschlüsselungsprobleme mit dem Passwort in der Adapterverwaltung behoben\nÄndern Sie die Eingabefeldtypen in der Adapterverwaltung",
+                "ru": "исправить проблемы двойного дешифрования с паролем в администраторе адаптера\nизменить типы полей ввода в администраторе адаптера",
+                "pt": "corrigir problemas de descriptografia dupla com senha no administrador do adaptador\nalterar os tipos de campo de entrada no administrador do adaptador",
+                "nl": "problemen met dubbele decodering oplossen met wachtwoord in adapterbeheer\nwijzig invoerveldtypen in adapterbeheer",
+                "fr": "correction des problèmes de double déchiffrement avec mot de passe dans l'administrateur de l'adaptateur\nmodifier les types de champs d'entrée dans l'administrateur de l'adaptateur",
+                "it": "risolve i problemi di doppia decrittazione con la password nell'amministratore dell'adattatore\ncambia i tipi di campo di input in adapter admin",
+                "es": "solucionar problemas de doble descifrado con contraseña en el administrador del adaptador\ncambiar los tipos de campo de entrada en el administrador del adaptador",
+                "pl": "napraw problemy z podwójnym odszyfrowywaniem hasłem w administratorze adaptera\nzmień typy pól wejściowych w admin adaptera",
+                "zh-cn": "修复适配器管理员中密码的双重解密问题\n在适配器管理中更改输入字段类型"
+            },
+            "0.1.3": {
+                "en": "improve error messages",
+                "de": "Fehlermeldungen verbessern",
+                "ru": "улучшить сообщения об ошибках",
+                "pt": "melhorar as mensagens de erro",
+                "nl": "verbeter foutmeldingen",
+                "fr": "améliorer les messages d'erreur",
+                "it": "migliorare i messaggi di errore",
+                "es": "mejorar los mensajes de error",
+                "pl": "poprawić komunikaty o błędach",
+                "zh-cn": "改进错误信息"
+            },
+            "0.1.2": {
+                "en": "catch authentication errors\nfix authentication\nremove build folders from git",
+                "de": "Authentifizierungsfehler abfangen\nAuthentifizierung beheben\nBuild-Ordner aus Git entfernen",
+                "ru": "поймать ошибки аутентификации\nисправить аутентификацию\nудалить папки сборки из git",
+                "pt": "detectar erros de autenticação\ncorrigir autenticação\nremover pastas de construção do git",
+                "nl": "verificatiefouten opvangen\nauthenticatie repareren\nverwijder build-mappen uit git",
+                "fr": "intercepter les erreurs d'authentification\ncorriger l'authentification\nsupprimer les dossiers de construction de git",
+                "it": "rilevare errori di autenticazione\ncorreggere l'autenticazione\nrimuovi le cartelle di build da git",
+                "es": "detectar errores de autenticación\narreglar autenticación\neliminar carpetas de compilación de git",
+                "pl": "wyłap błędy uwierzytelniania\nnapraw uwierzytelnianie\nusuń foldery kompilacji z git",
+                "zh-cn": "捕获身份验证错误\n修复身份验证\n从 git 中删除构建文件夹"
+            },
+            "0.1.1": {
+                "en": "implement adapter review feedback",
+                "de": "Feedback zur Adapterbewertung implementieren",
+                "ru": "реализовать отзыв об обзоре адаптера",
+                "pt": "implementar feedback de revisão do adaptador",
+                "nl": "feedback over adapterbeoordeling implementeren",
+                "fr": "implémenter les commentaires d'examen de l'adaptateur",
+                "it": "implementare il feedback sulla revisione dell'adattatore",
+                "es": "Implementar retroalimentación de revisión del adaptador",
+                "pl": "zaimplementuj opinię z przeglądu adaptera",
+                "zh-cn": "实施适配器审查反馈"
+            },
+            "0.1.0": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Innoxel",
+        "titleLang": {
+            "en": "Innoxel",
+            "de": "Innoxel",
+            "ru": "Инноксель",
+            "pt": "Innoxel",
+            "nl": "Innoxel",
+            "fr": "Innoxel",
+            "it": "Innoxel",
+            "es": "Innoxel",
+            "pl": "Innoxel",
+            "zh-cn": "英诺赛尔"
+        },
+        "desc": {
+            "en": "Adapter for Innoxel Master 3",
+            "de": "Adapter für Innoxel Master 3",
+            "ru": "Адаптер для Innoxel Master 3",
+            "pt": "Adaptador para Innoxel Master 3",
+            "nl": "Adapter voor Innoxel Master 3",
+            "fr": "Adaptateur pour Innoxel Master 3",
+            "it": "Adattatore per Innoxel Master 3",
+            "es": "Adaptador para Innoxel Master 3",
+            "pl": "Adapter do Innoxel Master 3",
+            "zh-cn": "Inoxel Master 3 适配器"
+        },
+        "authors": ["matthsc <matthsc@gmx.net>"],
+        "keywords": ["innoxel"],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "innoxel.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
+        "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "iot-systems",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "messagebox": true,
+        "eraseOnUpload": true,
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0"
+            }
+        ],
+        "dependencies": [
+            {
+                "js-controller": ">=3.1.0"
+            }
+        ]
     },
-    "title": "Innoxel",
-    "titleLang": {
-      "en": "Innoxel",
-      "de": "Innoxel",
-      "ru": "Инноксель",
-      "pt": "Innoxel",
-      "nl": "Innoxel",
-      "fr": "Innoxel",
-      "it": "Innoxel",
-      "es": "Innoxel",
-      "pl": "Innoxel",
-      "zh-cn": "英诺赛尔"
+    "native": {
+        "ipaddress": "",
+        "port": 5001,
+        "username": "",
+        "password": "",
+        "weatherInterval": 900,
+        "roomTemperatureInterval": 300,
+        "changeInterval": 30,
+        "deviceStatusInterval": 0
     },
-    "desc": {
-      "en": "Adapter for Innoxel Master 3",
-      "de": "Adapter für Innoxel Master 3",
-      "ru": "Адаптер для Innoxel Master 3",
-      "pt": "Adaptador para Innoxel Master 3",
-      "nl": "Adapter voor Innoxel Master 3",
-      "fr": "Adaptateur pour Innoxel Master 3",
-      "it": "Adattatore per Innoxel Master 3",
-      "es": "Adaptador para Innoxel Master 3",
-      "pl": "Adapter do Innoxel Master 3",
-      "zh-cn": "Inoxel Master 3 适配器"
-    },
-    "authors": [
-      "matthsc <matthsc@gmx.net>"
-    ],
-    "keywords": [
-      "innoxel"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "innoxel.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
-    "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "iot-systems",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "materialize": true,
-    "messagebox": true,
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0"
-      }
-    ],
-    "dependencies": [
-      {
-        "js-controller": ">=3.1.0"
-      }
+    "protectedNative": ["password"],
+    "encryptedNative": ["password"],
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.bootId",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Innoxel Master boot id",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": ""
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.stateId",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Innoxel Master state id",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": ""
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "ipaddress": "",
-    "port": 5001,
-    "username": "",
-    "password": "",
-    "weatherInterval": 900,
-    "roomTemperatureInterval": 300,
-    "changeInterval": 30,
-    "deviceStatusInterval": 0
-  },
-  "protectedNative": [
-    "password"
-  ],
-  "encryptedNative": [
-    "password"
-  ],
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.bootId",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Innoxel Master boot id",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "def": ""
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.stateId",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Innoxel Master state id",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "def": ""
-      },
-      "native": {}
-    }
-  ]
 }
