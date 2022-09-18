@@ -109,6 +109,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 
 ### **WORK IN PROGRESS**
 
+-   (matthsc) implement migrations from create-adapter
 -   (matthsc) dependency updates
 
 ### 0.1.5 (2022-02-12)
