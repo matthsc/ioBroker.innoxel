@@ -1,17 +1,17 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import type { CreateCSSProperties } from "@material-ui/core/styles/withStyles";
-import Box from "@material-ui/core/Box";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Grid from "@material-ui/core/Grid";
-import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import I18n from "@iobroker/adapter-react/i18n";
+import withStyles from "@mui/styles/withStyles";
+import type { CreateCSSProperties } from "@mui/styles/withStyles";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
+import Grid from "@mui/material/Grid";
+import Input from "@mui/material/Input";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import I18n from "@iobroker/adapter-react-v5/i18n";
 
 const styles = (): Record<string, CreateCSSProperties> => ({
     input: {
@@ -68,6 +68,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         return (
             <Grid item xs>
                 <TextField
+                    variant="standard"
                     label={I18n.t(title)}
                     className={`${this.props.classes.input} ${this.props.classes.controlElement}`}
                     value={this.props.native[attr]}
@@ -89,6 +90,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         return (
             <Grid item xs>
                 <FormControl
+                    variant="standard"
                     className={`${this.props.classes.input} ${this.props.classes.controlElement}`}
                     style={{
                         paddingTop: 5,
@@ -96,6 +98,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     }}
                 >
                     <Select
+                        variant="standard"
                         value={this.props.native[attr] || "_"}
                         onChange={(e) => this.props.onChange(attr, e.target.value === "_" ? "" : e.target.value)}
                         input={<Input name={attr} id={attr + "-helper"} />}
