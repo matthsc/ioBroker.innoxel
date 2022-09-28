@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.6",
-    "innoxel-soap": "^0.2.0",
+    "innoxel-soap": "~0.3.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
