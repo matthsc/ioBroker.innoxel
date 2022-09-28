@@ -16,9 +16,6 @@
         "noEmitOnError": true,
         "outDir": "./build/",
         "removeComments": false,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "esModuleInterop": true,
         // this is necessary for the automatic typing of the adapter config
         "resolveJsonModule": true,
 
@@ -34,8 +31,6 @@
         // Uncomment this if you want the old behavior of catch variables being `any`
         // "useUnknownInCatchVariables": false,
 
-        // Consider targetting es2019 or higher if you only support Node.js 12+
-        "target": "es2019",
         "jsx": "react",
         "importHelpers": true,
 

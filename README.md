@@ -19,8 +19,8 @@ Adapter for Innoxel Master 3 (https://innoxel.ch)
 
 ## Requirements
 
--   NodeJS >= 12.x
--   ioBroker >= 3.x, with admin >= 5.x
+-   NodeJS >= 14.x
+-   ioBroker >= 4.x, with admin >= 5.x
 -   Innoxel Master 3 Smart Home system
 
 ## Installation
@@ -109,6 +109,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 
 ### **WORK IN PROGRESS**
 
+-   (matthsc) drop support for Node 12 and js-controller 3
 -   (matthsc) implement migrations from create-adapter
 -   (matthsc) dependency updates
 

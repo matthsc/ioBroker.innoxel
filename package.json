@@ -16,7 +16,7 @@
     "url": "https://github.com/matthsc/ioBroker.innoxel"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.6",
