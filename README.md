@@ -25,7 +25,7 @@ Adapter for Innoxel Master 3 (https://innoxel.ch)
 
 ## Installation
 
-Until the adapter is part of the latest or stable repository, you can install the latest version by enabling expert mode in ioBroker and install the adapter from npm or github.
+Until the adapter is part of the stable repository, you can install the latest version by enabling expert mode in ioBroker and install the adapter from npm. Don't install it directly from Github, this will lead to an error on adapter start ("cannot find start file").
 
 After installation, create a new instance and configure the settings:
 
