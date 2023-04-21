@@ -106,6 +106,10 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+
+    ### **WORK IN PROGRESS**
+-   (matthsc & dependabot) dependency updates
+
 ### 0.2.0 (2022-09-28)
 
 -   (matthsc) drop support for Node 12 and js-controller 3
