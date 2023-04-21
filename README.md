@@ -107,7 +107,9 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
     ### **WORK IN PROGRESS**
 -->
 
-    ### **WORK IN PROGRESS**
+### **WORK IN PROGRESS**
+
+-   (matthsc) allow to set heating/cooling temperatures
 -   (matthsc & dependabot) dependency updates
 
 ### 0.2.0 (2022-09-28)

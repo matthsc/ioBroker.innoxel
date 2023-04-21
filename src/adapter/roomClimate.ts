@@ -35,7 +35,14 @@ export async function createRoomClimateState(adapter: Innoxel, identity: IModule
             "nightSetbackTemperatureCooling",
             "absenceSetbackTemperatureHeating",
             "absenceSetbackTemperatureCooling",
-        ].map((name) => createState(name, "number", { role: "level.temperature", unit: "°C" })),
+        ].map((name) =>
+            createState(name, "number", {
+                role: "level.temperature",
+                unit: "°C",
+                read: true,
+                write: true,
+            }),
+        ),
     ]);
 }
 

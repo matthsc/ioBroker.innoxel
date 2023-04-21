@@ -6,7 +6,14 @@
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
 // Load your modules here
-import { EndpointError, FaultResponseError, InnoxelApi, NetworkError, ResponseTagError } from "innoxel-soap";
+import {
+    EndpointError,
+    FaultResponseError,
+    InnoxelApi,
+    ModuleRoomClimateSetType,
+    NetworkError,
+    ResponseTagError,
+} from "innoxel-soap";
 import { createDeviceStatusStates, updateDeviceStatusStates } from "./adapter/deviceStatus";
 import { createOrUpdateIdentities } from "./adapter/identities";
 import { handleMessage } from "./adapter/messageHandler";
@@ -76,7 +83,8 @@ export class Innoxel extends utils.Adapter {
 
         // connecto to innoxel master and listen on state changes
         await this.setupConnection(true);
-        for (const state of ["*.button", "moduleDim.*.outState"]) await this.subscribeStatesAsync(state);
+        for (const state of ["*.button", "moduleDim.*.outState", "roomClimate.*"])
+            await this.subscribeStatesAsync(state);
     }
 
     private async setupConnection(first = false): Promise<void> {
@@ -239,11 +247,20 @@ export class Innoxel extends utils.Adapter {
             return;
         }
 
+        this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+
+        try {
         const idParts = id.split(".");
+            const moduleType = idParts[2];
         const moduleIndex = Number.parseInt(idParts[3], 10);
+            if (moduleType === "roomClimate") {
+                const temperatureType = idParts[4] as unknown as ModuleRoomClimateSetType;
+                await this.api.setRoomClimate(moduleIndex, temperatureType, state.val as number);
+                await this.updateRoomTemperatures();
+            } else {
         const channel = Number.parseInt(idParts[4], 10);
         const stateName = idParts[5];
-        switch (idParts[2]) {
+                switch (moduleType) {
             case "moduleDim": {
                 if (stateName === "outState") {
                     await this.api.setDimValue(moduleIndex, channel, state.val as number);
@@ -252,7 +269,11 @@ export class Innoxel extends utils.Adapter {
                     dimmerStateParts[5] = "outState";
                     const dimmerStateId = dimmerStateParts.join(".");
                     const dimmerState = await this.getStateAsync(dimmerStateId);
-                    await this.api.setDimValue(moduleIndex, channel, (dimmerState?.val as number) > 0 ? 0 : 100);
+                            await this.api.setDimValue(
+                                moduleIndex,
+                                channel,
+                                (dimmerState?.val as number) > 0 ? 0 : 100,
+                            );
                 } else {
                     return;
                 }
@@ -276,6 +297,11 @@ export class Innoxel extends utils.Adapter {
             }
             default:
                 return;
+                }
+            }
+        } catch (err: any) {
+            this.log.error("Error processing state change: " + err.message);
+            this.log.debug(err.toString());
         }
 
         await this.checkChanges();
