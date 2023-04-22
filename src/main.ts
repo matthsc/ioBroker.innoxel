@@ -251,53 +251,53 @@ export class Innoxel extends utils.Adapter {
         this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 
         try {
-        const idParts = id.split(".");
+            const idParts = id.split(".");
             const moduleType = idParts[2];
-        const moduleIndex = Number.parseInt(idParts[3], 10);
+            const moduleIndex = Number.parseInt(idParts[3], 10);
             if (moduleType === "roomClimate") {
                 const temperatureType = idParts[4] as unknown as ModuleRoomClimateSetType;
                 await this.api.setRoomClimate(moduleIndex, temperatureType, state.val as number);
                 await this.updateRoomTemperatures();
             } else {
-        const channel = Number.parseInt(idParts[4], 10);
-        const stateName = idParts[5];
+                const channel = Number.parseInt(idParts[4], 10);
+                const stateName = idParts[5];
                 switch (moduleType) {
-            case "moduleDim": {
-                if (stateName === "outState") {
-                    await this.api.setDimValue(moduleIndex, channel, state.val as number);
-                } else if (stateName === "button") {
-                    const dimmerStateParts = [...idParts];
-                    dimmerStateParts[5] = "outState";
-                    const dimmerStateId = dimmerStateParts.join(".");
-                    const dimmerState = await this.getStateAsync(dimmerStateId);
+                    case "moduleDim": {
+                        if (stateName === "outState") {
+                            await this.api.setDimValue(moduleIndex, channel, state.val as number);
+                        } else if (stateName === "button") {
+                            const dimmerStateParts = [...idParts];
+                            dimmerStateParts[5] = "outState";
+                            const dimmerStateId = dimmerStateParts.join(".");
+                            const dimmerState = await this.getStateAsync(dimmerStateId);
                             await this.api.setDimValue(
                                 moduleIndex,
                                 channel,
                                 (dimmerState?.val as number) > 0 ? 0 : 100,
                             );
-                } else {
-                    return;
-                }
-                break;
-            }
-            case "moduleOut": {
-                if (stateName === "button") {
-                    await this.api.triggerOutModule(moduleIndex, channel);
-                } else {
-                    return;
-                }
-                break;
-            }
-            case "moduleIn": {
-                if (stateName === "button") {
-                    await this.api.triggerPushButton(moduleIndex, channel);
-                } else {
-                    return;
-                }
-                break;
-            }
-            default:
-                return;
+                        } else {
+                            return;
+                        }
+                        break;
+                    }
+                    case "moduleOut": {
+                        if (stateName === "button") {
+                            await this.api.triggerOutModule(moduleIndex, channel);
+                        } else {
+                            return;
+                        }
+                        break;
+                    }
+                    case "moduleIn": {
+                        if (stateName === "button") {
+                            await this.api.triggerPushButton(moduleIndex, channel);
+                        } else {
+                            return;
+                        }
+                        break;
+                    }
+                    default:
+                        return;
                 }
             }
         } catch (err: any) {
