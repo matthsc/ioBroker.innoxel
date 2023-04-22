@@ -46,7 +46,7 @@ function getCommon(dataObj: IndexableWeatherData, key: string): Partial<ioBroker
         read: true,
         write: false,
         type: "number",
-        states: isPrecipitation ? (["yes", "no"] as any) : undefined,
+        states: isPrecipitation ? ["yes", "no"] : undefined,
         role,
         unit: isPrecipitation ? "" : data.unit,
     };
