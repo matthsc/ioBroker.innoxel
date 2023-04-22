@@ -100,6 +100,25 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 -   <code>dimSpeed</code> (optional) is the dimming speed to use (0-15)
 -   <code>callback</code> (optional) callback function to call when action has been performed
 
+### setTemperature
+
+Set heating or cooling temperature.
+
+```ts
+sendTo("innoxel.0", "setTemperature", "<moduleId>:<temperatureType>:<temperature>", callback);
+
+// i.e. to set setTemperatureHeating to 20° on room climate module 0
+sendTo("innoxel.0", "setTemperature", "1:setTemperature:20");
+sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
+    // do something after the button press has been executed
+});
+```
+
+-   <code>moduleId</code> is the id/address room climate module
+-   <code>temperatureType</code> is the temperature type to set (absenceSetbackTemperatureCooling, absenceSetbackTemperatureHeating, nightSetbackTemperatureCooling, nightSetbackTemperatureHeating, setTemperatureCooling, setTemperatureHeating, )
+-   <code>temperature</code> temperature to set, in 0.5° steps. There's also a min/max value depending on type
+-   <code>callback</code> (optional) callback function to call when action has been performed
+
 ## Changelog
 
 <!--
@@ -116,7 +135,7 @@ sendTo("innoxel.0", "setDimValue", "1:7:80", () => {
 
 -   (matthsc) drop support for Node 12 and js-controller 3
 -   (matthsc) implement migrations from create-adapter
--   (matthsc) dependency updates
+-   (matthsc & dependabot) dependency updates
 
 ### 0.1.5 (2022-02-12)
 

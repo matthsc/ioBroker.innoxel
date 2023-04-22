@@ -155,6 +155,7 @@ export class Innoxel extends utils.Adapter {
         const data = await this.api.getDeviceState();
         await (first ? createDeviceStatusStates(this, data) : updateDeviceStatusStates(this, data));
     };
+
     private async updateIdentities(terminateOnError?: boolean): Promise<void> {
         try {
             const data = await this.api.getIdentities();
@@ -300,7 +301,7 @@ export class Innoxel extends utils.Adapter {
                 }
             }
         } catch (err: any) {
-            this.log.error("Error processing state change: " + err.message);
+            this.log.error(`Error processing state change for ${id} (val=${state.val}): ${err.message}`);
             this.log.debug(err.toString());
         }
 
@@ -316,7 +317,8 @@ export class Innoxel extends utils.Adapter {
         if (typeof obj === "object" && obj.message) {
             try {
                 const shouldReload = await handleMessage(this.api, obj);
-                if (shouldReload) await this.checkChanges();
+                if (shouldReload.reloadModules) await this.checkChanges();
+                if (shouldReload.reloadRoomClimates) await this.updateRoomTemperatures();
             } catch (e: any) {
                 this.log.error(`Error processing recieved message ${JSON.stringify(obj)}: ${e.message}`);
             }
