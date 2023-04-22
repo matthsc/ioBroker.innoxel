@@ -125,8 +125,7 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.3.0 (2023-04-22)
 
 -   (matthsc) allow to set heating/cooling temperatures
 -   (matthsc & dependabot) dependency updates

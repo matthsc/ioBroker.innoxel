@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "news": {
+      "0.3.0": {
+        "en": "allow to set heating/cooling temperatures\ndependency updates",
+        "de": "heiz-/kühltemperaturen einstellen\nabhängigkeitsaktualisierung",
+        "ru": "позволяют устанавливать температуру нагрева/охлаждения\nобновления зависимости",
+        "pt": "permitir definir temperaturas de aquecimento / resfriamento\natualizações de dependência",
+        "nl": "om de temperatuur te verlagen\nafhankelijke updates",
+        "fr": "permettre de régler les températures de chauffage/de refroidissement\nmises à jour de la dépendance",
+        "it": "consentire di impostare le temperature di riscaldamento/raffrescamento\naggiornamenti di dipendenza",
+        "es": "permite fijar temperaturas de calefacción / refrigeración\nactualizaciones de la dependencia",
+        "pl": "pozwala na podgrzewanie lub chłodzenie temperatury\naktualizacja",
+        "uk": "можливість встановлення температури нагріву / охолодження\nоновлення залежності",
+        "zh-cn": "允许温度/升温\n依赖性最新资料"
+      },
       "0.2.0": {
         "en": "drop support for Node 12 and js-controller 3\nimplement migrations from create-adapter\ndependency updates",
         "de": "drop-Unterstützung für Node 12 und js-Controller 3\nmigrationen von create-adapter implementieren\nabhängigkeitsaktualisierung",
@@ -74,18 +87,6 @@
         "es": "Implementar retroalimentación de revisión del adaptador",
         "pl": "zaimplementuj opinię z przeglądu adaptera",
         "zh-cn": "实施适配器审查反馈"
-      },
-      "0.1.0": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "zh-cn": "首次出版"
       }
     },
     "title": "Innoxel",
