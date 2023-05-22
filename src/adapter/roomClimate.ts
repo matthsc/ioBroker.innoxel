@@ -57,7 +57,13 @@ export async function updateRoomClimate(adapter: Innoxel, data: IModuleRoomClima
                     adapter.setStateChangedAsync(`roomClimate.${module.index}.valveOpen`, obj === "open", true),
                 );
 
-            const value = typeof obj === "string" ? obj : obj.value;
+            let value: ioBroker.StateValue | ioBroker.SettableState = typeof obj === "string" ? obj : obj.value;
+            if (value === undefined) {
+                if (key.includes("Temperature")) value = 0;
+                else if (key.includes("State")) value = "unknown";
+
+                value = { val: value, q: 1 };
+            }
             statePromises.push(adapter.setStateChangedAsync(`roomClimate.${module.index}.${key}`, value, true));
         }
         await Promise.all(statePromises);
