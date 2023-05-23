@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "news": {
+      "0.3.1": {
+        "en": "change actual value from temperature sensor if it doesn't provide values\ndependency updates",
+        "de": "den istwert vom temperatursensor ändern, wenn er keine werte liefert\nabhängigkeitsaktualisierung",
+        "ru": "изменить фактическое значение от датчика температуры если он не обеспечивает значения\nобновления зависимости",
+        "pt": "alterar o valor real do sensor de temperatura se não fornecer valores\natualizações de dependência",
+        "nl": "veranderingswaarde van temperatuursensor als het geen waarden geeft\nafhankelijke updates",
+        "fr": "changer la valeur réelle du capteur de température si elle ne fournit pas de valeurs\nmises à jour de la dépendance",
+        "it": "cambiare il valore effettivo dal sensore di temperatura se non fornisce valori\naggiornamenti di dipendenza",
+        "es": "cambiar el valor real del sensor de temperatura si no proporciona valores\nactualizaciones de la dependencia",
+        "pl": "zmiana rzeczywistej wartości od czujnika temperatury, jeśli nie dostarcza wartości\naktualizacja",
+        "uk": "змінити фактичне значення від датчика температури, якщо не передбачено значення\nоновлення залежності",
+        "zh-cn": "改变温度传感器的实际价值,如果它确实提供了价值\n依赖性最新资料"
+      },
       "0.3.0": {
         "en": "allow to set heating/cooling temperatures\ndependency updates",
         "de": "heiz-/kühltemperaturen einstellen\nabhängigkeitsaktualisierung",
@@ -75,18 +88,6 @@
         "es": "detectar errores de autenticación\narreglar autenticación\neliminar carpetas de compilación de git",
         "pl": "wyłap błędy uwierzytelniania\nnapraw uwierzytelnianie\nusuń foldery kompilacji z git",
         "zh-cn": "捕获身份验证错误\n修复身份验证\n从 git 中删除构建文件夹"
-      },
-      "0.1.1": {
-        "en": "implement adapter review feedback",
-        "de": "Feedback zur Adapterbewertung implementieren",
-        "ru": "реализовать отзыв об обзоре адаптера",
-        "pt": "implementar feedback de revisão do adaptador",
-        "nl": "feedback over adapterbeoordeling implementeren",
-        "fr": "implémenter les commentaires d'examen de l'adaptateur",
-        "it": "implementare il feedback sulla revisione dell'adattatore",
-        "es": "Implementar retroalimentación de revisión del adaptador",
-        "pl": "zaimplementuj opinię z przeglądu adaptera",
-        "zh-cn": "实施适配器审查反馈"
       }
     },
     "title": "Innoxel",
