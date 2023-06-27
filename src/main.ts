@@ -22,13 +22,13 @@ import { updateRoomClimate } from "./adapter/roomClimate";
 import { createWeatherStates, updateWeatherStates } from "./adapter/weather";
 
 interface ITimeoutsKeys {
-    change: NodeJS.Timeout;
-    weather: NodeJS.Timeout;
-    roomTemperature: NodeJS.Timeout;
-    deviceStatus: NodeJS.Timeout;
+    change: ioBroker.Timeout;
+    weather: ioBroker.Timeout;
+    roomTemperature: ioBroker.Timeout;
+    deviceStatus: ioBroker.Timeout;
 }
 type ITimeouts = {
-    [key in keyof ITimeoutsKeys]: NodeJS.Timeout;
+    [key in keyof ITimeoutsKeys]: ioBroker.Timeout;
 } & ITimeoutsKeys;
 
 export class Innoxel extends utils.Adapter {
@@ -182,9 +182,8 @@ export class Innoxel extends utils.Adapter {
         }
 
         if (!this.stopScheduling) {
-            clearTimeout(this.timeouts[key]);
-            const timer = setTimeout(this.runAndSchedule, timeout * 1000, key, timeout, handler, false);
-            this.timeouts[key] = timer as unknown as NodeJS.Timeout;
+            this.clearTimeout(this.timeouts[key]);
+            this.timeouts[key] = this.setTimeout(this.runAndSchedule, timeout * 1000, key, timeout, handler, false);
         }
     };
 
@@ -192,7 +191,7 @@ export class Innoxel extends utils.Adapter {
         this.stopScheduling = true;
         const keys = Object.keys(this.timeouts) as (keyof ITimeoutsKeys)[];
         keys.forEach((key) => {
-            clearTimeout(this.timeouts[key]);
+            this.clearTimeout(this.timeouts[key]);
         });
     }
 
