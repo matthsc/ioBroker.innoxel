@@ -1,4 +1,5 @@
 admin/build/
 build/
+admin/words.js
 .prettierrc.js
 **/.eslintrc.js
