@@ -35,7 +35,7 @@
     "@iobroker/adapter-react-v5": "^4.1.0",
     "@iobroker/testing": "^4.1.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.6",
+    "@mui/material": "^5.14.19",
     "@mui/styles": "^5.13.2",
     "@tsconfig/node18": "^2.0.1",
     "@types/chai": "^4.3.5",
