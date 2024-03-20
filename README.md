@@ -128,7 +128,8 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
 
 ### **WORK IN PROGRESS**
 
--(matthsc) drop support for Node 16
+-   (matthsc) fix potential error when processing identities
+-   (matthsc) drop support for Node 16
 
 ### 0.3.1 (2023-05-23)
 

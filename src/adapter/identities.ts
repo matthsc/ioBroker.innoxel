@@ -52,7 +52,7 @@ async function createOrUpdateIdentity(adapter: Innoxel, identity: ModuleIdentity
     await adapter.extendObjectAsync(device, { type: "device", common: { name: identity.name } });
 
     const channelPromises = asArray(identity.channel)
-        .filter((c) => !("noxnetError" in c))
+        .filter((channel) => channel && !channel.noxnetError)
         .map((channel) =>
             adapter.extendObjectAsync(`${device}.${channel.index}`, {
                 type: "channel",
