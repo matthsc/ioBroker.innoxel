@@ -38,7 +38,7 @@ After installation, create a new instance and configure the settings:
     -   state changes (i.e. switches, dimmer)
     -   room climate / thermostats
     -   weather
-    -   innoxel master device details
+    -   innoxel master device details (requires admin privileges for the user connecting to innoxel master)
 
 ## Supported Modules and Firmware
 
