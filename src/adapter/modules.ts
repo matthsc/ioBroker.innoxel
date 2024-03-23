@@ -9,8 +9,8 @@ function getModuleIndex(module: IModuleBase): string {
 function mapModuleChannels<T>(modules: IModuleBase[], action: (module: IModuleBase, channel: IChannelBase) => T): T[] {
     const arr = [];
     for (const module of modules) {
-        for (const channel of asArray(module.channel)) {
-            if (channel.noxnetError) continue;
+        const channels = asArray(module.channel).filter((channel) => channel && !channel.noxnetError);
+        for (const channel of channels) {
             arr.push(action(module, channel));
         }
     }
