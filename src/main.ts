@@ -1,6 +1,7 @@
 /*
  * Created with @iobroker/create-adapter v2.0.1
  */
+import "@iobroker/types";
 
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
@@ -183,7 +184,14 @@ export class Innoxel extends utils.Adapter {
 
         if (!this.stopScheduling) {
             this.clearTimeout(this.timeouts[key]);
-            this.timeouts[key] = this.setTimeout(this.runAndSchedule, timeout * 1000, key, timeout, handler, false);
+            this.timeouts[key] = this.setTimeout(
+                this.runAndSchedule as any,
+                timeout * 1000,
+                key,
+                timeout,
+                handler,
+                false,
+            )!;
         }
     };
 
