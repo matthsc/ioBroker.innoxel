@@ -80,6 +80,12 @@ export class Innoxel extends utils.Adapter {
             port: config.port,
             user: config.username,
             password: config.password,
+            soapLogger:
+                this.log.level !== "silly"
+                    ? undefined
+                    : (status, message) => {
+                          this.log.silly(`${status}: ${message}`);
+                      },
         });
 
         // connecto to innoxel master and listen on state changes

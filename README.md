@@ -128,6 +128,7 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
 
 ### **WORK IN PROGRESS**
 
+-   (matthsc) log soap messages in log level silly
 -   (matthsc) fix another potential error when updating modules
 -   (matthsc & dependabot) dependency updates
 
