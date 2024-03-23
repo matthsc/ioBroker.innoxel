@@ -125,8 +125,7 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.4.1 (2024-03-23)
 
 -   (matthsc) log soap messages in log level silly
 -   (matthsc) fix another potential error when updating modules

@@ -1,211 +1,220 @@
 {
-    "common": {
-        "name": "innoxel",
-        "version": "0.4.0",
-        "news": {
-            "0.4.0": {
-                "en": "fix potential error when processing identities\ndrop support for Node 16",
-                "de": "fehler bei der verarbeitung von identitäten beheben\ndrop-Unterstützung für Node 16",
-                "ru": "фиксация потенциальной ошибки при обработке идентификационных данных\nподдержка сброса Node 16",
-                "pt": "corrigir erros potenciais ao processar identidades\nsuporte para o nó 16",
-                "nl": "fix potentiële fout bij het verwerken van identiteiten\ndrop ondersteuning voor Node 16",
-                "fr": "corriger une erreur potentielle lors du traitement des identités\nsupport de chute pour Node 16",
-                "it": "correggere eventuali errori durante l'elaborazione delle identità\nsupporto drop per Node 16",
-                "es": "corregir errores potenciales al procesar identidades\napoyo para el Nodo 16",
-                "pl": "naprawić potencjalny błąd podczas przetwarzania tożsamości\nwsparcie zrzutu węzła 16",
-                "uk": "виправити потенційну помилку при обробці ідентичностей\nпідтримка крапель Node 16",
-                "zh-cn": "处理身份时纠正潜在错误\n放弃对节点16的支持"
-            },
-            "0.3.1": {
-                "en": "change actual value from temperature sensor if it doesn't provide values\ndependency updates",
-                "de": "den istwert vom temperatursensor ändern, wenn er keine werte liefert\nabhängigkeitsaktualisierung",
-                "ru": "изменить фактическое значение от датчика температуры если он не обеспечивает значения\nобновления зависимости",
-                "pt": "alterar o valor real do sensor de temperatura se não fornecer valores\natualizações de dependência",
-                "nl": "veranderingswaarde van temperatuursensor als het geen waarden geeft\nafhankelijke updates",
-                "fr": "changer la valeur réelle du capteur de température si elle ne fournit pas de valeurs\nmises à jour de la dépendance",
-                "it": "cambiare il valore effettivo dal sensore di temperatura se non fornisce valori\naggiornamenti di dipendenza",
-                "es": "cambiar el valor real del sensor de temperatura si no proporciona valores\nactualizaciones de la dependencia",
-                "pl": "zmiana rzeczywistej wartości od czujnika temperatury, jeśli nie dostarcza wartości\naktualizacja",
-                "uk": "змінити фактичне значення від датчика температури, якщо не передбачено значення\nоновлення залежності",
-                "zh-cn": "改变温度传感器的实际价值,如果它确实提供了价值\n依赖性最新资料"
-            },
-            "0.3.0": {
-                "en": "allow to set heating/cooling temperatures\ndependency updates",
-                "de": "heiz-/kühltemperaturen einstellen\nabhängigkeitsaktualisierung",
-                "ru": "позволяют устанавливать температуру нагрева/охлаждения\nобновления зависимости",
-                "pt": "permitir definir temperaturas de aquecimento / resfriamento\natualizações de dependência",
-                "nl": "om de temperatuur te verlagen\nafhankelijke updates",
-                "fr": "permettre de régler les températures de chauffage/de refroidissement\nmises à jour de la dépendance",
-                "it": "consentire di impostare le temperature di riscaldamento/raffrescamento\naggiornamenti di dipendenza",
-                "es": "permite fijar temperaturas de calefacción / refrigeración\nactualizaciones de la dependencia",
-                "pl": "pozwala na podgrzewanie lub chłodzenie temperatury\naktualizacja",
-                "uk": "можливість встановлення температури нагріву / охолодження\nоновлення залежності",
-                "zh-cn": "允许温度/升温\n依赖性最新资料"
-            },
-            "0.2.0": {
-                "en": "drop support for Node 12 and js-controller 3\nimplement migrations from create-adapter\ndependency updates",
-                "de": "drop-Unterstützung für Node 12 und js-Controller 3\nmigrationen von create-adapter implementieren\nabhängigkeitsaktualisierung",
-                "ru": "поддержка капель Node 12 и js-controller 3\nосуществлять миграции от созда-адаптера\nобновления зависимости",
-                "pt": "suporte para o nó 12 e js-controller 3\nimplementar migrações de create-adapter\natualizações de dependência",
-                "nl": "vertaling:\nimmigratie van creatie-adapter\nafhankelijke updates",
-                "fr": "prise en charge pour Node 12 et js-controller 3\nimplémenter les migrations de create-adapter\nmises à jour de la dépendance",
-                "it": "supporto a goccia per Node 12 e js-controller 3\nimplementare migrazioni da create-adapter\naggiornamenti di dipendenza",
-                "es": "soporte de gota para Nodo 12 y js-controller 3\nimplementar las migraciones de crear-adapter\nactualizaciones de la dependencia",
-                "pl": "obsługa Node 12 i js-controller 3\nwdrażanie migracji od tworzeniu adapterów\naktualizacja",
-                "zh-cn": "第12和第3号控制字的减少支助\nd. 实施从创造障碍的移徙\n依赖性最新资料"
-            },
-            "0.1.5": {
-                "en": "don't always terminate adapter on errors while updating identities\nimprove error messages",
-                "de": "Beenden Sie den Adapter nicht immer bei Fehlern beim Aktualisieren von Identitäten\nFehlermeldungen verbessern",
-                "ru": "не всегда отключайте адаптер при ошибках при обновлении удостоверений\nулучшить сообщения об ошибках",
-                "pt": "nem sempre encerre o adaptador em caso de erros ao atualizar identidades\nmelhorar as mensagens de erro",
-                "nl": "beëindig de adapter niet altijd bij fouten tijdens het bijwerken van identiteiten\nverbeter foutmeldingen",
-                "fr": "ne terminez pas toujours l'adaptateur en cas d'erreur lors de la mise à jour des identités\naméliorer les messages d'erreur",
-                "it": "non terminare sempre l'adattatore in caso di errori durante l'aggiornamento delle identità\nmigliorare i messaggi di errore",
-                "es": "no siempre finalice el adaptador en caso de errores al actualizar las identidades\nmejorar los mensajes de error",
-                "pl": "nie zawsze przerywaj pracę adaptera w przypadku błędów podczas aktualizacji tożsamości\npoprawić komunikaty o błędach",
-                "zh-cn": "更新身份时，不要总是因错误而终止适配器\n改进错误信息"
-            },
-            "0.1.4": {
-                "en": "fix double decryption issues with password in adapter admin\nchange input field types in adapter admin",
-                "de": "doppelte Entschlüsselungsprobleme mit dem Passwort in der Adapterverwaltung behoben\nÄndern Sie die Eingabefeldtypen in der Adapterverwaltung",
-                "ru": "исправить проблемы двойного дешифрования с паролем в администраторе адаптера\nизменить типы полей ввода в администраторе адаптера",
-                "pt": "corrigir problemas de descriptografia dupla com senha no administrador do adaptador\nalterar os tipos de campo de entrada no administrador do adaptador",
-                "nl": "problemen met dubbele decodering oplossen met wachtwoord in adapterbeheer\nwijzig invoerveldtypen in adapterbeheer",
-                "fr": "correction des problèmes de double déchiffrement avec mot de passe dans l'administrateur de l'adaptateur\nmodifier les types de champs d'entrée dans l'administrateur de l'adaptateur",
-                "it": "risolve i problemi di doppia decrittazione con la password nell'amministratore dell'adattatore\ncambia i tipi di campo di input in adapter admin",
-                "es": "solucionar problemas de doble descifrado con contraseña en el administrador del adaptador\ncambiar los tipos de campo de entrada en el administrador del adaptador",
-                "pl": "napraw problemy z podwójnym odszyfrowywaniem hasłem w administratorze adaptera\nzmień typy pól wejściowych w admin adaptera",
-                "zh-cn": "修复适配器管理员中密码的双重解密问题\n在适配器管理中更改输入字段类型"
-            },
-            "0.1.3": {
-                "en": "improve error messages",
-                "de": "Fehlermeldungen verbessern",
-                "ru": "улучшить сообщения об ошибках",
-                "pt": "melhorar as mensagens de erro",
-                "nl": "verbeter foutmeldingen",
-                "fr": "améliorer les messages d'erreur",
-                "it": "migliorare i messaggi di errore",
-                "es": "mejorar los mensajes de error",
-                "pl": "poprawić komunikaty o błędach",
-                "zh-cn": "改进错误信息"
-            }
-        },
-        "title": "Innoxel",
-        "titleLang": {
-            "en": "Innoxel",
-            "de": "Innoxel",
-            "ru": "Инноксель",
-            "pt": "Innoxel",
-            "nl": "Innoxel",
-            "fr": "Innoxel",
-            "it": "Innoxel",
-            "es": "Innoxel",
-            "pl": "Innoxel",
-            "zh-cn": "英诺赛尔"
-        },
-        "desc": {
-            "en": "Adapter for Innoxel Master 3",
-            "de": "Adapter für Innoxel Master 3",
-            "ru": "Адаптер для Innoxel Master 3",
-            "pt": "Adaptador para Innoxel Master 3",
-            "nl": "Adapter voor Innoxel Master 3",
-            "fr": "Adaptateur pour Innoxel Master 3",
-            "it": "Adattatore per Innoxel Master 3",
-            "es": "Adaptador para Innoxel Master 3",
-            "pl": "Adapter do Innoxel Master 3",
-            "zh-cn": "Inoxel Master 3 适配器"
-        },
-        "authors": ["matthsc <matthsc@gmx.net>"],
-        "keywords": ["innoxel"],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "build/main.js",
-        "icon": "innoxel.png",
-        "enabled": true,
-        "nogit": true,
-        "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
-        "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "iot-systems",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "materialize": true,
-        "messagebox": true,
-        "eraseOnUpload": true,
-        "globalDependencies": [
-            {
-                "admin": ">=5.0.0"
-            }
-        ],
-        "dependencies": [
-            {
-                "js-controller": ">=4.0.23"
-            }
-        ]
+  "common": {
+    "name": "innoxel",
+    "version": "0.4.1",
+    "news": {
+      "0.4.1": {
+        "en": "log soap messages in log level silly\nfix another potential error when updating modules\ndependency updates",
+        "de": "log-seifen-nachrichten in log-level-silly\neinen weiteren potenziellen fehler bei der aktualisierung von modulen beheben\nabhängigkeitsaktualisierung",
+        "ru": "лог мыло сообщений на уровне журнала глупо\nисправить другую потенциальную ошибку при обновлении модулей\nобновления зависимостей",
+        "pt": "log mensagens de sabão no nível de log bobo\ncorrigir outro erro potencial ao atualizar módulos\natualizações de dependência",
+        "nl": "log zeep berichten in log niveau dom\nfix een andere potentiële fout bij het bijwerken van modules\nafhankelijkheidsupdates",
+        "fr": "log soap messages dans log niveau sot\ncorriger une autre erreur potentielle lors de la mise à jour des modules\nmises à jour des dépendances",
+        "it": "messaggi di sapone di log in livello di log sciocco\ncorreggere un altro potenziale errore durante l'aggiornamento dei moduli\naggiornamenti di dipendenza",
+        "es": "mensajes de jabón de registro en nivel de registro tonto\ncorregir otro error potencial al actualizar los módulos\nactualizaciones de la dependencia",
+        "pl": "logowanie wiadomości mydlanych w logu poziom głupi\nnaprawić kolejny potencjalny błąd podczas aktualizacji modułów\naktualizacje zależności",
+        "uk": "логові мильні повідомлення на рівні журналу silly\nвиправити ще одну потенційну помилку при оновленні модулів\nоновлення залежності",
+        "zh-cn": "在日志关卡中记录肥皂消息\n在更新模块时纠正另一个潜在错误\n依赖性更新"
+      },
+      "0.4.0": {
+        "en": "fix potential error when processing identities\ndrop support for Node 16",
+        "de": "fehler bei der verarbeitung von identitäten beheben\ndrop-Unterstützung für Node 16",
+        "ru": "фиксация потенциальной ошибки при обработке идентификационных данных\nподдержка сброса Node 16",
+        "pt": "corrigir erros potenciais ao processar identidades\nsuporte para o nó 16",
+        "nl": "fix potentiële fout bij het verwerken van identiteiten\ndrop ondersteuning voor Node 16",
+        "fr": "corriger une erreur potentielle lors du traitement des identités\nsupport de chute pour Node 16",
+        "it": "correggere eventuali errori durante l'elaborazione delle identità\nsupporto drop per Node 16",
+        "es": "corregir errores potenciales al procesar identidades\napoyo para el Nodo 16",
+        "pl": "naprawić potencjalny błąd podczas przetwarzania tożsamości\nwsparcie zrzutu węzła 16",
+        "uk": "виправити потенційну помилку при обробці ідентичностей\nпідтримка крапель Node 16",
+        "zh-cn": "处理身份时纠正潜在错误\n放弃对节点16的支持"
+      },
+      "0.3.1": {
+        "en": "change actual value from temperature sensor if it doesn't provide values\ndependency updates",
+        "de": "den istwert vom temperatursensor ändern, wenn er keine werte liefert\nabhängigkeitsaktualisierung",
+        "ru": "изменить фактическое значение от датчика температуры если он не обеспечивает значения\nобновления зависимости",
+        "pt": "alterar o valor real do sensor de temperatura se não fornecer valores\natualizações de dependência",
+        "nl": "veranderingswaarde van temperatuursensor als het geen waarden geeft\nafhankelijke updates",
+        "fr": "changer la valeur réelle du capteur de température si elle ne fournit pas de valeurs\nmises à jour de la dépendance",
+        "it": "cambiare il valore effettivo dal sensore di temperatura se non fornisce valori\naggiornamenti di dipendenza",
+        "es": "cambiar el valor real del sensor de temperatura si no proporciona valores\nactualizaciones de la dependencia",
+        "pl": "zmiana rzeczywistej wartości od czujnika temperatury, jeśli nie dostarcza wartości\naktualizacja",
+        "uk": "змінити фактичне значення від датчика температури, якщо не передбачено значення\nоновлення залежності",
+        "zh-cn": "改变温度传感器的实际价值,如果它确实提供了价值\n依赖性最新资料"
+      },
+      "0.3.0": {
+        "en": "allow to set heating/cooling temperatures\ndependency updates",
+        "de": "heiz-/kühltemperaturen einstellen\nabhängigkeitsaktualisierung",
+        "ru": "позволяют устанавливать температуру нагрева/охлаждения\nобновления зависимости",
+        "pt": "permitir definir temperaturas de aquecimento / resfriamento\natualizações de dependência",
+        "nl": "om de temperatuur te verlagen\nafhankelijke updates",
+        "fr": "permettre de régler les températures de chauffage/de refroidissement\nmises à jour de la dépendance",
+        "it": "consentire di impostare le temperature di riscaldamento/raffrescamento\naggiornamenti di dipendenza",
+        "es": "permite fijar temperaturas de calefacción / refrigeración\nactualizaciones de la dependencia",
+        "pl": "pozwala na podgrzewanie lub chłodzenie temperatury\naktualizacja",
+        "uk": "можливість встановлення температури нагріву / охолодження\nоновлення залежності",
+        "zh-cn": "允许温度/升温\n依赖性最新资料"
+      },
+      "0.2.0": {
+        "en": "drop support for Node 12 and js-controller 3\nimplement migrations from create-adapter\ndependency updates",
+        "de": "drop-Unterstützung für Node 12 und js-Controller 3\nmigrationen von create-adapter implementieren\nabhängigkeitsaktualisierung",
+        "ru": "поддержка капель Node 12 и js-controller 3\nосуществлять миграции от созда-адаптера\nобновления зависимости",
+        "pt": "suporte para o nó 12 e js-controller 3\nimplementar migrações de create-adapter\natualizações de dependência",
+        "nl": "vertaling:\nimmigratie van creatie-adapter\nafhankelijke updates",
+        "fr": "prise en charge pour Node 12 et js-controller 3\nimplémenter les migrations de create-adapter\nmises à jour de la dépendance",
+        "it": "supporto a goccia per Node 12 e js-controller 3\nimplementare migrazioni da create-adapter\naggiornamenti di dipendenza",
+        "es": "soporte de gota para Nodo 12 y js-controller 3\nimplementar las migraciones de crear-adapter\nactualizaciones de la dependencia",
+        "pl": "obsługa Node 12 i js-controller 3\nwdrażanie migracji od tworzeniu adapterów\naktualizacja",
+        "zh-cn": "第12和第3号控制字的减少支助\nd. 实施从创造障碍的移徙\n依赖性最新资料"
+      },
+      "0.1.5": {
+        "en": "don't always terminate adapter on errors while updating identities\nimprove error messages",
+        "de": "Beenden Sie den Adapter nicht immer bei Fehlern beim Aktualisieren von Identitäten\nFehlermeldungen verbessern",
+        "ru": "не всегда отключайте адаптер при ошибках при обновлении удостоверений\nулучшить сообщения об ошибках",
+        "pt": "nem sempre encerre o adaptador em caso de erros ao atualizar identidades\nmelhorar as mensagens de erro",
+        "nl": "beëindig de adapter niet altijd bij fouten tijdens het bijwerken van identiteiten\nverbeter foutmeldingen",
+        "fr": "ne terminez pas toujours l'adaptateur en cas d'erreur lors de la mise à jour des identités\naméliorer les messages d'erreur",
+        "it": "non terminare sempre l'adattatore in caso di errori durante l'aggiornamento delle identità\nmigliorare i messaggi di errore",
+        "es": "no siempre finalice el adaptador en caso de errores al actualizar las identidades\nmejorar los mensajes de error",
+        "pl": "nie zawsze przerywaj pracę adaptera w przypadku błędów podczas aktualizacji tożsamości\npoprawić komunikaty o błędach",
+        "zh-cn": "更新身份时，不要总是因错误而终止适配器\n改进错误信息"
+      },
+      "0.1.4": {
+        "en": "fix double decryption issues with password in adapter admin\nchange input field types in adapter admin",
+        "de": "doppelte Entschlüsselungsprobleme mit dem Passwort in der Adapterverwaltung behoben\nÄndern Sie die Eingabefeldtypen in der Adapterverwaltung",
+        "ru": "исправить проблемы двойного дешифрования с паролем в администраторе адаптера\nизменить типы полей ввода в администраторе адаптера",
+        "pt": "corrigir problemas de descriptografia dupla com senha no administrador do adaptador\nalterar os tipos de campo de entrada no administrador do adaptador",
+        "nl": "problemen met dubbele decodering oplossen met wachtwoord in adapterbeheer\nwijzig invoerveldtypen in adapterbeheer",
+        "fr": "correction des problèmes de double déchiffrement avec mot de passe dans l'administrateur de l'adaptateur\nmodifier les types de champs d'entrée dans l'administrateur de l'adaptateur",
+        "it": "risolve i problemi di doppia decrittazione con la password nell'amministratore dell'adattatore\ncambia i tipi di campo di input in adapter admin",
+        "es": "solucionar problemas de doble descifrado con contraseña en el administrador del adaptador\ncambiar los tipos de campo de entrada en el administrador del adaptador",
+        "pl": "napraw problemy z podwójnym odszyfrowywaniem hasłem w administratorze adaptera\nzmień typy pól wejściowych w admin adaptera",
+        "zh-cn": "修复适配器管理员中密码的双重解密问题\n在适配器管理中更改输入字段类型"
+      }
     },
-    "native": {
-        "ipaddress": "",
-        "port": 5001,
-        "username": "",
-        "password": "",
-        "weatherInterval": 900,
-        "roomTemperatureInterval": 300,
-        "changeInterval": 30,
-        "deviceStatusInterval": 0
+    "title": "Innoxel",
+    "titleLang": {
+      "en": "Innoxel",
+      "de": "Innoxel",
+      "ru": "Инноксель",
+      "pt": "Innoxel",
+      "nl": "Innoxel",
+      "fr": "Innoxel",
+      "it": "Innoxel",
+      "es": "Innoxel",
+      "pl": "Innoxel",
+      "zh-cn": "英诺赛尔"
     },
-    "protectedNative": ["password"],
-    "encryptedNative": ["password"],
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.bootId",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Innoxel Master boot id",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": ""
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.stateId",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Innoxel Master state id",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": ""
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Adapter for Innoxel Master 3",
+      "de": "Adapter für Innoxel Master 3",
+      "ru": "Адаптер для Innoxel Master 3",
+      "pt": "Adaptador para Innoxel Master 3",
+      "nl": "Adapter voor Innoxel Master 3",
+      "fr": "Adaptateur pour Innoxel Master 3",
+      "it": "Adattatore per Innoxel Master 3",
+      "es": "Adaptador para Innoxel Master 3",
+      "pl": "Adapter do Innoxel Master 3",
+      "zh-cn": "Inoxel Master 3 适配器"
+    },
+    "authors": [
+      "matthsc <matthsc@gmx.net>"
+    ],
+    "keywords": [
+      "innoxel"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "build/main.js",
+    "icon": "innoxel.png",
+    "enabled": true,
+    "nogit": true,
+    "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
+    "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "iot-systems",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "materialize": true,
+    "messagebox": true,
+    "eraseOnUpload": true,
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0"
+      }
+    ],
+    "dependencies": [
+      {
+        "js-controller": ">=4.0.23"
+      }
     ]
+  },
+  "native": {
+    "ipaddress": "",
+    "port": 5001,
+    "username": "",
+    "password": "",
+    "weatherInterval": 900,
+    "roomTemperatureInterval": 300,
+    "changeInterval": 30,
+    "deviceStatusInterval": 0
+  },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.bootId",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Innoxel Master boot id",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.stateId",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Innoxel Master state id",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    }
+  ]
 }
