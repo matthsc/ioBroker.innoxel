@@ -90,7 +90,6 @@
         },
         "tier": 2,
         "platform": "Javascript/Node.js",
-        "main": "build/main.js",
         "icon": "innoxel.png",
         "enabled": true,
         "nogit": true,
@@ -102,9 +101,11 @@
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
-        "materialize": true,
         "messagebox": true,
         "eraseOnUpload": true,
+        "adminUI": {
+            "config": "materialize"
+        },
         "globalDependencies": [
             {
                 "admin": ">=5.0.0"
@@ -112,7 +113,7 @@
         ],
         "dependencies": [
             {
-                "js-controller": ">=4.0.23"
+                "js-controller": ">=4.0.24"
             }
         ]
     },
