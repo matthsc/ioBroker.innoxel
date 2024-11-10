@@ -20,7 +20,7 @@ Adapter for Innoxel Master 3 (https://innoxel.ch)
 ## Requirements
 
 -   NodeJS >= 18.x
--   ioBroker >= 4.x, with admin >= 5.x
+-   ioBroker >= 5.0.19, with admin >= 6.x
 -   Innoxel Master 3 Smart Home system
 
 ## Installation
@@ -125,6 +125,12 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   (matthsc) update iobroker dependencies
+-   (matthsc & dependabot) dependency updates
+
 ### 0.4.2 (2024-08-11)
 
 -   (matthsc & dependabot) dependency updates
