@@ -27,7 +27,7 @@ Adapter for Innoxel Master 3 (https://innoxel.ch)
 
 Until the adapter is part of the stable repository, you can install the latest version by enabling expert mode in ioBroker and install the adapter from npm. Don't install it directly from Github, this will lead to an error on adapter start ("cannot find start file").
 
-After installation, create a new instance and configure the settings:
+The adapter can be installed straigt from the stable/beta repositories. After installation, create a new instance and configure the settings:
 
 - Connection Settings for accessing innoxel master
   - ip address
@@ -40,11 +40,13 @@ After installation, create a new instance and configure the settings:
   - weather
   - innoxel master device details (requires admin privileges for the user connecting to innoxel master)
 
+Please note: Don't install the adapter directly from Github, this will lead to an error on adapter start ("cannot find start file").
+
 ## Supported Modules and Firmware
 
 A pre-release version of this adapter has been working for more than 2 years with firmware 1.4.1.0 and then 1.5.1.0.
 
-This initially released version has been tested with firmware 1.6.0.0.
+The initially released version has been tested with firmware 1.6.0.0.
 
 The following modules have been tested/are supported:
 
