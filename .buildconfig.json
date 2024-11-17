@@ -1,0 +1,8 @@
+{
+  "typescriptPattern": "src/main.ts",
+  "typescriptRaw": {
+    "format": "esm",
+    "bundle": true,
+    "packages":"external"
+  }
+}

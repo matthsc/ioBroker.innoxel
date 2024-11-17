@@ -20,7 +20,7 @@ Adapter for Innoxel Master 3 (https://innoxel.ch)
 ## Requirements
 
 - NodeJS >= 20.x
-- ioBroker >= 5.0.19, with admin >= 6.x
+- ioBroker >= 6.0.11, with admin >= 6.x
 - Innoxel Master 3 Smart Home system
 
 ## Installation
