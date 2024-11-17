@@ -76,7 +76,6 @@
         "roomTemperatureInterval": {
             "type": "number",
             "label": "intervalRoomTemperature",
-            "help": "intervalRoomTemperature_description",
             "min": 0,
             "xs": 12,
             "sm": 12,
