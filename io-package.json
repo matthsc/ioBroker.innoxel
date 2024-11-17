@@ -1,195 +1,216 @@
 {
-    "common": {
-        "name": "innoxel",
-        "version": "0.4.2",
-        "news": {
-            "0.4.2": {
-                "en": "dependency updates",
-                "de": "abhängigkeitsaktualisierung",
-                "ru": "обновления зависимостей",
-                "pt": "atualizações de dependência",
-                "nl": "afhankelijkheidsupdates",
-                "fr": "mises à jour des dépendances",
-                "it": "aggiornamenti di dipendenza",
-                "es": "actualizaciones de la dependencia",
-                "pl": "aktualizacje zależności",
-                "uk": "оновлення залежності",
-                "zh-cn": "依赖性更新"
-            },
-            "0.4.1": {
-                "en": "log soap messages in log level silly\nfix another potential error when updating modules\ndependency updates",
-                "de": "log-seifen-nachrichten in log-level-silly\neinen weiteren potenziellen fehler bei der aktualisierung von modulen beheben\nabhängigkeitsaktualisierung",
-                "ru": "лог мыло сообщений на уровне журнала глупо\nисправить другую потенциальную ошибку при обновлении модулей\nобновления зависимостей",
-                "pt": "log mensagens de sabão no nível de log bobo\ncorrigir outro erro potencial ao atualizar módulos\natualizações de dependência",
-                "nl": "log zeep berichten in log niveau dom\nfix een andere potentiële fout bij het bijwerken van modules\nafhankelijkheidsupdates",
-                "fr": "log soap messages dans log niveau sot\ncorriger une autre erreur potentielle lors de la mise à jour des modules\nmises à jour des dépendances",
-                "it": "messaggi di sapone di log in livello di log sciocco\ncorreggere un altro potenziale errore durante l'aggiornamento dei moduli\naggiornamenti di dipendenza",
-                "es": "mensajes de jabón de registro en nivel de registro tonto\ncorregir otro error potencial al actualizar los módulos\nactualizaciones de la dependencia",
-                "pl": "logowanie wiadomości mydlanych w logu poziom głupi\nnaprawić kolejny potencjalny błąd podczas aktualizacji modułów\naktualizacje zależności",
-                "uk": "логові мильні повідомлення на рівні журналу silly\nвиправити ще одну потенційну помилку при оновленні модулів\nоновлення залежності",
-                "zh-cn": "在日志关卡中记录肥皂消息\n在更新模块时纠正另一个潜在错误\n依赖性更新"
-            },
-            "0.4.0": {
-                "en": "fix potential error when processing identities\ndrop support for Node 16",
-                "de": "fehler bei der verarbeitung von identitäten beheben\ndrop-Unterstützung für Node 16",
-                "ru": "фиксация потенциальной ошибки при обработке идентификационных данных\nподдержка сброса Node 16",
-                "pt": "corrigir erros potenciais ao processar identidades\nsuporte para o nó 16",
-                "nl": "fix potentiële fout bij het verwerken van identiteiten\ndrop ondersteuning voor Node 16",
-                "fr": "corriger une erreur potentielle lors du traitement des identités\nsupport de chute pour Node 16",
-                "it": "correggere eventuali errori durante l'elaborazione delle identità\nsupporto drop per Node 16",
-                "es": "corregir errores potenciales al procesar identidades\napoyo para el Nodo 16",
-                "pl": "naprawić potencjalny błąd podczas przetwarzania tożsamości\nwsparcie zrzutu węzła 16",
-                "uk": "виправити потенційну помилку при обробці ідентичностей\nпідтримка крапель Node 16",
-                "zh-cn": "处理身份时纠正潜在错误\n放弃对节点16的支持"
-            },
-            "0.3.1": {
-                "en": "change actual value from temperature sensor if it doesn't provide values\ndependency updates",
-                "de": "den istwert vom temperatursensor ändern, wenn er keine werte liefert\nabhängigkeitsaktualisierung",
-                "ru": "изменить фактическое значение от датчика температуры если он не обеспечивает значения\nобновления зависимости",
-                "pt": "alterar o valor real do sensor de temperatura se não fornecer valores\natualizações de dependência",
-                "nl": "veranderingswaarde van temperatuursensor als het geen waarden geeft\nafhankelijke updates",
-                "fr": "changer la valeur réelle du capteur de température si elle ne fournit pas de valeurs\nmises à jour de la dépendance",
-                "it": "cambiare il valore effettivo dal sensore di temperatura se non fornisce valori\naggiornamenti di dipendenza",
-                "es": "cambiar el valor real del sensor de temperatura si no proporciona valores\nactualizaciones de la dependencia",
-                "pl": "zmiana rzeczywistej wartości od czujnika temperatury, jeśli nie dostarcza wartości\naktualizacja",
-                "uk": "змінити фактичне значення від датчика температури, якщо не передбачено значення\nоновлення залежності",
-                "zh-cn": "改变温度传感器的实际价值,如果它确实提供了价值\n依赖性最新资料"
-            },
-            "0.3.0": {
-                "en": "allow to set heating/cooling temperatures\ndependency updates",
-                "de": "heiz-/kühltemperaturen einstellen\nabhängigkeitsaktualisierung",
-                "ru": "позволяют устанавливать температуру нагрева/охлаждения\nобновления зависимости",
-                "pt": "permitir definir temperaturas de aquecimento / resfriamento\natualizações de dependência",
-                "nl": "om de temperatuur te verlagen\nafhankelijke updates",
-                "fr": "permettre de régler les températures de chauffage/de refroidissement\nmises à jour de la dépendance",
-                "it": "consentire di impostare le temperature di riscaldamento/raffrescamento\naggiornamenti di dipendenza",
-                "es": "permite fijar temperaturas de calefacción / refrigeración\nactualizaciones de la dependencia",
-                "pl": "pozwala na podgrzewanie lub chłodzenie temperatury\naktualizacja",
-                "uk": "можливість встановлення температури нагріву / охолодження\nоновлення залежності",
-                "zh-cn": "允许温度/升温\n依赖性最新资料"
-            }
-        },
-        "titleLang": {
-            "en": "Innoxel",
-            "de": "Innoxel",
-            "ru": "Инноксель",
-            "pt": "Innoxel",
-            "nl": "Innoxel",
-            "fr": "Innoxel",
-            "it": "Innoxel",
-            "es": "Innoxel",
-            "pl": "Innoxel",
-            "uk": "Innoxel",
-            "zh-cn": "英诺赛尔"
-        },
-        "desc": {
-            "en": "Adapter for Innoxel Master 3",
-            "de": "Adapter für Innoxel Master 3",
-            "ru": "Адаптер для Innoxel Master 3",
-            "pt": "Adaptador para Innoxel Master 3",
-            "nl": "Adapter voor Innoxel Master 3",
-            "fr": "Adaptateur pour Innoxel Master 3",
-            "it": "Adattatore per Innoxel Master 3",
-            "es": "Adaptador para Innoxel Master 3",
-            "pl": "Adapter do Innoxel Master 3",
-            "uk": "Адаптер для Innoxel Master 3",
-            "zh-cn": "Inoxel Master 3 适配器"
-        },
-        "authors": ["matthsc <matthsc@gmx.net>"],
-        "keywords": ["innoxel"],
-        "licenseInformation": {
-            "license": "MIT",
-            "type": "free"
-        },
-        "tier": 2,
-        "platform": "Javascript/Node.js",
-        "icon": "innoxel.png",
-        "enabled": true,
-        "nogit": true,
-        "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
-        "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "iot-systems",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "messagebox": true,
-        "eraseOnUpload": true,
-        "adminUI": {
-            "config": "json"
-        },
-        "globalDependencies": [
-            {
-                "admin": ">=6.0.0"
-            }
-        ],
-        "dependencies": [
-            {
-                "js-controller": ">=6.0.11"
-            }
-        ]
+  "common": {
+    "name": "innoxel",
+    "version": "1.0.0-rc.0",
+    "news": {
+      "1.0.0-rc.0": {
+        "en": "drop support for Node 18\nswitch admin to json config\nprepare for future controller versions (fix deprecation warnings)\ndependency updates",
+        "de": "drop-Unterstützung für Node 18\nadmin zu json config wechseln\nvorbereitung auf zukünftige controllerversionen (fix-deprekationswarnungen)\nabhängigkeitsaktualisierung",
+        "ru": "поддержка сброса Node 18\nпереключение администратора на конфигурацию json\nподготовка к будущим версиям контроллера (предупреждения о депрекации фиксации)\nобновления зависимостей",
+        "pt": "suporte para o nó 18\nmudar admin para json config\nprepare-se para futuras versões do controlador (fix deprecation avisos)\natualizações de dependência",
+        "nl": "drop ondersteuning voor Knooppunt 18\nswitch admin naar json config\nvoor te bereiden op toekomstige besturingsversies (fix deprecation waarschuwingen)\nafhankelijkheidsupdates",
+        "fr": "support de chute pour Node 18\nbasculer admin vers json config\npréparer pour les futures versions du contrôleur (fixer les avertissements de déprécation)\nmises à jour des dépendances",
+        "it": "supporto drop per Node 18\npassare da admin a json config\nprepararsi per le versioni future del controller (avviste di deprecazione fissa)\naggiornamenti di dipendenza",
+        "es": "soporte de gota para Nodo 18\ncambiar administración a json config\nprepararse para futuras versiones de controlador (advertencias deprecación de fibras)\nactualizaciones de la dependencia",
+        "pl": "wsparcie dla węzła 18\nprzełącz admin na json config\nprzygotować się do przyszłych wersji sterownika (naprawić ostrzeżenia deprecjacji)\naktualizacje zależności",
+        "uk": "підтримка крапель Node 18\nswitch admin в json config\nпідготуватися до майбутніх версій контролера (перевірки про видачу)\nоновлення залежності",
+        "zh-cn": "放弃对节点 18 的支持\n切换管理员到 json 配置\n准备未来的控制器版本( 定义解析警告)\n依赖性更新"
+      },
+      "0.4.2": {
+        "en": "dependency updates",
+        "de": "abhängigkeitsaktualisierung",
+        "ru": "обновления зависимостей",
+        "pt": "atualizações de dependência",
+        "nl": "afhankelijkheidsupdates",
+        "fr": "mises à jour des dépendances",
+        "it": "aggiornamenti di dipendenza",
+        "es": "actualizaciones de la dependencia",
+        "pl": "aktualizacje zależności",
+        "uk": "оновлення залежності",
+        "zh-cn": "依赖性更新"
+      },
+      "0.4.1": {
+        "en": "log soap messages in log level silly\nfix another potential error when updating modules\ndependency updates",
+        "de": "log-seifen-nachrichten in log-level-silly\neinen weiteren potenziellen fehler bei der aktualisierung von modulen beheben\nabhängigkeitsaktualisierung",
+        "ru": "лог мыло сообщений на уровне журнала глупо\nисправить другую потенциальную ошибку при обновлении модулей\nобновления зависимостей",
+        "pt": "log mensagens de sabão no nível de log bobo\ncorrigir outro erro potencial ao atualizar módulos\natualizações de dependência",
+        "nl": "log zeep berichten in log niveau dom\nfix een andere potentiële fout bij het bijwerken van modules\nafhankelijkheidsupdates",
+        "fr": "log soap messages dans log niveau sot\ncorriger une autre erreur potentielle lors de la mise à jour des modules\nmises à jour des dépendances",
+        "it": "messaggi di sapone di log in livello di log sciocco\ncorreggere un altro potenziale errore durante l'aggiornamento dei moduli\naggiornamenti di dipendenza",
+        "es": "mensajes de jabón de registro en nivel de registro tonto\ncorregir otro error potencial al actualizar los módulos\nactualizaciones de la dependencia",
+        "pl": "logowanie wiadomości mydlanych w logu poziom głupi\nnaprawić kolejny potencjalny błąd podczas aktualizacji modułów\naktualizacje zależności",
+        "uk": "логові мильні повідомлення на рівні журналу silly\nвиправити ще одну потенційну помилку при оновленні модулів\nоновлення залежності",
+        "zh-cn": "在日志关卡中记录肥皂消息\n在更新模块时纠正另一个潜在错误\n依赖性更新"
+      },
+      "0.4.0": {
+        "en": "fix potential error when processing identities\ndrop support for Node 16",
+        "de": "fehler bei der verarbeitung von identitäten beheben\ndrop-Unterstützung für Node 16",
+        "ru": "фиксация потенциальной ошибки при обработке идентификационных данных\nподдержка сброса Node 16",
+        "pt": "corrigir erros potenciais ao processar identidades\nsuporte para o nó 16",
+        "nl": "fix potentiële fout bij het verwerken van identiteiten\ndrop ondersteuning voor Node 16",
+        "fr": "corriger une erreur potentielle lors du traitement des identités\nsupport de chute pour Node 16",
+        "it": "correggere eventuali errori durante l'elaborazione delle identità\nsupporto drop per Node 16",
+        "es": "corregir errores potenciales al procesar identidades\napoyo para el Nodo 16",
+        "pl": "naprawić potencjalny błąd podczas przetwarzania tożsamości\nwsparcie zrzutu węzła 16",
+        "uk": "виправити потенційну помилку при обробці ідентичностей\nпідтримка крапель Node 16",
+        "zh-cn": "处理身份时纠正潜在错误\n放弃对节点16的支持"
+      },
+      "0.3.1": {
+        "en": "change actual value from temperature sensor if it doesn't provide values\ndependency updates",
+        "de": "den istwert vom temperatursensor ändern, wenn er keine werte liefert\nabhängigkeitsaktualisierung",
+        "ru": "изменить фактическое значение от датчика температуры если он не обеспечивает значения\nобновления зависимости",
+        "pt": "alterar o valor real do sensor de temperatura se não fornecer valores\natualizações de dependência",
+        "nl": "veranderingswaarde van temperatuursensor als het geen waarden geeft\nafhankelijke updates",
+        "fr": "changer la valeur réelle du capteur de température si elle ne fournit pas de valeurs\nmises à jour de la dépendance",
+        "it": "cambiare il valore effettivo dal sensore di temperatura se non fornisce valori\naggiornamenti di dipendenza",
+        "es": "cambiar el valor real del sensor de temperatura si no proporciona valores\nactualizaciones de la dependencia",
+        "pl": "zmiana rzeczywistej wartości od czujnika temperatury, jeśli nie dostarcza wartości\naktualizacja",
+        "uk": "змінити фактичне значення від датчика температури, якщо не передбачено значення\nоновлення залежності",
+        "zh-cn": "改变温度传感器的实际价值,如果它确实提供了价值\n依赖性最新资料"
+      },
+      "0.3.0": {
+        "en": "allow to set heating/cooling temperatures\ndependency updates",
+        "de": "heiz-/kühltemperaturen einstellen\nabhängigkeitsaktualisierung",
+        "ru": "позволяют устанавливать температуру нагрева/охлаждения\nобновления зависимости",
+        "pt": "permitir definir temperaturas de aquecimento / resfriamento\natualizações de dependência",
+        "nl": "om de temperatuur te verlagen\nafhankelijke updates",
+        "fr": "permettre de régler les températures de chauffage/de refroidissement\nmises à jour de la dépendance",
+        "it": "consentire di impostare le temperature di riscaldamento/raffrescamento\naggiornamenti di dipendenza",
+        "es": "permite fijar temperaturas de calefacción / refrigeración\nactualizaciones de la dependencia",
+        "pl": "pozwala na podgrzewanie lub chłodzenie temperatury\naktualizacja",
+        "uk": "можливість встановлення температури нагріву / охолодження\nоновлення залежності",
+        "zh-cn": "允许温度/升温\n依赖性最新资料"
+      }
     },
-    "native": {
-        "ipaddress": "",
-        "port": 5001,
-        "username": "",
-        "password": "",
-        "weatherInterval": 900,
-        "roomTemperatureInterval": 300,
-        "changeInterval": 30,
-        "deviceStatusInterval": 0
+    "titleLang": {
+      "en": "Innoxel",
+      "de": "Innoxel",
+      "ru": "Инноксель",
+      "pt": "Innoxel",
+      "nl": "Innoxel",
+      "fr": "Innoxel",
+      "it": "Innoxel",
+      "es": "Innoxel",
+      "pl": "Innoxel",
+      "uk": "Innoxel",
+      "zh-cn": "英诺赛尔"
     },
-    "protectedNative": ["password"],
-    "encryptedNative": ["password"],
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.bootId",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Innoxel Master boot id",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": ""
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.stateId",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Innoxel Master state id",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": ""
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Adapter for Innoxel Master 3",
+      "de": "Adapter für Innoxel Master 3",
+      "ru": "Адаптер для Innoxel Master 3",
+      "pt": "Adaptador para Innoxel Master 3",
+      "nl": "Adapter voor Innoxel Master 3",
+      "fr": "Adaptateur pour Innoxel Master 3",
+      "it": "Adattatore per Innoxel Master 3",
+      "es": "Adaptador para Innoxel Master 3",
+      "pl": "Adapter do Innoxel Master 3",
+      "uk": "Адаптер для Innoxel Master 3",
+      "zh-cn": "Inoxel Master 3 适配器"
+    },
+    "authors": [
+      "matthsc <matthsc@gmx.net>"
+    ],
+    "keywords": [
+      "innoxel"
+    ],
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
+    "tier": 2,
+    "platform": "Javascript/Node.js",
+    "icon": "innoxel.png",
+    "enabled": true,
+    "nogit": true,
+    "extIcon": "https://raw.githubusercontent.com/matthsc/ioBroker.innoxel/main/admin/innoxel.png",
+    "readme": "https://github.com/matthsc/ioBroker.innoxel/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "iot-systems",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "messagebox": true,
+    "eraseOnUpload": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "globalDependencies": [
+      {
+        "admin": ">=6.0.0"
+      }
+    ],
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
     ]
+  },
+  "native": {
+    "ipaddress": "",
+    "port": 5001,
+    "username": "",
+    "password": "",
+    "weatherInterval": 900,
+    "roomTemperatureInterval": 300,
+    "changeInterval": 30,
+    "deviceStatusInterval": 0
+  },
+  "protectedNative": [
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.bootId",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Innoxel Master boot id",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.stateId",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Innoxel Master state id",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    }
+  ]
 }
