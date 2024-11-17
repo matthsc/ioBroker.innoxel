@@ -140,6 +140,7 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
 
 - (matthsc) drop support for Node 18
 - (matthsc) switch admin to json config
+- (matthsc) prepare for future controller versions (fix deprecation warnings)
 - (matthsc & dependabot) dependency updates
 
 ### 0.4.2 (2024-08-11)

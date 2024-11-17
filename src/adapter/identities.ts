@@ -9,7 +9,7 @@ export async function createOrUpdateIdentities(
 ): Promise<void> {
   adapter.log.debug("Creating/Updating Identities...");
   const devices = ["In", "Out", "Dim"].map(async (type) => {
-    await adapter.createDeviceAsync(`module${type}`);
+    await adapter.extendObjectAsync(`module${type}`, { type: "device" });
     await adapter.extendObjectAsync(`module${type}`, {
       type: "device",
       common: {
@@ -20,7 +20,7 @@ export async function createOrUpdateIdentities(
   const otherTypes: Array<[string, string]> = [["roomClimate", "Thermostats"]];
   devices.push(
     ...otherTypes.map(async ([type, name]) => {
-      await adapter.createDeviceAsync(type);
+      await adapter.extendObjectAsync(type, { type: "device" });
       await adapter.extendObjectAsync(type, {
         type: "device",
         common: { name },
