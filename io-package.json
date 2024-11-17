@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "1.0.0-rc.0",
+    "version": "1.0.0",
     "news": {
+      "1.0.0": {
+        "en": "drop support for Node 18\nswitch admin to json config\nprepare for future controller versions (fix deprecation warnings)\ndependency updates",
+        "de": "drop-Unterstützung für Node 18\nadmin zu json config wechseln\nvorbereitung auf zukünftige controllerversionen (fix-deprekationswarnungen)\nabhängigkeitsaktualisierung",
+        "ru": "поддержка сброса Node 18\nпереключение администратора на конфигурацию json\nподготовка к будущим версиям контроллера (предупреждения о депрекации фиксации)\nобновления зависимостей",
+        "pt": "suporte para o nó 18\nmudar admin para json config\nprepare-se para futuras versões do controlador (fix deprecation avisos)\natualizações de dependência",
+        "nl": "drop ondersteuning voor Knooppunt 18\nswitch admin naar json config\nvoor te bereiden op toekomstige besturingsversies (fix deprecation waarschuwingen)\nafhankelijkheidsupdates",
+        "fr": "support de chute pour Node 18\nbasculer admin vers json config\npréparer pour les futures versions du contrôleur (fixer les avertissements de déprécation)\nmises à jour des dépendances",
+        "it": "supporto drop per Node 18\npassare da admin a json config\nprepararsi per le versioni future del controller (avviste di deprecazione fissa)\naggiornamenti di dipendenza",
+        "es": "soporte de gota para Nodo 18\ncambiar administración a json config\nprepararse para futuras versiones de controlador (advertencias deprecación de fibras)\nactualizaciones de la dependencia",
+        "pl": "wsparcie dla węzła 18\nprzełącz admin na json config\nprzygotować się do przyszłych wersji sterownika (naprawić ostrzeżenia deprecjacji)\naktualizacje zależności",
+        "uk": "підтримка крапель Node 18\nswitch admin в json config\nпідготуватися до майбутніх версій контролера (перевірки про видачу)\nоновлення залежності",
+        "zh-cn": "放弃对节点 18 的支持\n切换管理员到 json 配置\n准备未来的控制器版本( 定义解析警告)\n依赖性更新"
+      },
       "1.0.0-rc.0": {
         "en": "drop support for Node 18\nswitch admin to json config\nprepare for future controller versions (fix deprecation warnings)\ndependency updates",
         "de": "drop-Unterstützung für Node 18\nadmin zu json config wechseln\nvorbereitung auf zukünftige controllerversionen (fix-deprekationswarnungen)\nabhängigkeitsaktualisierung",
