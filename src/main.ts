@@ -24,6 +24,7 @@ import { handleMessage } from "./adapter/messageHandler";
 import { createModuleStates, updateModuleStates } from "./adapter/modules";
 import { updateRoomClimate } from "./adapter/roomClimate";
 import { createWeatherStates, updateWeatherStates } from "./adapter/weather";
+import esMain from "./lib/esMain";
 
 interface ITimeoutsKeys {
   change: ioBroker.Timeout;
@@ -394,11 +395,21 @@ export class Innoxel extends utils.Adapter {
   }
 }
 
-if (require.main !== module) {
-  // Export the constructor in compact mode
-  module.exports = (options: Partial<utils.AdapterOptions> | undefined) =>
-    new Innoxel(options);
-} else {
+// if (require.main !== module) {
+//   // Export the constructor in compact mode
+//   module.exports = (options: Partial<utils.AdapterOptions> | undefined) =>
+//     new Innoxel(options);
+// } else {
+//   // otherwise start the instance directly
+//   (() => new Innoxel())();
+// }
+
+// if (require.main !== module) {
+// Export the constructor for compact mode
+export default (options: Partial<utils.AdapterOptions> | undefined) =>
+  new Innoxel(options);
+// } else {
+if (esMain(import.meta)) {
   // otherwise start the instance directly
   (() => new Innoxel())();
 }
