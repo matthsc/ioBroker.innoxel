@@ -1,0 +1,109 @@
+{
+    "i18n": true,
+    "type": "panel",
+    "items": {
+        "headerConnection": {
+            "newLine": true,
+            "type": "header",
+            "text": "connection",
+            "size": 2
+        },
+        "ipaddress": {
+            "newLine": true,
+            "type": "text",
+            "label": "ip",
+            "help": "ip_description",
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "port": {
+            "type": "number",
+            "label": "port",
+            "help": "port_description",
+            "min": 0,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "username": {
+            "type": "text",
+            "label": "username",
+            "help": "username_description",
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "password": {
+            "type": "password",
+            "label": "password",
+            "help": "password_description",
+            "visible": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "headerIntervals": {
+            "newLine": true,
+            "type": "header",
+            "text": "intervals",
+            "size": 2
+        },
+        "txtIntervals": {
+            "newLine": true,
+            "type": "staticText",
+            "text": "intervals_details"
+        },
+        "changeInterval": {
+            "type": "number",
+            "label": "intervalChange",
+            "help": "intervalChange_description",
+            "min": 0,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "roomTemperatureInterval": {
+            "type": "number",
+            "label": "intervalRoomTemperature",
+            "help": "intervalRoomTemperature_description",
+            "min": 0,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "weatherInterval": {
+            "type": "number",
+            "label": "intervalWeather",
+            "min": 0,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        },
+        "deviceStatusInterval": {
+            "type": "number",
+            "label": "intervalDeviceStatus",
+            "help": "intervalDeviceStatus_description",
+            "min": 0,
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
+        }
+    }
+}

@@ -117,7 +117,7 @@
         "messagebox": true,
         "eraseOnUpload": true,
         "adminUI": {
-            "config": "materialize"
+            "config": "json"
         },
         "globalDependencies": [
             {

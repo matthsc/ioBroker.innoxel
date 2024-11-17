@@ -128,7 +128,7 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
 
 ### **WORK IN PROGRESS**
 
--   (matthsc) update iobroker dependencies
+-   (matthsc) switch admin to json config
 -   (matthsc & dependabot) dependency updates
 
 ### 0.4.2 (2024-08-11)
