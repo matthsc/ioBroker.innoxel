@@ -15,7 +15,7 @@
     "connectionIndicator": "yes",
     "language": "TypeScript",
     "adminReact": "yes",
-    "tools": ["ESLint", "Prettier", "code coverage", "devcontainer"],
+    "tools": ["code coverage", "devcontainer"],
     "releaseScript": "yes",
     "devServer": "yes",
     "devServerPort": 8081,
