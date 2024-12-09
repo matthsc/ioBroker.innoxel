@@ -60,7 +60,12 @@
         "txtIntervals": {
             "newLine": true,
             "type": "staticText",
-            "text": "intervals_details"
+            "text": "intervals_details",
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 6,
+            "xl": 6
         },
         "changeInterval": {
             "type": "number",
