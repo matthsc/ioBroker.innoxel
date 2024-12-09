@@ -1,0 +1,21 @@
+{
+    "innoxel adapter settings": "Налаштування адаптера для innoxel",
+    "connection": "Налаштування підключення",
+    "ip": "IP адреса",
+    "ip_description": "IP-адреса майстра innoxel, тобто 192.168.0.10",
+    "port": "Порт",
+    "port_description": "Порт головного веб-інтерфейсу innoxel, за замовчуванням 5001",
+    "username": "Ім'я користувача",
+    "username_description": "Ім’я користувача для доступу до innoxel master",
+    "password": "Пароль",
+    "password_description": "Пароль для користувача",
+    "intervals": "Інтервали опитування",
+    "intervals_details": "Innoxel Master потрібно періодично опитувати, щоб оновлювати стани в адаптері. Тут ви можете вказати інтервали в секундах, протягом яких певні дані оновлюються. Встановлення інтервалу на 0 вимикає опитування цих даних.",
+    "intervals_description": "",
+    "intervalChange": "Зміни модуля",
+    "intervalChange_description": "тобто перемикач увімкнено",
+    "intervalWeather": "Погода",
+    "intervalRoomTemperature": "Кімнатні термостати",
+    "intervalDeviceStatus": "Деталі пристрою Innoxel Master",
+    "intervalDeviceStatus_description": "Потрібен обліковий запис користувача з правами адміністратора"
+}
