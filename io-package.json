@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "news": {
+      "1.0.1": {
+        "en": "implement adapter checker feedback\ncleanup changelog",
+        "de": "adapter checker feedback implementieren\nabwechslung",
+        "ru": "рецепт адаптера\nредакция очистки",
+        "pt": "implementar o feedback do verificador do adaptador\nmudança de limpeza",
+        "nl": "adapterchecker feedback implementeren\ncleanup changelog",
+        "fr": "implémenter la rétroaction du vérificateur d'adaptateur\nchangelog de nettoyage",
+        "it": "implementare il feedback dell'adattatore\ncleanup changelog",
+        "es": "implementa la retroalimentación del sistema\nplan de cambio de limpieza",
+        "pl": "zaimplementuj sprzęgło zwrotne\ncleanup changelog",
+        "uk": "реалізація зворотного зв'язку адаптера\nгенератор змінного струму",
+        "zh-cn": "执行适配器检查器反馈\n清理更改日志"
+      },
       "1.0.0": {
         "en": "drop support for Node 18\nswitch admin to json config\nprepare for future controller versions (fix deprecation warnings)\ndependency updates",
         "de": "drop-Unterstützung für Node 18\nadmin zu json config wechseln\nvorbereitung auf zukünftige controllerversionen (fix-deprekationswarnungen)\nabhängigkeitsaktualisierung",

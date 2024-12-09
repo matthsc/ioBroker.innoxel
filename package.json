@@ -1,6 +1,6 @@
 {
   "name": "iobroker.innoxel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adapter for Innoxel Master 3",
   "author": {
     "name": "matthsc",
