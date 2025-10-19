@@ -21,3 +21,6 @@ admin/i18n/*/flat.txt
 
 # build directories
 build/
+
+#ignore .commitinfo created by ioBroker release script
+.commitinfo
