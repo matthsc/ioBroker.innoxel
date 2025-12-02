@@ -56,7 +56,6 @@ async function translateYandex(
   apiKey: string,
 ): Promise<string> {
   if (targetLang === "zh-cn") {
-    // biome-ignore lint: style/noParameterAssign
     targetLang = "zh";
   }
   try {
