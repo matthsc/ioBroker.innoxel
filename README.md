@@ -137,6 +137,9 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 1.0.1 (2024-12-09)
 - (matthsc) implement adapter checker feedback
 - (matthsc) cleanup changelog
