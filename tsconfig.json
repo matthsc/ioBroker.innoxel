@@ -14,10 +14,13 @@
 
         "skipLibCheck": true, // Don't report errors in 3rd party definitions
         "noEmitOnError": true,
+        "rootDir": "src",
         "outDir": "./build/",
         "removeComments": false,
         // this is necessary for the automatic typing of the adapter config
         "resolveJsonModule": true,
+
+        "types": ["node", "mocha", "chai"],
 
         "strict": true,
         "sourceMap": true,
