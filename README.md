@@ -207,6 +207,8 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
 
 - (matthsc) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
