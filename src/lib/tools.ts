@@ -1,5 +1,3 @@
-import axios from "axios";
-
 /**
  * Tests whether the given variable is a real object and not an Array
  * @param it The variable to test
@@ -45,6 +43,20 @@ export async function translateText(
 }
 
 /**
+ * Fetches JSON from a URL with a 15-second timeout
+ * @param url The URL to fetch
+ */
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status} ${response.statusText}`, {
+      cause: response.status,
+    });
+  }
+  return (await response.json()) as T;
+}
+
+/**
  * Translates text with Yandex API
  * @param text The text to translate
  * @param targetLang The target languate
@@ -62,12 +74,9 @@ async function translateYandex(
     const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${apiKey}&text=${encodeURIComponent(
       text,
     )}&lang=en-${targetLang}`;
-    const response = await axios.request<{ text: string[] }>({
-      url,
-      timeout: 15000,
-    });
-    if (isArray(response.data?.text)) {
-      return response.data.text[0];
+    const data = await fetchJson<{ text: string[] }>(url);
+    if (isArray(data?.text)) {
+      return data.text[0];
     }
     throw new Error("Invalid response for translate request");
   } catch (e) {
@@ -88,15 +97,14 @@ async function translateGoogle(
     const url = `http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(
       text,
     )}&ie=UTF-8&oe=UTF-8`;
-    const response = await axios.request<string[][][]>({ url, timeout: 15000 });
-    if (isArray(response.data)) {
+    const data = await fetchJson<string[][][]>(url);
+    if (isArray(data)) {
       // we got a valid response
-      return response.data[0][0][0];
+      return data[0][0][0];
     }
     throw new Error("Invalid response for translate request");
-    // biome-ignore lint: suspicious/noExplicitAny
-  } catch (e: any) {
-    if (e.response?.status === 429) {
+  } catch (e) {
+    if (e instanceof Error && e.cause === 429) {
       throw new Error(
         `Could not translate to "${targetLang}": Rate-limited by Google Translate`,
       );

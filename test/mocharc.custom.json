@@ -1,6 +1,5 @@
 {
     "extension": ["ts"],
-    "require": ["test/mocha.setup.js", "ts-node/esm"],
-    "loader": "ts-node/esm",
+    "require": ["test/mocha.setup.js"],
     "watch-files": ["src/**/*.test.ts"]
 }
