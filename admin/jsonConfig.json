@@ -51,6 +51,31 @@
             "lg": 6,
             "xl": 6
         },
+        "testConnection": {
+            "newLine": true,
+            "type": "sendTo",
+            "label": "testConnection",
+            "command": "testConnection",
+            "jsonData": "{\"ipaddress\":\"${data.ipaddress}\",\"port\":${data.port},\"username\":\"${data.username}\",\"password\":\"${data.password}\"}",
+            "variant": "outlined",
+            "showProcess": true,
+            "disabled": "!_alive || !data.ipaddress || !data.port || !data.username || !data.password",
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "testConnectionNotAlive": {
+            "type": "staticText",
+            "text": "testConnectionNotAlive",
+            "hidden": "_alive",
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 8,
+            "xl": 8
+        },
         "headerIntervals": {
             "newLine": true,
             "type": "header",

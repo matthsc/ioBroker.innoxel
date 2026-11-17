@@ -99,18 +99,12 @@ export class Innoxel extends utils.Adapter {
     }
 
     // create api object
-    this.api = new InnoxelApi({
-      ip: config.ipaddress,
-      port: config.port,
-      user: config.username,
-      password: config.password,
-      soapLogger:
-        this.log.level !== "silly"
-          ? undefined
-          : (status, message) => {
-              this.log.silly(`${status}: ${message}`);
-            },
-    });
+    this.api = this.createApi(
+      config.ipaddress,
+      config.port,
+      config.username,
+      config.password,
+    );
 
     // connect to innoxel master and listen on state changes
     await this.setupConnection();
@@ -306,29 +300,31 @@ export class Innoxel extends utils.Adapter {
     prefix: string,
     level: "error" | "debug" = "error",
   ): void {
-    let message: string;
+    this.log[level](`${prefix}: ${this.formatError(error)}`);
+  }
 
+  private formatError(error: unknown): string {
     if (error instanceof NetworkError) {
-      message = `Error connecting to Innoxel Master: ${error.message}`;
-    } else if (error instanceof EndpointError) {
+      return `Error connecting to Innoxel Master: ${error.message}`;
+    }
+    if (error instanceof EndpointError) {
       if (error.statusCode === 401) {
-        message = `Cannot authenticate to Innoxel Master, please check username/password: retrieved ${
+        return `Cannot authenticate to Innoxel Master, please check username/password: retrieved ${
           error.statusCode
         } - ${error.message || "<no message>"}`;
-      } else {
-        message = `Error from Innoxel Master: ${error.statusCode} - ${error.message}`;
       }
-    } else if (error instanceof ResponseTagError) {
-      message = `Wrong response tag for action '${error.action}': ${error.response}`;
-    } else if (error instanceof FaultResponseError) {
-      message = `Fault response recieved from Innoxel Master: ${error.fault}`;
-    } else if (error instanceof Error) {
-      message = error.message;
-    } else {
-      message = JSON.stringify(error);
+      return `Error from Innoxel Master: ${error.statusCode} - ${error.message}`;
     }
-
-    this.log[level](`${prefix}: ${message}`);
+    if (error instanceof ResponseTagError) {
+      return `Wrong response tag for action '${error.action}': ${error.response}`;
+    }
+    if (error instanceof FaultResponseError) {
+      return `Fault response recieved from Innoxel Master: ${error.fault}`;
+    }
+    if (error instanceof Error) {
+      return error.message;
+    }
+    return JSON.stringify(error);
   }
 
   /**
@@ -437,6 +433,77 @@ export class Innoxel extends utils.Adapter {
     }
   }
 
+  private createApi(
+    ip: string,
+    port: number,
+    user: string,
+    password: string,
+  ): InnoxelApi {
+    return new InnoxelApi({
+      ip,
+      port,
+      user,
+      password,
+      soapLogger:
+        this.log.level !== "silly"
+          ? undefined
+          : (status, message) => {
+              this.log.silly(`${status}: ${message}`);
+            },
+    });
+  }
+
+  private async handleTestConnection(obj: ioBroker.Message): Promise<void> {
+    if (!obj.callback) return;
+
+    const payload =
+      typeof obj.message === "string"
+        ? (JSON.parse(obj.message) as Record<string, unknown>)
+        : (obj.message as Record<string, unknown>);
+
+    const ipaddress = payload.ipaddress;
+    const port = Number(payload.port);
+    const username = payload.username;
+    const password = payload.password;
+
+    if (
+      typeof ipaddress !== "string" ||
+      !ipaddress ||
+      !Number.isFinite(port) ||
+      port <= 0 ||
+      typeof username !== "string" ||
+      !username ||
+      typeof password !== "string" ||
+      !password
+    ) {
+      this.sendTo(
+        obj.from,
+        obj.command,
+        { error: "Innoxel master information missing." },
+        obj.callback,
+      );
+      return;
+    }
+
+    try {
+      const testApi = this.createApi(ipaddress, port, username, password);
+      await testApi.getBootAndStateIdXml();
+      this.sendTo(
+        obj.from,
+        obj.command,
+        { result: "Successfully connected to Innoxel Master" },
+        obj.callback,
+      );
+    } catch (error: unknown) {
+      this.sendTo(
+        obj.from,
+        obj.command,
+        { error: this.formatError(error) },
+        obj.callback,
+      );
+    }
+  }
+
   /**
    * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
    * Using this method requires "common.messagebox" property to be set to true in io-package.json
@@ -444,6 +511,10 @@ export class Innoxel extends utils.Adapter {
   private async onMessage(obj: ioBroker.Message): Promise<void> {
     this.log.debug(`message recieved: ${JSON.stringify(obj)}`);
     if (typeof obj === "object" && obj.message) {
+      if (obj.command === "testConnection") {
+        await this.handleTestConnection(obj);
+        return;
+      }
       try {
         const shouldReload = await handleMessage(this.api, obj);
         if (shouldReload.reloadModules) await this.checkChanges();

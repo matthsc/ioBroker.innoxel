@@ -17,5 +17,7 @@
     "intervalWeather": "Weather",
     "intervalRoomTemperature": "Room thermostats",
     "intervalDeviceStatus": "Innoxel Master device details",
-    "intervalDeviceStatus_description": "Requires an user account with admin privileges"
+    "intervalDeviceStatus_description": "Requires an user account with admin privileges",
+    "testConnection": "Test connection",
+    "testConnectionNotAlive": "Adapter instance must be running to test the connection."
 }

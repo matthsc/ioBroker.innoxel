@@ -39,6 +39,8 @@ interface InnoxelInternals {
   clearTimeout: sinon.SinonStub;
   setTimeout: sinon.SinonStub;
   terminate: sinon.SinonStub;
+  sendTo: sinon.SinonStub;
+  createApi: sinon.SinonStub;
   checkChanges: sinon.SinonStub;
   updateRoomTemperatures: sinon.SinonStub;
   onReady(): Promise<void>;
@@ -96,6 +98,8 @@ function createInnoxelStub(): InnoxelInternals {
   instance.clearTimeout = sinon.stub();
   instance.setTimeout = sinon.stub();
   instance.terminate = sinon.stub();
+  instance.sendTo = sinon.stub();
+  instance.createApi = sinon.stub().returns(instance.api);
   instance.checkChanges = sinon.stub().resolves();
   instance.updateRoomTemperatures = sinon.stub().resolves();
   return instance;
@@ -243,6 +247,68 @@ describe("Innoxel adapter", () => {
       });
 
       expect(adapter.log.error).to.have.been.calledOnce;
+    });
+
+    it("tests connection and replies with result or formatted error", async () => {
+      const adapter = createInnoxelStub();
+      const callback = {
+        message: {},
+        id: 1,
+        ack: false,
+        time: 0,
+      } as ioBroker.MessageCallbackInfo;
+
+      await adapter.onMessage({
+        command: "testConnection",
+        message: {
+          ipaddress: "192.168.0.10",
+          port: 5001,
+          username: "admin",
+          password: "secret",
+        },
+        from: "system.adapter.admin.0",
+        callback,
+        _id: 3,
+      });
+
+      expect(adapter.createApi).to.have.been.calledOnceWithExactly(
+        "192.168.0.10",
+        5001,
+        "admin",
+        "secret",
+      );
+      expect(adapter.sendTo).to.have.been.calledOnceWithExactly(
+        "system.adapter.admin.0",
+        "testConnection",
+        { result: "Successfully connected to Innoxel Master" },
+        callback,
+      );
+
+      adapter.sendTo.resetHistory();
+      adapter.api.getBootAndStateIdXml.rejects(
+        new EndpointError(401, "Unauthorized"),
+      );
+
+      await adapter.onMessage({
+        command: "testConnection",
+        message: {
+          ipaddress: "192.168.0.10",
+          port: 5001,
+          username: "admin",
+          password: "wrong",
+        },
+        from: "system.adapter.admin.0",
+        callback,
+        _id: 4,
+      });
+
+      expect(adapter.sendTo).to.have.been.calledOnce;
+      expect(adapter.sendTo).to.have.been.calledWithMatch(
+        "system.adapter.admin.0",
+        "testConnection",
+        { error: sinon.match("Cannot authenticate to Innoxel Master") },
+        callback,
+      );
     });
   });
 
