@@ -20,7 +20,7 @@ describe("adapter/weather", () => {
     temperatureAirFelt: { unit: "°C", value: 17.0 },
     windSpeed: { unit: "m/s", value: 3.2 },
     sunBrightnessEast: { unit: "lx", value: 1200 },
-    precipitation: { unit: "", value: "no" },
+    precipitation: { unit: "", value: "dry" },
     customMetric: { unit: "%", value: 50 },
   } as unknown as IModuleWeather;
 
@@ -52,7 +52,25 @@ describe("adapter/weather", () => {
     );
     expect(adapter.extendObject).to.have.been.calledWith(
       "weather.precipitation",
-      sinon.match.hasNested("common.role", "value.precipitation.type"),
+      sinon.match({
+        common: {
+          role: "value.precipitation.type",
+          states: { "0": "no", "1": "yes" },
+        },
+      }),
+    );
+    expect(adapter.extendObject).to.have.been.calledWith(
+      "weather.rain",
+      sinon.match({
+        type: "state",
+        common: {
+          name: "rain",
+          read: true,
+          write: false,
+          type: "boolean",
+          role: "sensor.rain",
+        },
+      }),
     );
     expect(adapter.extendObject).to.have.been.calledWith(
       "weather.customMetric",
@@ -63,9 +81,14 @@ describe("adapter/weather", () => {
       0,
       true,
     );
+    expect(adapter.setStateChangedAsync).to.have.been.calledWithExactly(
+      "weather.rain",
+      false,
+      true,
+    );
   });
 
-  it("maps precipitation 'yes' to 1 on update", async () => {
+  it("maps precipitation 'yes' to 1 and rain to true on update", async () => {
     const adapter = createAdapterStub();
     await updateWeatherStates(adapter as unknown as Innoxel, {
       ...weatherData,
@@ -75,6 +98,11 @@ describe("adapter/weather", () => {
     expect(adapter.setStateChangedAsync).to.have.been.calledWithExactly(
       "weather.precipitation",
       1,
+      true,
+    );
+    expect(adapter.setStateChangedAsync).to.have.been.calledWithExactly(
+      "weather.rain",
+      true,
       true,
     );
   });

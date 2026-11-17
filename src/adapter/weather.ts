@@ -20,6 +20,21 @@ export async function createWeatherStates(
     });
   });
 
+  if ("precipitation" in data) {
+    promises.push(
+      adapter.extendObject("weather.rain", {
+        type: "state",
+        common: {
+          name: "rain",
+          read: true,
+          write: false,
+          type: "boolean",
+          role: "sensor.rain",
+        },
+      }),
+    );
+  }
+
   await Promise.all(promises);
   await updateWeatherStates(adapter, data);
 }
@@ -55,7 +70,7 @@ function getCommon(
     read: true,
     write: false,
     type: "number",
-    states: isPrecipitation ? ["yes", "no"] : undefined,
+    states: isPrecipitation ? { "0": "no", "1": "yes" } : undefined,
     role,
     unit: isPrecipitation ? "" : data.unit,
   };
@@ -74,9 +89,13 @@ export async function updateWeatherStates(
     if (ignoreProperty(data, key)) return Promise.resolve();
 
     const obj = (data as IndexableWeatherData)[key];
-    let value = obj.value;
+    const value = obj.value;
     if (key === "precipitation") {
-      value = value === "no" ? 0 : 1;
+      const isRaining = value !== "dry";
+      return Promise.all([
+        adapter.setStateChangedAsync(`weather.${key}`, isRaining ? 1 : 0, true),
+        adapter.setStateChangedAsync("weather.rain", isRaining, true),
+      ]);
     }
     return adapter.setStateChangedAsync(`weather.${key}`, value, true);
   });

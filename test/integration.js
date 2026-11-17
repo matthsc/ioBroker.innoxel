@@ -41,7 +41,7 @@ function createMockSoapServer() {
           responseXml = `<getStateResponse><moduleList>
             <module class="masterWeatherModule" index="0" state="ready">
               <temperatureAir unit="°C" value="18.5" />
-              <precipitation unit="" value="no" />
+              <precipitation unit="" value="dry" />
             </module>
           </moduleList></getStateResponse>`;
         } else if (body.includes("masterRoomClimateModule")) {

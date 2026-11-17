@@ -138,7 +138,8 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
     ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (matthsc & dependabot & iobroker bot) dependency updates and reductions
+- (matthsc) fix precipitation state, add rain state
+- (matthsc & dependabot & iobroker bot) dependency updates and cleanups
 
 ### 2.0.0 (2026-05-16)
 - (matthsc) implement adapter checker feedback and create-adapter migrations
