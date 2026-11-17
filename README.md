@@ -138,6 +138,8 @@ sendTo("innoxel.0", "setTemperature", "1:setTemperature:20", () => {
     ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (matthsc) add connection test button to admin
+- (matthsc) make transient connection errors more resilient
 - (matthsc) fix precipitation state, add rain state
 - (matthsc & dependabot & iobroker bot) dependency updates and cleanups
 
