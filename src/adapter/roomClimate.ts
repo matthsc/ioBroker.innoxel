@@ -2,7 +2,7 @@ import type {
   IModuleRoomClimate,
   IModuleRoomClimateIdentity,
 } from "innoxel-soap";
-import type { Innoxel } from "../main";
+import type { Innoxel } from "../main.ts";
 
 export async function createRoomClimateState(
   adapter: Innoxel,

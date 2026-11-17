@@ -1,5 +1,5 @@
 import type { IDeviceStatusData, IDeviceStatusResponse } from "innoxel-soap";
-import type { Innoxel } from "../main";
+import type { Innoxel } from "../main.ts";
 
 type IndexableDeviceStatusResponse = IDeviceStatusResponse & {
   [key: string]: IDeviceStatusData | string;

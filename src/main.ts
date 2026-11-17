@@ -18,13 +18,13 @@ import {
 import {
   createDeviceStatusStates,
   updateDeviceStatusStates,
-} from "./adapter/deviceStatus";
-import { createOrUpdateIdentities } from "./adapter/identities";
-import { handleMessage } from "./adapter/messageHandler";
-import { createModuleStates, updateModuleStates } from "./adapter/modules";
-import { updateRoomClimate } from "./adapter/roomClimate";
-import { createWeatherStates, updateWeatherStates } from "./adapter/weather";
-import esMain from "./lib/esMain";
+} from "./adapter/deviceStatus.ts";
+import { createOrUpdateIdentities } from "./adapter/identities.ts";
+import { handleMessage } from "./adapter/messageHandler.ts";
+import { createModuleStates, updateModuleStates } from "./adapter/modules.ts";
+import { updateRoomClimate } from "./adapter/roomClimate.ts";
+import { createWeatherStates, updateWeatherStates } from "./adapter/weather.ts";
+import esMain from "./lib/esMain.ts";
 
 interface ITimeoutsKeys {
   change: ioBroker.Timeout;

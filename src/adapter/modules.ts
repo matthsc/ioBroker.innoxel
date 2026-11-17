@@ -5,8 +5,8 @@ import type {
   IChannelOut,
   IModuleBase,
 } from "innoxel-soap";
-import { asArray } from "../lib/util";
-import type { Innoxel } from "../main";
+import { asArray } from "../lib/util.ts";
+import type { Innoxel } from "../main.ts";
 
 function getModuleIndex(module: IModuleBase): string {
   return module.index.toString().padStart(3, "0");

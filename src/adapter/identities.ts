@@ -1,7 +1,7 @@
 import type { ModuleIdentityType } from "innoxel-soap";
-import { asArray } from "../lib/util";
-import type { Innoxel } from "../main";
-import { createRoomClimateState } from "./roomClimate";
+import { asArray } from "../lib/util.ts";
+import type { Innoxel } from "../main.ts";
+import { createRoomClimateState } from "./roomClimate.ts";
 
 export async function createOrUpdateIdentities(
   adapter: Innoxel,

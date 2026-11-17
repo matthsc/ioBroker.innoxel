@@ -62,6 +62,7 @@
     "translate": "translate-adapter",
     "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
     "test:package": "mocha test/package --exit",
+    "pretest:integration": "node --run build",
     "test:integration": "mocha test/integration --exit",
     "test": "node --run test:ts && node --run test:package",
     "test-all": "node --run test:ts && node --run test:package && node --run test:integration",

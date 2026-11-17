@@ -1,5 +1,5 @@
 import type { IModuleWeather, IWeatherData } from "innoxel-soap";
-import type { Innoxel } from "../main";
+import type { Innoxel } from "../main.ts";
 
 type IndexableWeatherData = IModuleWeather & { [key: string]: IWeatherData };
 
