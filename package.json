@@ -73,18 +73,6 @@
     "format": "biome format --write .",
     "release": "release-script -p iobroker license"
   },
-  "c8": {
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "src/**/*.test.ts"
-    ],
-    "reporter": [
-      "text-summary",
-      "html"
-    ]
-  },
   "bugs": {
     "url": "https://github.com/matthsc/ioBroker.innoxel/issues"
   },
