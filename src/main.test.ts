@@ -247,6 +247,50 @@ describe("Innoxel adapter", () => {
       });
 
       expect(adapter.log.error).to.have.been.calledOnce;
+      expect(adapter.sendTo).to.not.have.been.called;
+    });
+
+    it("sends callback response on success and error when callback is provided", async () => {
+      const adapter = createInnoxelStub();
+      const callback = {
+        message: {},
+        id: 1,
+        ack: false,
+        time: 0,
+      } as ioBroker.MessageCallbackInfo;
+
+      await adapter.onMessage({
+        command: "triggerInModule",
+        message: "1:0",
+        from: "javascript.0",
+        callback,
+        _id: 1,
+      });
+
+      expect(adapter.sendTo).to.have.been.calledOnceWithExactly(
+        "javascript.0",
+        "triggerInModule",
+        { result: "ok" },
+        callback,
+      );
+
+      adapter.sendTo.resetHistory();
+      adapter.api.triggerPushButton.rejects(new Error("bad"));
+
+      await adapter.onMessage({
+        command: "triggerInModule",
+        message: "1:0",
+        from: "javascript.0",
+        callback,
+        _id: 2,
+      });
+
+      expect(adapter.sendTo).to.have.been.calledOnceWithExactly(
+        "javascript.0",
+        "triggerInModule",
+        { error: "bad" },
+        callback,
+      );
     });
 
     it("tests connection and replies with result or formatted error", async () => {

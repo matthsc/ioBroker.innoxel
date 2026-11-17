@@ -520,10 +520,26 @@ export class Innoxel extends utils.Adapter {
         if (shouldReload.reloadModules) await this.checkChanges();
         if (shouldReload.reloadRoomClimates)
           await this.updateRoomTemperatures();
+        if (obj.callback) {
+          const response =
+            shouldReload.reloadModules || shouldReload.reloadRoomClimates
+              ? { result: "ok" }
+              : { error: `Unknown command: ${obj.command}` };
+          this.sendTo(obj.from, obj.command, response, obj.callback);
+        }
       } catch (e: unknown) {
+        const errorMessage = this.formatError(e);
         this.log.error(
-          `Error processing recieved message ${JSON.stringify(obj)}: ${(e as Error).message}`,
+          `Error processing recieved message ${JSON.stringify(obj)}: ${errorMessage}`,
         );
+        if (obj.callback) {
+          this.sendTo(
+            obj.from,
+            obj.command,
+            { error: errorMessage },
+            obj.callback,
+          );
+        }
       }
     }
   }
