@@ -118,6 +118,15 @@ async function waitForState(harness, id, timeoutMs = 3000) {
   return harness.states.getStateAsync(id);
 }
 
+async function waitForRequest(mockServer, predicate, timeoutMs = 3000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    if (mockServer.requests.some(predicate)) return true;
+    await new Promise((r) => setTimeout(r, 50));
+  }
+  return mockServer.requests.some(predicate);
+}
+
 tests.integration(join(__dirname, ".."), {
   defineAdditionalTests({ suite }) {
     suite("Innoxel SOAP integration", (getHarness) => {
@@ -179,18 +188,17 @@ tests.integration(join(__dirname, ".."), {
           "innoxel.0.moduleDim.003.0.outState",
           { val: 80, ack: false },
         );
-        await new Promise((r) => setTimeout(r, 200));
-
         expect(
-          mockServer.requests.some(
+          await waitForRequest(
+            mockServer,
             (r) => r.action === "setState" && r.body.includes('dimValue="80"'),
           ),
         ).to.equal(true);
 
         harness.sendTo("innoxel.0", "triggerInModule", "1:0", () => {});
-        await new Promise((r) => setTimeout(r, 200));
         expect(
-          mockServer.requests.some(
+          await waitForRequest(
+            mockServer,
             (r) =>
               r.action === "setState" &&
               r.body.includes('perform="autoImpulse"'),

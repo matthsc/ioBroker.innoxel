@@ -127,30 +127,34 @@ export class Innoxel extends utils.Adapter {
     this.masterConnected = true;
     this.reconnectAttempted = false;
     this.reconnectDelayMs = INITIAL_RECONNECT_DELAY_MS;
-    await this.setState("info.connection", true, true);
-    this.log.info("Successfully connected to Innoxel Master");
 
     this.stopScheduling = false;
-    this.runAndSchedule(
-      "change",
-      this.config.changeInterval,
-      this.checkChanges,
-    );
-    this.runAndSchedule(
-      "roomTemperature",
-      this.config.roomTemperatureInterval,
-      this.updateRoomTemperatures,
-    );
-    this.runAndSchedule(
-      "weather",
-      this.config.weatherInterval,
-      this.updateWeather,
-    );
-    this.runAndSchedule(
-      "deviceStatus",
-      this.config.deviceStatusInterval,
-      this.updateDeviceStatus,
-    );
+    await Promise.all([
+      this.runAndSchedule(
+        "change",
+        this.config.changeInterval,
+        this.checkChanges,
+      ),
+      this.runAndSchedule(
+        "roomTemperature",
+        this.config.roomTemperatureInterval,
+        this.updateRoomTemperatures,
+      ),
+      this.runAndSchedule(
+        "weather",
+        this.config.weatherInterval,
+        this.updateWeather,
+      ),
+      this.runAndSchedule(
+        "deviceStatus",
+        this.config.deviceStatusInterval,
+        this.updateDeviceStatus,
+      ),
+    ]);
+    if (this.masterConnected && !this.unloading) {
+      await this.setState("info.connection", true, true);
+      this.log.info("Successfully connected to Innoxel Master");
+    }
   }
 
   private async updateLastIds(): Promise<boolean> {
