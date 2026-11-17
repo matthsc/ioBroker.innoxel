@@ -12,7 +12,19 @@ interface InnoxelInternals {
   config: Partial<ioBroker.AdapterConfig>;
   api: Record<string, sinon.SinonStub>;
   timeouts: Record<string, ioBroker.Timeout>;
+  reconnectTimeout?: ioBroker.Timeout;
   stopScheduling: boolean;
+  masterConnected: boolean;
+  reconnectAttempted: boolean;
+  unloading: boolean;
+  reconnectDelayMs: number;
+  lastIdXml: string;
+  lastBootId: string;
+  initialized: {
+    change: boolean;
+    weather: boolean;
+    deviceStatus: boolean;
+  };
   log: {
     debug: sinon.SinonStub;
     info: sinon.SinonStub;
@@ -21,6 +33,7 @@ interface InnoxelInternals {
   };
   setState: sinon.SinonStub;
   setStateChangedAsync: sinon.SinonStub;
+  extendObject: sinon.SinonStub;
   getStateAsync: sinon.SinonStub;
   subscribeStatesAsync: sinon.SinonStub;
   clearTimeout: sinon.SinonStub;
@@ -29,6 +42,12 @@ interface InnoxelInternals {
   checkChanges: sinon.SinonStub;
   updateRoomTemperatures: sinon.SinonStub;
   onReady(): Promise<void>;
+  setupConnection(): Promise<void>;
+  runAndSchedule(
+    key: string,
+    timeout: number,
+    handler: () => Promise<void>,
+  ): Promise<void>;
   onStateChange(
     id: string,
     state: ioBroker.State | null | undefined,
@@ -43,11 +62,25 @@ function createInnoxelStub(): InnoxelInternals {
   instance.config = {};
   instance.timeouts = Object.create(null);
   instance.stopScheduling = true;
+  instance.masterConnected = false;
+  instance.reconnectAttempted = false;
+  instance.unloading = false;
+  instance.reconnectDelayMs = 5_000;
+  instance.lastIdXml = "";
+  instance.lastBootId = "";
+  instance.initialized = {
+    change: false,
+    weather: false,
+    deviceStatus: false,
+  };
   instance.api = {
     setRoomClimate: sinon.stub().resolves(21),
     setDimValue: sinon.stub().resolves(),
     triggerOutModule: sinon.stub().resolves(),
     triggerPushButton: sinon.stub().resolves(),
+    getBootAndStateIdXml: sinon.stub().resolves("<xml />"),
+    getBootAndStateIds: sinon.stub().resolves(["1", "1"]),
+    getIdentities: sinon.stub().resolves([]),
   };
   instance.log = {
     debug: sinon.stub(),
@@ -57,6 +90,7 @@ function createInnoxelStub(): InnoxelInternals {
   };
   instance.setState = sinon.stub().resolves();
   instance.setStateChangedAsync = sinon.stub().resolves();
+  instance.extendObject = sinon.stub().resolves();
   instance.getStateAsync = sinon.stub().resolves({ val: 0 });
   instance.subscribeStatesAsync = sinon.stub().resolves();
   instance.clearTimeout = sinon.stub();
@@ -253,6 +287,125 @@ describe("Innoxel adapter", () => {
       expect(adapter.log.error).to.have.been.calledWithMatch(
         "Fault response recieved from Innoxel Master",
       );
+    });
+  });
+
+  describe("reconnect and backoff", () => {
+    it("retries with exponential backoff without spamming errors or terminating on transient failure", async () => {
+      const adapter = createInnoxelStub();
+      adapter.config = {
+        changeInterval: 0,
+        roomTemperatureInterval: 0,
+        weatherInterval: 0,
+        deviceStatusInterval: 0,
+      };
+      adapter.api.getBootAndStateIdXml.rejects(
+        new NetworkError(new Error("ECONNREFUSED")),
+      );
+      const fakeTimer = {} as ioBroker.Timeout;
+      adapter.setTimeout.returns(fakeTimer);
+
+      // First failure logs error once and schedules 5s reconnect
+      await adapter.setupConnection();
+      expect(adapter.terminate).to.not.have.been.called;
+      expect(adapter.setState).to.have.been.calledWithExactly(
+        "info.connection",
+        false,
+        true,
+      );
+      expect(adapter.log.error).to.have.been.calledOnce;
+      expect(adapter.setTimeout.firstCall.args[1]).to.equal(5_000);
+
+      // Simulate timer firing for second failure: logs debug only and backs off to 10s
+      const retryCallback = adapter.setTimeout.firstCall
+        .args[0] as () => void;
+      retryCallback();
+      await new Promise((resolve) => setImmediate(resolve));
+
+      expect(adapter.log.error).to.have.been.calledOnce;
+      expect(adapter.log.debug).to.have.been.calledWithMatch(
+        "setupConnection: Error connecting to Innoxel Master: ECONNREFUSED",
+      );
+      expect(adapter.setTimeout.secondCall.args[1]).to.equal(10_000);
+
+      // Master comes online: reconnects and resets backoff
+      adapter.api.getBootAndStateIdXml.resolves("<xml />");
+      const secondRetryCallback = adapter.setTimeout.secondCall
+        .args[0] as () => void;
+      secondRetryCallback();
+      await new Promise((resolve) => setImmediate(resolve));
+
+      expect(adapter.masterConnected).to.equal(true);
+      expect(adapter.reconnectDelayMs).to.equal(5_000);
+      expect(adapter.setState).to.have.been.calledWithExactly(
+        "info.connection",
+        true,
+        true,
+      );
+      expect(adapter.log.info).to.have.been.calledWithExactly(
+        "Successfully connected to Innoxel Master",
+      );
+    });
+
+    it("terminates immediately on permanent 401, 404, or ResponseTagError", async () => {
+      for (const error of [
+        new EndpointError(401, "Unauthorized"),
+        new EndpointError(404, "Not Found"),
+        new ResponseTagError("getBootAndStateId", {}),
+      ]) {
+        const adapter = createInnoxelStub();
+        adapter.api.getBootAndStateIdXml.rejects(error);
+
+        await adapter.setupConnection();
+
+        expect(adapter.terminate).to.have.been.calledOnce;
+        expect(adapter.setTimeout).to.not.have.been.called;
+        expect(adapter.log.error).to.have.been.calledOnce;
+      }
+    });
+
+    it("pauses polling and schedules reconnect when a scheduled poll fails", async () => {
+      const adapter = createInnoxelStub();
+      const pollTimeout = {} as ioBroker.Timeout;
+      adapter.timeouts.weather = pollTimeout;
+      adapter.stopScheduling = false;
+      adapter.masterConnected = true;
+      adapter.lastIdXml = "<old />";
+
+      const failingHandler = sinon
+        .stub()
+        .rejects(new NetworkError(new Error("ETIMEDOUT")));
+
+      await adapter.runAndSchedule("change", 30, failingHandler);
+
+      expect(adapter.masterConnected).to.equal(false);
+      expect(adapter.stopScheduling).to.equal(true);
+      expect(adapter.lastIdXml).to.equal("");
+      expect(adapter.clearTimeout).to.have.been.calledWithExactly(pollTimeout);
+      expect(adapter.setState).to.have.been.calledWithExactly(
+        "info.connection",
+        false,
+        true,
+      );
+      expect(adapter.log.error).to.have.been.calledOnce;
+      expect(adapter.setTimeout).to.have.been.calledOnce;
+      expect(adapter.setTimeout.firstCall.args[1]).to.equal(5_000);
+    });
+
+    it("clears pending reconnectTimeout on unload", () => {
+      const adapter = createInnoxelStub();
+      const reconnectTimer = {} as ioBroker.Timeout;
+      adapter.reconnectTimeout = reconnectTimer;
+      const cb = sinon.stub();
+
+      adapter.onUnload(cb);
+
+      expect(adapter.unloading).to.equal(true);
+      expect(adapter.reconnectTimeout).to.equal(undefined);
+      expect(adapter.clearTimeout).to.have.been.calledWithExactly(
+        reconnectTimer,
+      );
+      expect(cb).to.have.been.calledOnce;
     });
   });
 });

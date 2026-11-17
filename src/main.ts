@@ -26,6 +26,9 @@ import { updateRoomClimate } from "./adapter/roomClimate.ts";
 import { createWeatherStates, updateWeatherStates } from "./adapter/weather.ts";
 import esMain from "./lib/esMain.ts";
 
+const INITIAL_RECONNECT_DELAY_MS = 5_000;
+const MAX_RECONNECT_DELAY_MS = 60_000;
+
 interface ITimeoutsKeys {
   change: ioBroker.Timeout;
   weather: ioBroker.Timeout;
@@ -42,7 +45,17 @@ export class Innoxel extends utils.Adapter {
   private lastBootId = "";
 
   private timeouts = Object.create(null) as ITimeouts;
+  private reconnectTimeout?: ioBroker.Timeout;
   private stopScheduling = true;
+  private masterConnected = false;
+  private reconnectAttempted = false;
+  private unloading = false;
+  private reconnectDelayMs = INITIAL_RECONNECT_DELAY_MS;
+  private initialized = {
+    change: false,
+    weather: false,
+    deviceStatus: false,
+  };
 
   public constructor(options: Partial<utils.AdapterOptions> = {}) {
     super({
@@ -99,31 +112,27 @@ export class Innoxel extends utils.Adapter {
             },
     });
 
-    // connecto to innoxel master and listen on state changes
-    await this.setupConnection(true);
+    // connect to innoxel master and listen on state changes
+    await this.setupConnection();
     for (const state of ["*.button", "moduleDim.*.outState", "roomClimate.*"])
       await this.subscribeStatesAsync(state);
   }
 
-  private async setupConnection(first = false): Promise<void> {
+  private async setupConnection(): Promise<void> {
+    if (this.unloading) return;
     try {
-      await this.reconnect(first);
+      await this.reconnect();
     } catch (error: unknown) {
-      await this.setState("info.connection", false, true);
-      this.logError(error, "setupConnection");
-
-      if (first) {
-        this.terminate("terminating adapter because of previous error");
-      } else {
-        // TODO: try connecting again
-        // TODO: until now, we don't handle "disconnects", since we don't have "connections"
-      }
+      await this.handleConnectionError(error, "setupConnection");
     }
   }
 
-  private async reconnect(first?: boolean): Promise<void> {
+  private async reconnect(): Promise<void> {
     this.cleanup();
-    await this.updateLastIds(first);
+    await this.updateLastIds();
+    this.masterConnected = true;
+    this.reconnectAttempted = false;
+    this.reconnectDelayMs = INITIAL_RECONNECT_DELAY_MS;
     await this.setState("info.connection", true, true);
     this.log.info("Successfully connected to Innoxel Master");
 
@@ -132,53 +141,51 @@ export class Innoxel extends utils.Adapter {
       "change",
       this.config.changeInterval,
       this.checkChanges,
-      true,
     );
     this.runAndSchedule(
       "roomTemperature",
       this.config.roomTemperatureInterval,
       this.updateRoomTemperatures,
-      true,
     );
     this.runAndSchedule(
       "weather",
       this.config.weatherInterval,
       this.updateWeather,
-      true,
     );
     this.runAndSchedule(
       "deviceStatus",
       this.config.deviceStatusInterval,
       this.updateDeviceStatus,
-      true,
     );
   }
 
-  private async updateLastIds(first?: boolean): Promise<boolean> {
+  private async updateLastIds(): Promise<boolean> {
     const xml = await this.api.getBootAndStateIdXml();
-    if (this.lastIdXml !== xml) {
-      this.lastIdXml = xml;
-      const [bootId, stateId] = await this.api.getBootAndStateIds(xml);
-      await Promise.all([
-        this.setStateChangedAsync("info.bootId", bootId, true),
-        this.setStateChangedAsync("info.stateId", stateId, true),
-      ]);
-      if (this.lastBootId !== bootId) {
-        this.lastBootId = bootId;
-        await this.updateIdentities(first);
-      }
-      return true;
+    if (this.lastIdXml === xml) {
+      return false;
     }
 
-    return false;
+    const [bootId, stateId] = await this.api.getBootAndStateIds(xml);
+    await Promise.all([
+      this.setStateChangedAsync("info.bootId", bootId, true),
+      this.setStateChangedAsync("info.stateId", stateId, true),
+    ]);
+    if (this.lastBootId !== bootId) {
+      await this.updateIdentities();
+      this.lastBootId = bootId;
+    }
+    this.lastIdXml = xml;
+    return true;
   }
 
-  private checkChanges = async (first?: boolean): Promise<void> => {
+  private checkChanges = async (): Promise<void> => {
+    const first = !this.initialized.change;
     if ((await this.updateLastIds()) || first) {
       const data = await this.api.getModuleStates();
       await (first
         ? createModuleStates(this, data)
         : updateModuleStates(this, data));
+      this.initialized.change = true;
     }
   };
   private updateRoomTemperatures = async (): Promise<void> => {
@@ -186,58 +193,101 @@ export class Innoxel extends utils.Adapter {
     await updateRoomClimate(this, data);
   };
 
-  private updateWeather = async (first?: boolean): Promise<void> => {
+  private updateWeather = async (): Promise<void> => {
+    const first = !this.initialized.weather;
     const weather = await this.api.getWeather();
     await (first
       ? createWeatherStates(this, weather)
       : updateWeatherStates(this, weather));
+    this.initialized.weather = true;
   };
 
-  private updateDeviceStatus = async (first?: boolean): Promise<void> => {
+  private updateDeviceStatus = async (): Promise<void> => {
+    const first = !this.initialized.deviceStatus;
     const data = await this.api.getDeviceState();
     await (first
       ? createDeviceStatusStates(this, data)
       : updateDeviceStatusStates(this, data));
+    this.initialized.deviceStatus = true;
   };
 
-  private async updateIdentities(terminateOnError?: boolean): Promise<void> {
+  private async updateIdentities(): Promise<void> {
+    const data = await this.api.getIdentities();
+    await createOrUpdateIdentities(this, data);
+  }
+
+  private async runAndSchedule(
+    key: keyof ITimeouts,
+    timeout: number,
+    handler: () => Promise<void>,
+  ): Promise<void> {
+    if (timeout <= 0 || this.stopScheduling || this.unloading) return;
+
     try {
-      const data = await this.api.getIdentities();
-      await createOrUpdateIdentities(this, data);
-    } catch (e: unknown) {
-      const err = e as Error;
-      this.log.error(`Error updating identities: ${err.message}`);
-      this.log.debug(err.toString());
-      if (terminateOnError) this.terminate("Error updating identities");
+      await handler();
+    } catch (err: unknown) {
+      await this.handleConnectionError(err, `runAndSchedule ${key}`);
+      return;
+    }
+
+    if (!this.stopScheduling && !this.unloading) {
+      this.clearTimeout(this.timeouts[key]);
+      this.timeouts[key] = this.setTimeout(() => {
+        void this.runAndSchedule(key, timeout, handler);
+      }, timeout * 1000) as ioBroker.Timeout;
     }
   }
 
-  private runAndSchedule = async (
-    key: keyof ITimeouts,
-    timeout: number,
-    handler: (first?: boolean) => Promise<void>,
-    first?: boolean,
-  ): Promise<void> => {
-    if (timeout <= 0) return;
+  private isPermanentError(error: unknown): boolean {
+    if (error instanceof EndpointError) {
+      return error.statusCode === 401 || error.statusCode === 404;
+    }
+    return error instanceof ResponseTagError;
+  }
 
-    try {
-      await handler(first);
-    } catch (err: unknown) {
-      this.logError(err, `runAndSchedule ${key}`);
+  private async handleConnectionError(
+    error: unknown,
+    prefix: string,
+  ): Promise<void> {
+    if (this.isPermanentError(error)) {
+      this.masterConnected = false;
+      this.cleanup();
+      await this.setState("info.connection", false, true);
+      this.logError(error, prefix);
+      this.terminate("terminating adapter because of previous error");
+      return;
     }
 
-    if (!this.stopScheduling) {
-      this.clearTimeout(this.timeouts[key]);
-      this.timeouts[key] = this.setTimeout(
-        this.runAndSchedule,
-        timeout * 1000,
-        key,
-        timeout,
-        handler,
-        false,
-      ) as ioBroker.Timeout;
+    const wasConnected = this.masterConnected;
+    this.masterConnected = false;
+    this.lastIdXml = "";
+    this.cleanup();
+
+    if (wasConnected || !this.reconnectAttempted) {
+      this.reconnectAttempted = true;
+      await this.setState("info.connection", false, true);
+      this.logError(error, prefix);
+    } else {
+      this.logError(error, prefix, "debug");
     }
-  };
+
+    this.scheduleReconnect();
+  }
+
+  private scheduleReconnect(): void {
+    if (this.unloading || this.reconnectTimeout) return;
+
+    const delay = this.reconnectDelayMs;
+    this.reconnectDelayMs = Math.min(
+      this.reconnectDelayMs * 2,
+      MAX_RECONNECT_DELAY_MS,
+    );
+    this.log.debug(`Scheduling reconnect in ${delay / 1000}s`);
+    this.reconnectTimeout = this.setTimeout(() => {
+      this.reconnectTimeout = undefined;
+      void this.setupConnection();
+    }, delay) as ioBroker.Timeout;
+  }
 
   private cleanup(): void {
     this.stopScheduling = true;
@@ -245,9 +295,17 @@ export class Innoxel extends utils.Adapter {
     for (const key of keys) {
       this.clearTimeout(this.timeouts[key]);
     }
+    if (this.reconnectTimeout) {
+      this.clearTimeout(this.reconnectTimeout);
+      this.reconnectTimeout = undefined;
+    }
   }
 
-  private logError(error: unknown, prefix: string): void {
+  private logError(
+    error: unknown,
+    prefix: string,
+    level: "error" | "debug" = "error",
+  ): void {
     let message: string;
 
     if (error instanceof NetworkError) {
@@ -270,7 +328,7 @@ export class Innoxel extends utils.Adapter {
       message = JSON.stringify(error);
     }
 
-    this.log.error(`${prefix}: ${message}`);
+    this.log[level](`${prefix}: ${message}`);
   }
 
   /**
@@ -278,6 +336,7 @@ export class Innoxel extends utils.Adapter {
    */
   private onUnload(callback: () => void): void {
     try {
+      this.unloading = true;
       this.cleanup();
       this.log.info("cleaned everything up...");
       callback();
@@ -371,7 +430,11 @@ export class Innoxel extends utils.Adapter {
       this.log.debug(err.toString());
     }
 
-    await this.checkChanges();
+    try {
+      await this.checkChanges();
+    } catch (err: unknown) {
+      await this.handleConnectionError(err, "onStateChange checkChanges");
+    }
   }
 
   /**
