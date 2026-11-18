@@ -29,22 +29,19 @@ import esMain from "./lib/esMain.ts";
 const INITIAL_RECONNECT_DELAY_MS = 5_000;
 const MAX_RECONNECT_DELAY_MS = 60_000;
 
-interface ITimeoutsKeys {
-  change: ioBroker.Timeout;
-  weather: ioBroker.Timeout;
-  roomTemperature: ioBroker.Timeout;
-  deviceStatus: ioBroker.Timeout;
-}
-type ITimeouts = {
-  [key in keyof ITimeoutsKeys]: ioBroker.Timeout;
-} & ITimeoutsKeys;
+type TimeoutKey = "change" | "weather" | "roomTemperature" | "deviceStatus";
 
 export class Innoxel extends utils.Adapter {
   private api!: InnoxelApi;
   private lastIdXml = "";
   private lastBootId = "";
 
-  private timeouts = Object.create(null) as ITimeouts;
+  private timeouts: Record<TimeoutKey, ioBroker.Timeout | undefined> = {
+    change: undefined,
+    weather: undefined,
+    roomTemperature: undefined,
+    deviceStatus: undefined,
+  };
   private reconnectTimeout?: ioBroker.Timeout;
   private stopScheduling = true;
   private masterConnected = false;
@@ -63,7 +60,6 @@ export class Innoxel extends utils.Adapter {
       name: "innoxel",
     });
     this.on("ready", this.onReady.bind(this));
-    // this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("message", this.onMessage.bind(this));
     this.on("unload", this.onUnload.bind(this));
@@ -215,7 +211,7 @@ export class Innoxel extends utils.Adapter {
   }
 
   private async runAndSchedule(
-    key: keyof ITimeouts,
+    key: TimeoutKey,
     timeout: number,
     handler: () => Promise<void>,
   ): Promise<void> {
@@ -289,9 +285,12 @@ export class Innoxel extends utils.Adapter {
 
   private cleanup(): void {
     this.stopScheduling = true;
-    const keys = Object.keys(this.timeouts) as (keyof ITimeoutsKeys)[];
-    for (const key of keys) {
-      this.clearTimeout(this.timeouts[key]);
+    for (const key of Object.keys(this.timeouts) as TimeoutKey[]) {
+      const timeout = this.timeouts[key];
+      if (timeout) {
+        this.clearTimeout(timeout);
+        this.timeouts[key] = undefined;
+      }
     }
     if (this.reconnectTimeout) {
       this.clearTimeout(this.reconnectTimeout);
@@ -367,6 +366,10 @@ export class Innoxel extends utils.Adapter {
       const idParts = id.split(".");
       const moduleType = idParts[2];
       const moduleIndex = Number.parseInt(idParts[3], 10);
+      if (Number.isNaN(moduleIndex)) {
+        this.log.error(`Invalid module index in state id ${id}`);
+        return;
+      }
       if (moduleType === "roomClimate") {
         const temperatureType =
           idParts[4] as unknown as ModuleRoomClimateSetType;
@@ -378,6 +381,10 @@ export class Innoxel extends utils.Adapter {
         await this.updateRoomTemperatures();
       } else {
         const channel = Number.parseInt(idParts[4], 10);
+        if (Number.isNaN(channel)) {
+          this.log.error(`Invalid channel index in state id ${id}`);
+          return;
+        }
         const stateName = idParts[5];
         switch (moduleType) {
           case "moduleDim": {
@@ -423,11 +430,10 @@ export class Innoxel extends utils.Adapter {
         }
       }
     } catch (e: unknown) {
-      const err = e as Error;
       this.log.error(
-        `Error processing state change for ${id} (val=${state.val}): ${err.message}`,
+        `Error processing state change for ${id} (val=${state.val}): ${this.formatError(e)}`,
       );
-      this.log.debug(err.toString());
+      this.log.debug(String(e));
     }
 
     try {
@@ -460,10 +466,21 @@ export class Innoxel extends utils.Adapter {
   private async handleTestConnection(obj: ioBroker.Message): Promise<void> {
     if (!obj.callback) return;
 
-    const payload =
-      typeof obj.message === "string"
-        ? (JSON.parse(obj.message) as Record<string, unknown>)
-        : (obj.message as Record<string, unknown>);
+    let payload: Record<string, unknown>;
+    try {
+      payload =
+        typeof obj.message === "string"
+          ? (JSON.parse(obj.message) as Record<string, unknown>)
+          : (obj.message as Record<string, unknown>);
+    } catch {
+      this.sendTo(
+        obj.from,
+        obj.command,
+        { error: "Invalid message payload." },
+        obj.callback,
+      );
+      return;
+    }
 
     const ipaddress = payload.ipaddress;
     const port = Number(payload.port);
@@ -519,6 +536,19 @@ export class Innoxel extends utils.Adapter {
         await this.handleTestConnection(obj);
         return;
       }
+      if (!this.api) {
+        const errorMessage = "Adapter not initialized.";
+        this.log.error(errorMessage);
+        if (obj.callback) {
+          this.sendTo(
+            obj.from,
+            obj.command,
+            { error: errorMessage },
+            obj.callback,
+          );
+        }
+        return;
+      }
       try {
         const shouldReload = await handleMessage(this.api, obj);
         if (shouldReload.reloadModules) await this.checkChanges();
@@ -549,20 +579,9 @@ export class Innoxel extends utils.Adapter {
   }
 }
 
-// if (require.main !== module) {
-//   // Export the constructor in compact mode
-//   module.exports = (options: Partial<utils.AdapterOptions> | undefined) =>
-//     new Innoxel(options);
-// } else {
-//   // otherwise start the instance directly
-//   (() => new Innoxel())();
-// }
-
-// if (require.main !== module) {
 // Export the constructor for compact mode
 export default (options: Partial<utils.AdapterOptions> | undefined) =>
   new Innoxel(options);
-// } else {
 if (esMain(import.meta)) {
   // otherwise start the instance directly
   (() => new Innoxel())();

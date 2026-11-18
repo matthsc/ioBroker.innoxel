@@ -32,11 +32,11 @@ export async function createRoomClimateState(
   await Promise.all([
     createState("operatingState", "string", {
       role: "string",
-      states: ["heating", "cooling"],
+      states: { heating: "heating", cooling: "cooling" },
     }),
     createState("valveState", "string", {
       role: "string",
-      states: ["open", "closed"],
+      states: { open: "open", closed: "closed" },
     }),
     createState("valveOpen", "boolean", { role: "indicator" }),
     createState("actualTemperatureMean", "number", {
@@ -85,6 +85,7 @@ export async function updateRoomClimate(
       if (value === undefined) {
         if (key.includes("Temperature")) value = 0;
         else if (key.includes("State")) value = "unknown";
+        else value = "";
 
         value = { val: value, q: 1 };
       }

@@ -61,4 +61,24 @@ describe("adapter/messageHandler => handleMessage", () => {
 
     expect(result).to.deep.equal({});
   });
+
+  it("rejects invalid or non-numeric message payloads", async () => {
+    const api = {};
+    for (const [command, payload] of [
+      ["triggerInModule", 123 as unknown as string],
+      ["triggerInModule", "1:bad"],
+      ["setTemperature", "2:setTemperatureHeating:nan"],
+    ] as const) {
+      let failed = false;
+      try {
+        await handleMessage(
+          api as unknown as InnoxelApi,
+          createMessage(command, payload),
+        );
+      } catch {
+        failed = true;
+      }
+      expect(failed, `${command} should reject`).to.equal(true);
+    }
+  });
 });

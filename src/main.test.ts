@@ -354,6 +354,46 @@ describe("Innoxel adapter", () => {
         callback,
       );
     });
+
+    it("replies with error on invalid testConnection JSON or uninitialized api", async () => {
+      const adapter = createInnoxelStub();
+      const callback = {
+        message: {},
+        id: 1,
+        ack: false,
+        time: 0,
+      } as ioBroker.MessageCallbackInfo;
+
+      await adapter.onMessage({
+        command: "testConnection",
+        message: "{invalid",
+        from: "system.adapter.admin.0",
+        callback,
+        _id: 5,
+      });
+      expect(adapter.sendTo).to.have.been.calledOnceWithExactly(
+        "system.adapter.admin.0",
+        "testConnection",
+        { error: "Invalid message payload." },
+        callback,
+      );
+
+      adapter.sendTo.resetHistory();
+      adapter.api = undefined as unknown as Record<string, sinon.SinonStub>;
+      await adapter.onMessage({
+        command: "triggerInModule",
+        message: "1:0",
+        from: "javascript.0",
+        callback,
+        _id: 6,
+      });
+      expect(adapter.sendTo).to.have.been.calledOnceWithExactly(
+        "javascript.0",
+        "triggerInModule",
+        { error: "Adapter not initialized." },
+        callback,
+      );
+    });
   });
 
   describe("onUnload", () => {

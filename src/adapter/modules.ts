@@ -28,107 +28,79 @@ function mapModuleChannels<T>(
   return arr;
 }
 
+const MODULE_STATE_CONFIG: Record<
+  string,
+  { prefix: string; stateName: string; common: ioBroker.StateCommon }
+> = {
+  masterInModule: {
+    prefix: "moduleIn",
+    stateName: "ledState",
+    common: {
+      name: "on/off",
+      type: "boolean",
+      role: "switch",
+      def: false,
+      read: true,
+      write: false,
+    },
+  },
+  masterOutModule: {
+    prefix: "moduleOut",
+    stateName: "outState",
+    common: {
+      name: "on/off",
+      type: "boolean",
+      role: "switch",
+      def: false,
+      read: true,
+      write: false,
+    },
+  },
+  masterDimModule: {
+    prefix: "moduleDim",
+    stateName: "outState",
+    common: {
+      name: "Brightness",
+      def: 0,
+      type: "number",
+      read: true,
+      write: true,
+      min: 0,
+      max: 100,
+      unit: "%",
+      role: "level.dimmer",
+      desc: "Brightness of the dimmer",
+    },
+  },
+};
+
 export async function createModuleStates(
   adapter: Innoxel,
   modules: IModuleBase[],
 ): Promise<void> {
   await Promise.all(
     mapModuleChannels(modules, async (module, channel) => {
-      const moduleIndex = getModuleIndex(module);
-
-      switch (module.class) {
-        case "masterInModule":
-          await adapter.extendObject(
-            `moduleIn.${moduleIndex}.${channel.index}.button`,
-            {
-              type: "state",
-              common: {
-                name: "Button",
-                type: "boolean",
-                role: "button",
-                read: false,
-                write: true,
-              },
-            },
-          );
-          return adapter.extendObject(
-            `moduleIn.${moduleIndex}.${channel.index}.ledState`,
-            {
-              type: "state",
-              common: {
-                name: "on/off",
-                type: "boolean",
-                role: "switch",
-                def: false,
-                read: true,
-                write: false,
-              },
-            },
-          );
-        case "masterOutModule":
-          await adapter.extendObject(
-            `moduleOut.${moduleIndex}.${channel.index}.button`,
-            {
-              type: "state",
-              common: {
-                name: "Button",
-                type: "boolean",
-                role: "button",
-                read: false,
-                write: true,
-              },
-            },
-          );
-          return adapter.extendObject(
-            `moduleOut.${moduleIndex}.${channel.index}.outState`,
-            {
-              type: "state",
-              common: {
-                name: "on/off",
-                type: "boolean",
-                role: "switch",
-                def: false,
-                read: true,
-                write: false,
-              },
-            },
-          );
-        case "masterDimModule":
-          await adapter.extendObject(
-            `moduleDim.${moduleIndex}.${channel.index}.button`,
-            {
-              type: "state",
-              common: {
-                name: "Button",
-                type: "boolean",
-                role: "button",
-                read: false,
-                write: true,
-              },
-            },
-          );
-          return adapter.extendObject(
-            `moduleDim.${moduleIndex}.${channel.index}.outState`,
-            {
-              type: "state",
-              common: {
-                name: "Brightness",
-                def: 0,
-                type: "number",
-                read: true,
-                write: true,
-                min: 0,
-                max: 100,
-                unit: "%",
-                role: "level.dimmer",
-                desc: "Brightness of the dimmer",
-              },
-            },
-          );
-        default:
-          adapter.log.error(`Unknown module type: ${module.class}`);
-          return;
+      const cfg = MODULE_STATE_CONFIG[module.class];
+      if (!cfg) {
+        adapter.log.error(`Unknown module type: ${module.class}`);
+        return;
       }
+
+      const base = `${cfg.prefix}.${getModuleIndex(module)}.${channel.index}`;
+      await adapter.extendObject(`${base}.button`, {
+        type: "state",
+        common: {
+          name: "Button",
+          type: "boolean",
+          role: "button",
+          read: false,
+          write: true,
+        },
+      });
+      return adapter.extendObject(`${base}.${cfg.stateName}`, {
+        type: "state",
+        common: cfg.common,
+      });
     }),
   );
 
