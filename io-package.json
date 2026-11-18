@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "2.0.0",
+    "version": "2.1.0-beta.0",
     "news": {
+      "2.1.0-beta.0": {
+        "en": "call callbacks in onMessage\nadd connection test button to admin\nmake transient connection errors more resilient\nfix precipitation state, add rain state\ndependency updates and cleanups",
+        "de": "Rufe Rückrufe in OnMessage\nTestbutton zu Admin hinzufügen\nmacht transiente Verbindungsfehler robuster\nRegen fixieren, Regen hinzufügen\nUpdates und Säuberungen von Abhängigkeiten",
+        "ru": "обратные вызовы в onMessage\nдобавить кнопку проверки подключения к администратору\nсделать переходные ошибки подключения более устойчивыми\nисправить состояние осадков, добавить состояние дождя\nобновления и очистка зависимостей",
+        "pt": "retornos em onMessage\nadicionar teste de conexão ao admin\ntornar mais resilientes os erros de conexão\nfixar precipitação, adicionar chuva\nlimpezas e atualizações de dependências",
+        "nl": "terugbellen in OnMessage\nverbindingstestknop toevoegen aan admin\ntijdelijke verbindingsfouten veerkrachtiger maken\nde neerslagtoestand corrigeren, de regentoestand toevoegen\nupdates en opruimingen van afhankelijkheden",
+        "fr": "rappels dans OnMessage\najouter un bouton de test de connexion à admin\naméliorer la résilience des erreurs de connexion\ncorriger la précipitation, ajouter la pluie\nmises à jour et nettoyages de dépendances",
+        "it": "richiamate in OnMessage\naggiungere un test di connessione a admin\nrendere più resilienti gli errori di connessione\nfissare le precipitazioni, aggiungere pioggia\naggiornamenti e pulizie",
+        "es": "llamar en OnMessage\nañadir botón de prueba de conexión a admin\nhacer que los errores de conexión transitorios\nfijar estado de lluvia, añadir estado de lluvia\nactualizaciones y limpiezas",
+        "pl": "wywołanie wywołań zwrotnych w OnMessage\ndodaj przycisk testu połączenia do administratora\nsprawić, że przejściowe błędy połączenia są bardziej odporne\nustalić stan opadów, dodać stan deszczu\naktualizacje zależności i czyszczenie",
+        "uk": "зворотні дзвінки в OnMessage\nдодати кнопку тестування підключення до адміністратора\nзробити перехідні помилки підключення більш стійкими\nвиправити стан опадів, додати стан дощу\nоновлення та очищення залежностей",
+        "zh-cn": "在 onMessage 中调用回调\n向管理员添加连接测试按钮\n使瞬态连接错误更具弹性\n修复降水状态，添加降雨状态\n依赖项更新和清理"
+      },
       "2.0.0": {
         "en": "implement adapter checker feedback and create-adapter migrations\nAdapter requires node.js >= 22 now\ndependency updates",
         "de": "adapter-checker-feedback implementieren und adapter-migrationen erstellen\nAdapter benötigt node.js >= 22 jetzt\nabhängigkeitsaktualisierung",
