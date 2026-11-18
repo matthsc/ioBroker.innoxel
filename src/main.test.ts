@@ -121,6 +121,29 @@ describe("Innoxel adapter", () => {
       expect(adapter.log.error).to.have.been.calledOnce;
       expect(adapter.subscribeStatesAsync).to.not.have.been.called;
     });
+
+    it("subscribes to states before connecting", async () => {
+      const adapter = createInnoxelStub();
+      adapter.config = {
+        ipaddress: "127.0.0.1",
+        port: 5001,
+        username: "admin",
+        password: "secret",
+        changeInterval: 0,
+        roomTemperatureInterval: 0,
+        weatherInterval: 0,
+        deviceStatusInterval: 0,
+      };
+
+      await adapter.onReady();
+
+      expect(adapter.subscribeStatesAsync).to.have.been.calledThrice;
+      expect(
+        adapter.subscribeStatesAsync.lastCall.calledBefore(
+          adapter.api.getBootAndStateIdXml.firstCall,
+        ),
+      ).to.equal(true);
+    });
   });
 
   describe("onStateChange", () => {

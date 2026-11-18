@@ -102,10 +102,15 @@ export class Innoxel extends utils.Adapter {
       config.password,
     );
 
-    // connect to innoxel master and listen on state changes
+    // subscribe before connecting so state changes aren't missed once info.connection=true
+    await Promise.all(
+      ["*.button", "moduleDim.*.outState", "roomClimate.*"].map((state) =>
+        this.subscribeStatesAsync(state),
+      ),
+    );
+
+    // connect to innoxel master
     await this.setupConnection();
-    for (const state of ["*.button", "moduleDim.*.outState", "roomClimate.*"])
-      await this.subscribeStatesAsync(state);
   }
 
   private async setupConnection(): Promise<void> {
