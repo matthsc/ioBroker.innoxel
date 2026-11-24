@@ -133,7 +133,7 @@ sendTo("innoxel.0", "setTemperature", "0:setTemperatureHeating:20", () => {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.0 (2026-11-24)
 - (matthsc) call callbacks in onMessage
 - (matthsc) add connection test button to admin
 - (matthsc) make transient connection errors more resilient
