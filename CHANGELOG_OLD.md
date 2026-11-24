@@ -1,5 +1,16 @@
 # Older changes
 
+### 1.0.1 (2024-12-09)
+- (matthsc) implement adapter checker feedback
+- (matthsc) cleanup changelog
+
+### 1.0.0 (2024-11-17)
+
+- (matthsc) drop support for Node 18
+- (matthsc) switch admin to json config
+- (matthsc) prepare for future controller versions (fix deprecation warnings)
+- (matthsc & dependabot) dependency updates
+
 ### 0.4.2 (2024-08-11)
 
 - (matthsc & dependabot) dependency updates
