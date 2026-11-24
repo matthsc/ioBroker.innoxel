@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "innoxel",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
+      "2.1.1": {
+        "en": "update column sizes for static text in admin",
+        "de": "Aktualisiere statische Textgrößen in Admin",
+        "ru": "обновить размеры столбцов для статического текста в админке",
+        "pt": "atualizar colunas de texto estático no admin",
+        "nl": "kolomgrootten bijwerken voor statische tekst in admin",
+        "fr": "mettre à jour la taille des colonnes en admin",
+        "it": "aggiorna le colonne di testo statico in admin",
+        "es": "actualizar columnas de texto estático en admin",
+        "pl": "aktualizuj rozmiary kolumn dla tekstu statycznego w administratorze",
+        "uk": "оновити розміри стовпців для статичного тексту в admin",
+        "zh-cn": "在管理员中更新静态文本的列大小"
+      },
       "2.1.0": {
         "en": "call callbacks in onMessage\nadd connection test button to admin\nmake transient connection errors more resilient\nfix precipitation state, add rain state\ndependency updates and cleanups",
         "de": "Rufe Rückrufe in OnMessage\nTestbutton zu Admin hinzufügen\nmacht transiente Verbindungsfehler robuster\nRegen fixieren, Regen hinzufügen\nUpdates und Säuberungen von Abhängigkeiten",
